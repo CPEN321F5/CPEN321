@@ -12,7 +12,7 @@ function Database(mongoUrl, dbName){
 			(err, client) => {
 				if (err) reject(err);
 				else {
-					console.log('[MongoClient] Connected to ' + mongoUrl + '/' + dbName);
+					console.log('[UserDB] Connected to ' + mongoUrl + '/' + dbName);
 					resolve(client.db(dbName));
 				}
 			}
@@ -24,6 +24,7 @@ function Database(mongoUrl, dbName){
 	);
 }
 
+//get the profile for a user
 Database.prototype.getProfile = function(user_id){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
@@ -32,23 +33,36 @@ Database.prototype.getProfile = function(user_id){
     )
 }
 
+//check if user exist
 Database.prototype.userExist = function(user_id){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            resolve(true)
+            resolve(false)
         })
     )
 }
 
+//add an user to the database, resolve to true if successful
 Database.prototype.addUser = function(user){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
             //add user to database
+            console.log("[UserDB] Adding a user")
+            console.log(user)
             resolve(true)
         })
     )
 }
 
+//updates the user profile based on the query, return ture if successful
+Database.prototype.updateProfile = function(query){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[UserDB] updating user profile")
+            resolve(true);
+        })
+    )
+}
 
 
 module.exports = Database;
