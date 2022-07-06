@@ -1,0 +1,27 @@
+User Entry format:
+
+"UserID" = ID from google account
+"Email" = google account email
+"DisplayName" = google account display Name
+"FirstName" = google account first name
+"LastName" = google account last name
+
+//Address
+"Unit"
+"Address_line_1"
+"Address_line_2"
+"City"
+"Province"
+"Country"
+"ZIP_code"
+"Phone"
+
+//status of the user
+"Status" : status of the user, "new_user": user is new and have no profile
+			"normal": normal user
+			"banned": user is banned from use
+
+to test
+ item and transaction
+
+ search/browse, post/manage, buy
