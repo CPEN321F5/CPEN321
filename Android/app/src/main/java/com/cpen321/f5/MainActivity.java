@@ -3,6 +3,8 @@ package com.cpen321.f5;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,11 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 1;
+
+    public static String nameOfUser;
+
+    SharedPreferences sharedpreferences;
+    public static String MYPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity
                 signIn();
             }
         });
+
+        sharedpreferences = getSharedPreferences(MYPREFERENCES, 0);
     }
 
     private void signIn()
@@ -107,6 +116,12 @@ public class MainActivity extends AppCompatActivity
         else
         {
             Log.d(TAG, "EMAIL: " + account.getEmail());
+            Log.d(TAG, "GIVEN NAME: " + account.getGivenName());
+            Log.d(TAG, "FAMILY NAME: " + account.getFamilyName());
+            Log.d(TAG, "PREFERRED NAME: " + account.getDisplayName());
+            Log.d(TAG, "PROFILE IMAGE: " + account.getPhotoUrl());
+
+            nameOfUser = account.getDisplayName();
 
             // Send token to backend server
             //account.getIdToken();
