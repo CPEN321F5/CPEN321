@@ -16,6 +16,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -126,8 +128,20 @@ public class MainActivity extends AppCompatActivity
             // Send token to backend server
             //account.getIdToken();
 
-            Intent activity5Intent = new Intent(MainActivity.this, MainUI.class);
-            startActivity(activity5Intent);
+            //admin email:cpen321f5ad@gmail.com
+            //password: 321f5admin
+
+            if (Objects.equals(account.getEmail(), "cpen321f5ad@gmail.com"))
+            {
+                Intent adminIntent = new Intent(MainActivity.this, AdminMain.class);
+                startActivity(adminIntent);
+            }
+
+            else
+            {
+                Intent userIntent = new Intent(MainActivity.this, MainUI.class);
+                startActivity(userIntent);
+            }
         }
     }
 }
