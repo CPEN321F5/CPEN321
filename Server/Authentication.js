@@ -60,27 +60,35 @@ Auth_module.prototype.removeUser = function(user_id){
     return this.user_db.removeUser(user_id)
 }
 
-am = new Auth_module()
-
-am.signin(1234).then(result => {console.log(result)})
-// am.removeUser(1234).then(result => {console.log(result)})
-profile_user = {
-    //Basic info
-    "UserID"            : 1234,
-    "Email"             : "exampleemail",
-    "DisplayName"       : "N/A",
-    "FirstName"         : "N/A",
-    "LastName"          : "N/A",
-    //Address
-    "Unit"              : "N/A",
-    "Address_line_1"    : "N/A",
-    "Address_line_2"    : "N/A",
-    "City"              : "N/A",
-    "Province"          : "N/A",
-    "Country"           : "N/A",
-    "ZIP_code"          : "N/A",
-    "Phone"             : "N/A",
-    
-    "Status"            : "normal"
+Auth_module.prototype.getUser = function(user_id){
+    return this.user_db.getProfile(user_id)
 }
-//am.updateProfile(profile_user)
+
+
+module.exports = Auth_module
+//testing code
+
+// am = new Auth_module()
+
+// am.signin(1234).then(result => {console.log(result)})
+// // am.removeUser(1234).then(result => {console.log(result)})
+// profile_user = {
+//     //Basic info
+//     "UserID"            : 1234,
+//     "Email"             : "exampleemail",
+//     "DisplayName"       : "N/A",
+//     "FirstName"         : "N/A",
+//     "LastName"          : "N/A",
+//     //Address
+//     "Unit"              : "N/A",
+//     "Address_line_1"    : "N/A",
+//     "Address_line_2"    : "N/A",
+//     "City"              : "N/A",
+//     "Province"          : "N/A",
+//     "Country"           : "N/A",
+//     "ZIP_code"          : "N/A",
+//     "Phone"             : "N/A",
+    
+//     "Status"            : "normal"
+// }
+// //am.updateProfile(profile_user)

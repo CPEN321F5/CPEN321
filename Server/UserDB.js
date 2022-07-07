@@ -55,10 +55,11 @@ Database.prototype.updateProfile = function(profile){
             console.log("[UserDB] updating user profile for user " + profile.UserID)
 
             //configuring the parameter for update
-            const filter = { UserID: profile.UserID };
+            const filter = { UserID: profile.UserID.toString() };
             const options = { upsert: true };
             const update_profile = {$set: profile}
 
+            console.log(update_profile)
             var result = db.collection("Profile").updateOne(filter, update_profile, options)
             resolve(result);
 
