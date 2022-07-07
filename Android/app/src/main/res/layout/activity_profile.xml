@@ -22,7 +22,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/profile_placeholder" />
+                android:src="@drawable/profile_placeholder"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
                 android:layout_toEndOf="@+id/profile_image"
                 android:includeFontPadding="false"
                 android:text="Name Placeholder"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/post_button"
@@ -85,7 +85,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/items_purchased" />
+                        android:src="@drawable/items_purchased"/>
 
                     <TextView
                         android:id="@+id/items_purchased_label"
@@ -93,8 +93,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:includeFontPadding="false"
-                        android:text="1"
-                        android:textSize="20sp" />
+                        android:text="0"
+                        android:textSize="20sp"/>
 
                     <TextView
                         android:id="@+id/items_purchased_caption"
@@ -104,7 +104,7 @@
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
                         android:text="Items Purchased"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
 
                 </RelativeLayout>
 
@@ -127,7 +127,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/items_sold" />
+                        android:src="@drawable/items_sold"/>
 
                     <TextView
                         android:id="@+id/items_sold_label"
@@ -135,8 +135,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:includeFontPadding="false"
-                        android:text="1"
-                        android:textSize="20sp" />
+                        android:text="0"
+                        android:textSize="20sp"/>
 
                     <TextView
                         android:id="@+id/items_sold_caption"
@@ -146,7 +146,7 @@
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
                         android:text="Items Sold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
 
                 </RelativeLayout>
 
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
                     android:drawablePadding="10dp"
-                    android:text="First Name Placeholder" />
+                    android:text="First Name Placeholder"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
                     android:drawablePadding="10dp"
-                    android:text="Last Name Placeholder" />
+                    android:text="Last Name Placeholder"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/email"
                     android:drawablePadding="10dp"
-                    android:text="Email Placeholder" />
+                    android:text="Email Placeholder"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/phone"
                     android:drawablePadding="10dp"
-                    android:text="Phone Placeholder" />
+                    android:text="Phone Placeholder"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
                     android:drawablePadding="10dp"
-                    android:text="Address Placeholder" />
+                    android:text="Address Placeholder"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,8 +242,8 @@
 
             </Button>
 
-
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

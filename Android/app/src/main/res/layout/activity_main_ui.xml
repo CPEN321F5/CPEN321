@@ -7,7 +7,7 @@
     tools:context=".MainUI">
 
     <TextView
-        android:id="@+id/server_ip"
+        android:id="@+id/placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,19 +16,32 @@
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/profile_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Placeholder"
+        android:text="PLACEHOLDER PROFILE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/server_ip" />
+        app:layout_constraintTop_toBottomOf="@+id/placeholder"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <Button
+        android:id="@+id/item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLACEHOLDER ITEM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder"
+        app:layout_constraintVertical_bias="0.744" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
