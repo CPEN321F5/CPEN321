@@ -12,6 +12,7 @@ public class Profile extends AppCompatActivity {
 
     private static final String TAG = "Profile";
     private Button itemsButton;
+    private Button disputeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,8 +27,20 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent profileIntent = new Intent(Profile.this, ItemsList.class);
-                startActivity(profileIntent);
+                Intent itemsIntent = new Intent(Profile.this, ItemsList.class);
+                startActivity(itemsIntent);
+            }
+        });
+
+        disputeButton = findViewById(R.id.dispute_button);
+        disputeButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent disputeIntent = new Intent(Profile.this, Dispute.class);
+                startActivity(disputeIntent);
             }
         });
 
