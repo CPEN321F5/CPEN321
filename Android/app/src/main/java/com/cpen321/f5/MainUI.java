@@ -7,20 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainUI extends AppCompatActivity {
     private Button searchButton;
     private Button postButton;
     private Button checkoutButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_ui);
         //initial commit
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchItem = new Intent(MainActivity.this, SearchActivity.class);
+                Intent searchItem = new Intent(MainUI.this, SearchActivity.class);
                 startActivity(searchItem);
             }
         });
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent postItem = new Intent(MainActivity.this, PostActivity.class);
+                Intent postItem = new Intent(MainUI.this, PostActivity.class);
                 startActivity(postItem);
             }
         });
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent checkoutActivity = new Intent(MainActivity.this, CheckoutActivity.class);
+                Intent checkoutActivity = new Intent(MainUI.this, CheckoutActivity.class);
                 startActivity(checkoutActivity);
             }
         });

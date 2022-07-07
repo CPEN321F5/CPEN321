@@ -17,9 +17,7 @@
             android:name=".CheckoutActivity"
             android:exported="false"
             android:label="@string/title_activity_checkout"
-            android:theme="@style/Theme.F5" />
-
-        <!-- This element is required to enable Google Pay in your app. -->
+            android:theme="@style/Theme.F5" /> <!-- This element is required to enable Google Pay in your app. -->
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
@@ -31,7 +29,7 @@
             android:name=".PostActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainUI"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

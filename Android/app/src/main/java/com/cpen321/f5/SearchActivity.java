@@ -15,8 +15,6 @@ public class SearchActivity extends AppCompatActivity {
     final String TAG = "SearchActivity";
     ListView listView;
     String[] name;
-    //TODO: Define String in strings.xml
-    //String[] name = {"clothes", "books", "tables", "knife"};
     ArrayAdapter<String> arrayAdapter;
 
     @Override

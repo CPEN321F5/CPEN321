@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
-
-    tools:context=".MainActivity">
+    tools:context=".MainUI">
 
     <RelativeLayout
         android:id="@+id/top_side"
