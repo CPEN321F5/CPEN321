@@ -8,7 +8,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -16,6 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -26,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private int RC_SIGN_IN = 1;
 
     public static String nameOfUser;
+    public static String idOfUser;
 
     SharedPreferences sharedpreferences;
     public static String MYPREFERENCES = "MyPrefs";
@@ -122,8 +132,16 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "FAMILY NAME: " + account.getFamilyName());
             Log.d(TAG, "PREFERRED NAME: " + account.getDisplayName());
             Log.d(TAG, "PROFILE IMAGE: " + account.getPhotoUrl());
+            Log.d(TAG, "PROFILE ID: " + account.getId());
 
             nameOfUser = account.getDisplayName();
+            idOfUser = account.getId();
+
+            String URL = "http://20.106.78.177:8081/user/signin/";
+            URL = URL + idOfUser + "/";
+            Log.d(TAG, URL);
+            GETUSERID(URL);
+
 
             // Send token to backend server
             //account.getIdToken();
@@ -143,5 +161,29 @@ public class MainActivity extends AppCompatActivity
                 startActivity(userIntent);
             }
         }
+    }
+
+    public void GETUSERID (final String USERID)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, USERID,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Log.d(TAG, response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", String.valueOf(error));
+                    }
+                });
+
+        queue.add(stringRequest);
     }
 }
