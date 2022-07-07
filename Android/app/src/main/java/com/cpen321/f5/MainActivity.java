@@ -163,26 +163,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void GETUSERID (final String USERID)
+    public void GETUSERID (final String URL)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, USERID,
-                new Response.Listener<String>()
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+            new Response.Listener<String>()
+            {
+                @Override
+                public void onResponse(String response)
                 {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        Log.d(TAG, response);
-                    }
-                },
-                new Response.ErrorListener()
+                    Log.d(TAG, response);
+                }
+            },
+            new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
                 {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", String.valueOf(error));
-                    }
-                });
+                    // error
+                    Log.d("Error.Response", String.valueOf(error));
+                }
+            });
 
         queue.add(stringRequest);
     }
