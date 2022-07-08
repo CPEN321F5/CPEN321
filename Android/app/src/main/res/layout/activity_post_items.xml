@@ -29,6 +29,7 @@
 
 
         <Button
+            android:id="@+id/post_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -56,6 +57,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
+            android:id="@+id/post_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -66,6 +68,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/post_description"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:background="@null"
@@ -104,7 +107,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="From: Exchange residence" />
+            android:text="From:" />
+
+        <TextView
+            android:id="@+id/post_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="waiting" />
     </LinearLayout>
 
     <LinearLayout
@@ -147,7 +157,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/start_price"
+                android:id="@+id/post_start_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -192,7 +202,7 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/step_price"
+                android:id="@+id/post_step_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
