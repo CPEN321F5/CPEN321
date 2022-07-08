@@ -5,7 +5,7 @@ const User_Database = require('./UserDB.js')
 
 function Auth_module(){
     console.log("initializing Auth Module")
-    this.user_db = new User_Database("mongodb://localhost:27017", "User")
+    this.user_db = new User_Database("mongodb://localhost:27017", "F5")
 } 
 
 //take user id for signin, if user is new, resolves to new user profile
