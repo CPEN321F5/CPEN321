@@ -3,19 +3,26 @@ package com.cpen321.f5;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.cpen321.f5.databinding.ActivityMainBinding;
 
 public class SearchActivity extends AppCompatActivity {
     final String TAG = "SearchActivity";
     ListView listView;
     String[] name;
     ArrayAdapter<String> arrayAdapter;
+    public static String itemSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,18 @@ public class SearchActivity extends AppCompatActivity {
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name);
         listView.setAdapter(arrayAdapter);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                itemSelected = arrayAdapter.getItem(position);
+                Toast.makeText(SearchActivity.this, itemSelected + " Selected", Toast.LENGTH_SHORT).show();
+                Intent itemIntent = new Intent(SearchActivity.this, Item.class);
+                startActivity(itemIntent);
+            }
+        });
     }
 
 
