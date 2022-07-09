@@ -171,7 +171,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +187,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +203,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/email"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -216,7 +219,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/phone"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Unit">
+
+                <EditText
+                    android:id="@+id/unit_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/address"
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +251,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -246,7 +267,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -261,7 +283,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -276,7 +299,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -291,7 +315,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -306,7 +331,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    android:text=""/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

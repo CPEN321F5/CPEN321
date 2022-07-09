@@ -2,7 +2,9 @@ package com.cpen321.f5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -31,10 +35,13 @@ public class Profile extends AppCompatActivity {
     private Button disputeButton;
     private Button updateButton;
 
+    String PROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
+
     EditText _firstName;
     EditText _lastName;
     EditText _email;
     EditText _phone;
+    EditText _unit;
     EditText _address1;
     EditText _address2;
     EditText _city;
@@ -46,6 +53,7 @@ public class Profile extends AppCompatActivity {
     String lastName;
     String email;
     String phone;
+    String unit;
     String address1;
     String address2;
     String city;
@@ -54,11 +62,14 @@ public class Profile extends AppCompatActivity {
     String zip;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        GETUSERPROFILE();
 
         itemsButton = findViewById(R.id.items_button);
         itemsButton.setOnClickListener(new View.OnClickListener()
@@ -95,6 +106,7 @@ public class Profile extends AppCompatActivity {
                 _lastName = findViewById(R.id.last_name_caption);
                 _email = findViewById(R.id.email_caption);
                 _phone = findViewById(R.id.phone_caption);
+                _unit = findViewById(R.id.unit_caption);
                 _address1 = findViewById(R.id.address1_caption);
                 _address2 = findViewById(R.id.address2_caption);
                 _city = findViewById(R.id.city_caption);
@@ -106,6 +118,7 @@ public class Profile extends AppCompatActivity {
                 lastName = _lastName.getText().toString();
                 email = _email.getText().toString();
                 phone = _phone.getText().toString();
+                unit = _unit.getText().toString();
                 address1 = _address1.getText().toString();
                 address2 = _address2.getText().toString();
                 city = _city.getText().toString();
@@ -117,6 +130,7 @@ public class Profile extends AppCompatActivity {
                 Log.d(TAG, "LASTNAME = " + lastName);
                 Log.d(TAG, "EMAIL = " + email);
                 Log.d(TAG, "PHONE = " + phone);
+                Log.d(TAG, "UNIT = " + unit);
                 Log.d(TAG, "ADDRESS1 = " + address1);
                 Log.d(TAG, "ADDRESS2 = " + address2);
                 Log.d(TAG, "CITY = " + city);
@@ -127,19 +141,97 @@ public class Profile extends AppCompatActivity {
                 //missing error checking pop out error box
 
                 // NEED UPDATED URL
-                String PROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
-                GETUSERPROFILE(PROFILEURL);
+                //UPDATEUSERPROFILE();
             }
         });
 
     }
 
-    private void GETUSERPROFILE (final String URL)
+    private void GETUSERPROFILE ()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, PROFILEURL, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                String output = "";
+
+                try
+                {
+                    // Process for parsing JSON Object
+                    JSONObject jsonResponse = new JSONObject(response);
+
+                    firstName = jsonResponse.getString("FirstName");
+                    lastName = jsonResponse.getString("LastName");
+                    email = jsonResponse.getString("Email");
+                    phone = jsonResponse.getString("Phone");
+                    unit = jsonResponse.getString("Unit");
+                    address1 = jsonResponse.getString("Address_line_1");
+                    address2 = jsonResponse.getString("Address_line_2");
+                    city = jsonResponse.getString("City");
+                    province = jsonResponse.getString("Province");
+                    country = jsonResponse.getString("Country");
+                    zip = jsonResponse.getString("ZIP_code");
+
+                    _firstName = findViewById(R.id.first_name_caption);
+                    _firstName.setText(firstName);
+
+                    _lastName = findViewById(R.id.last_name_caption);
+                    _lastName.setText(lastName);
+
+                    _email = findViewById(R.id.email_caption);
+                    _email.setText(email);
+
+                    _phone = findViewById(R.id.phone_caption);
+                    _phone.setText(phone);
+
+                    _unit = findViewById(R.id.unit_caption);
+                    _unit.setText(unit);
+
+                    _address1 = findViewById(R.id.address1_caption);
+                    _address1.setText(address1);
+
+                    _address2 = findViewById(R.id.address2_caption);
+                    _address2.setText(address2);
+
+                    _city = findViewById(R.id.city_caption);
+                    _city.setText(city);
+
+                    _province = findViewById(R.id.province_caption);
+                    _province.setText(province);
+
+                    _country = findViewById(R.id.country_caption);
+                    _country.setText(country);
+
+                    _zip = findViewById(R.id.zip_caption);
+                    _zip.setText(zip);
+                }
+
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void UPDATEUSERPROFILE ()
     {
         JSONObject jsonObject = new JSONObject();
         RequestQueue queue = Volley.newRequestQueue(Profile.this);
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
+        StringRequest postRequest = new StringRequest(Request.Method.POST, PROFILEURL,
             new Response.Listener<String>()
             {
                 @Override
@@ -179,6 +271,5 @@ public class Profile extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
-
     }
 }
