@@ -12,7 +12,7 @@ function Database(mongoUrl, dbName){
 			(err, client) => {
 				if (err) reject(err);
 				else {
-					console.log('[UserDB] Connected to ' + mongoUrl + '/' + dbName);
+					console.log('[ItemDB] Connected to ' + mongoUrl + '/' + dbName);
 					resolve(client.db(dbName));
 				}
 			}
@@ -33,7 +33,7 @@ Database.prototype.postItem = function(item){
             item.ItemID = item_id.toString()
             console.log("[ItemDB] Adding an item to DB")
             var result = db.collection("Items").insertOne(item)
-            resolve(item_id)
+            resolve(item)
         })
     )
 }
@@ -43,7 +43,7 @@ Database.prototype.postItem = function(item){
 Database.prototype.updateItem = function(item){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            console.log("[ItemDB] updating item" + item.UserID)
+            console.log("[ItemDB] updating item" + item.ItemID)
 
             //configuring the parameter for update
             const filter = { ItemID: item.ItemID.toString() };
@@ -57,10 +57,10 @@ Database.prototype.updateItem = function(item){
         }).then(result =>{
             console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
             if (result.modifiedCount >= 1){
-                console.log("[ItemDB] successfully updated profile")
+                console.log("[ItemDB] successfully updated item")
                 return true
             }else{
-                console.log("[ItemDB] failed to updated profile, inserted as new profile")
+                console.log("[ItemDB] failed to updated item, inserted as new profile")
                 return false
             }
         })
