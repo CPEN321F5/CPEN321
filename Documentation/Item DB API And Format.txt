@@ -1,0 +1,149 @@
+Item DB APIs: 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+posting an item : 
+
+POST request
+http://20.106.78.177:8081/item/postitem/
+body: Json Object with required fields:
+{
+    "name"   : "toy1",
+    "Buyer"  : "",                      //is empty when status is listing
+    "Seller" : "1",                     //user id of the seller
+    "Description" : "This is a toy",
+    "Catagory" : "Toy",                 //Catagory of the item, need to be case correct for searching
+    "Status"    : "listing"             //can be listing, holding, sold
+    "Latitude"  : 0.0
+    "Longitude" : 0.0
+    "Location"  : "Address"
+}
+
+response : same object as in request with an extra field:
+{
+    "ItemID": "1657337545587"           //this is assigned by server and is a unique id of the object
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Updating an item:
+
+PUT request
+http://20.106.78.177:8081/item/updateitem/
+body: Json Object with the update, need to have the field ItemID
+Example : 
+{
+    "name": "desktop computer",
+    "Description": "Core I7, goood computer actually its pretty bad, nan its good",
+    "Catagory": "electronic",
+    "Status": "listing",
+    "ItemID": "1657336307732"   //everything else except ItemID is optional
+}
+
+this will update the itemID item with any field in the json.
+
+response with simple status code
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+Getting item by id: 
+GET request
+http://20.106.78.177:8081/item/getbyid/[ItemID here]/
+No request body
+example : http://20.106.78.177:8081/item/getbyid/1657336307732/
+
+response: Json object for the item
+example: 
+{
+    "_id": "62c8f1f35da3600fd92fb316",
+    "name": "desktop computer",
+    "Buyer": "",
+    "Seller": "3",
+    "Description": "Core I7, goood computer actually its pretty bad, nan its good",
+    "Catagory": "electronic",
+    "Status": "listing",
+    "ItemID": "1657336307732"
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Getting an item by condition
+This allows getting a list of item by catagory, seller or buyer
+
+GET request
+http://20.106.78.177:8081/item/getbycond/[Condition Type]/[Condition Data]
+
+Condition Type:
+catagory
+    Get a list of item under certain catagory, the catagory is indicated in Condition Data
+    example : http://20.106.78.177:8081/item/getbycond/catagory/Furniture/
+
+buyer
+    Get a list of item bought buy buyer, condition data need to be buyer id
+    example : http://20.106.78.177:8081/item/getbycond/buyer/111
+
+seller
+    Get a list of item sold by seller
+    example : http://20.106.78.177:8081/item/getbycond/seller/111
+
+response:
+A list of json object, each containing one item
+example: 
+[
+    {
+        "_id": "62c8eff43e6956639768905e",
+        "name": "table and desk",
+        "Buyer": "",
+        "Seller": "2",
+        "Description": "This is a set of table and desk",
+        "Catagory": "Furniture",
+        "Status": "listing",
+        "ItemID": "1657335796404"
+    },
+    {
+        "_id": "62c8f18df036cbe19af12ff4",
+        "name": "table and chair",
+        "Buyer": "",
+        "Seller": "1",
+        "Description": "This is a also set of table and chair",
+        "Catagory": "Furniture",
+        "Status": "listing",
+        "ItemID": "1657336205572"
+    }
+]
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Searching items by keyword
+searches an item, returns a list of items that have word in name or description matching the keyword
+
+GET request
+http://20.106.78.177:8081/item/search/[keyword]/
+nobody
+
+example: http://20.106.78.177:8081/item/search/table
+
+response: a list of json objects matching the keyword
+example: 
+[
+    {
+        "_id": "62c8eff43e6956639768905e",
+        "name": "table and desk",
+        "Buyer": "",
+        "Seller": "2",
+        "Description": "This is a set of table and desk",
+        "Catagory": "Furniture",
+        "Status": "listing",
+        "ItemID": "1657335796404"
+    },
+    {
+        "_id": "62c8f18df036cbe19af12ff4",
+        "name": "table and chair",
+        "Buyer": "",
+        "Seller": "1",
+        "Description": "This is a also set of table and chair",
+        "Catagory": "Furniture",
+        "Status": "listing",
+        "ItemID": "1657336205572"
+    }
+]
+
+
