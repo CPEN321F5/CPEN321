@@ -166,12 +166,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="First Name">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/first_name_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
-                    android:drawablePadding="10dp"
-                    android:text="First Name Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,12 +181,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Last Name">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/last_name_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/name"
-                    android:drawablePadding="10dp"
-                    android:text="Last Name Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -196,12 +196,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="E-mail">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/email_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/email"
-                    android:drawablePadding="10dp"
-                    android:text="Email Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -211,12 +211,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Phone Number">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/phone_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/phone"
-                    android:drawablePadding="10dp"
-                    android:text="Phone Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -226,12 +226,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Address Line 1">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/address1_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="Address Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -241,12 +241,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Address Line 2">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/address2_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="Address Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -256,12 +256,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="City">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/city_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="City Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -271,12 +271,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Province">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/province_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="Province Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -286,12 +286,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Country">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/country_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="Country Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -301,16 +301,17 @@
                 android:layout_marginBottom="10dp"
                 android:hint="ZIP Code">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/zip_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/address"
-                    android:drawablePadding="10dp"
-                    android:text="ZIP Code Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/update_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="UPDATE">
