@@ -39,9 +39,8 @@ public class SearchActivity extends AppCompatActivity {
     final String TAG = "SearchActivity";
     String searchKey;
     private Button searchButton;
-
     RequestQueue requestQueue;
-    private List<Item> itemList;
+    private static List<Item> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +48,21 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        itemList = new ArrayList<>();
+
         requestQueue = Volley.newRequestQueue(this);
 
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemList = new ArrayList<>();
                 searchKey = ((EditText)findViewById(R.id.search_bar)).getText().toString().trim();
                 if( validCheck() ){
-
                     Log.d(TAG, "search key = " + searchKey);
 
-
                     getdata(searchKey);
-                    //TODO: change MainUI to the page after search
-                    //TODO: wait to connect with Domi
-//                    Intent MainUI = new Intent(SearchActivity.this, MainUI.class);
-//                    startActivity(MainUI);
+
+
                 }
 
             }
@@ -107,7 +103,7 @@ public class SearchActivity extends AppCompatActivity {
                         String pstTm = jsonObject.getString("postTime");
                         String tmLst = jsonObject.getString("timeLast");
                         String tmExpr = jsonObject.getString("timeExpire");
-
+                        String id = jsonObject.getString("_id");
 
                         Log.d(TAG, "name = " + ttl);
                         Log.d(TAG, "description = " + dsrp);
@@ -119,10 +115,16 @@ public class SearchActivity extends AppCompatActivity {
                         Log.d(TAG, "postTime = " + pstTm);
                         Log.d(TAG, "timeLast = " + tmLst);
                         Log.d(TAG, "timeExpire = " + tmExpr);
+                        Log.d(TAG, "_id = " + id);
 
-
-                        itemList.add(new Item(ttl, dsrp, slID, lct, sttPrc, dpst, stpPrc, pstTm, tmLst, tmExpr));
+                        itemList.add(new Item(id, ttl, dsrp, slID, lct, sttPrc, dpst, stpPrc, pstTm, tmLst, tmExpr));
+                        Log.d(TAG, "added success");
+                        Log.d(TAG, "cache size = " + itemList.size());
                     }
+                    //TODO: change MainUI to the page after search
+                    //TODO: wait to connect with Domi
+                    Intent ListUI = new Intent(SearchActivity.this, ItemListActivity.class);
+                    startActivity(ListUI);
                     Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
@@ -130,6 +132,7 @@ public class SearchActivity extends AppCompatActivity {
                     Toast.makeText(SearchActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -139,5 +142,8 @@ public class SearchActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    public static List<Item> getItemList(){
+        return itemList;
+    }
 
 }

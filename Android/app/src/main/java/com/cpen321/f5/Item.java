@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Item {
-    private String title;
+    private String id, title;
     private String description;
     private String sellerID;
     private String location;
@@ -13,7 +13,8 @@ public class Item {
 
     Map<Integer, String> bid = new HashMap<Integer, String>(); //bid price : price holder
 
-    public Item(String ttl, String dsrp, String slID, String lct, String sttPrc, String dpst, String stpPrc, String pstTm, String tmLst, String tmRm){
+    public Item(String _id, String ttl, String dsrp, String slID, String lct, String sttPrc, String dpst, String stpPrc, String pstTm, String tmLst, String tmRm){
+        id = _id;
         title = ttl;
         description = dsrp;
         sellerID = slID;
@@ -36,5 +37,9 @@ public class Item {
             if (ea > max){ max = ea; }
         }
         return max;
+    }
+
+    public String getID(){
+        return id;
     }
 }
