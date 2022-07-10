@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatlistsActivity"
+    >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatLists"
+        android:layout_width="368dp"
+        android:layout_height="538dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551"
+        tools:listitem="@layout/single_chat_layout" />
+
+    <ImageView
+        android:id="@+id/home_chat_button"
+        android:layout_width="48dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="252dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatLists"
+        app:layout_constraintEnd_toStartOf="@+id/profile_chat_button"
+        app:layout_constraintHorizontal_bias="0.607"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_home_24" />
+
+    <ImageView
+        android:id="@+id/profile_chat_button"
+        android:layout_width="48dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatLists"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.876"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
