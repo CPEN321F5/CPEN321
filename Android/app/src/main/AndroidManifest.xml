@@ -46,7 +46,7 @@
             android:name=".ItemActivity"
             android:exported="false" />
         <activity
-            android:name=".ItemsList"
+            android:name=".ItemsListActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

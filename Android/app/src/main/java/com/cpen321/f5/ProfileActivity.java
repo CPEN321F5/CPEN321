@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent itemsIntent = new Intent(ProfileActivity.this, ItemsList.class);
+                Intent itemsIntent = new Intent(ProfileActivity.this, ItemsListActivity.class);
                 startActivity(itemsIntent);
             }
         });

@@ -20,6 +20,13 @@ public class SearchActivity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     public static String itemSelected;
 
+    public static String itemSeller;
+    public static String itemDescription;
+    public static String itemCategory;
+    public static String itemLocation;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         name = getResources().getStringArray(R.array.countries_array);
