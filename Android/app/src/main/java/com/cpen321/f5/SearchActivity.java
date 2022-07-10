@@ -2,10 +2,8 @@ package com.cpen321.f5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import com.cpen321.f5.databinding.ActivityMainBinding;
 
 public class SearchActivity extends AppCompatActivity {
     final String TAG = "SearchActivity";
@@ -42,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
             {
                 itemSelected = arrayAdapter.getItem(position);
                 Toast.makeText(SearchActivity.this, itemSelected + " Selected", Toast.LENGTH_SHORT).show();
-                Intent itemIntent = new Intent(SearchActivity.this, Item.class);
+                Intent itemIntent = new Intent(SearchActivity.this, ItemActivity.class);
                 startActivity(itemIntent);
             }
         });

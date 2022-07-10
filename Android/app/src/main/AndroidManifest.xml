@@ -40,16 +40,16 @@
             android:name=".MainUI"
             android:exported="true" />
         <activity
-            android:name=".Dispute"
+            android:name=".DisputeActivity"
             android:exported="false" />
         <activity
-            android:name=".Item"
+            android:name=".ItemActivity"
             android:exported="false" />
         <activity
             android:name=".ItemsList"
             android:exported="false" />
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".AdminMain"

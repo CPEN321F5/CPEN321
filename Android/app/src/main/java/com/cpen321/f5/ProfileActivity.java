@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,25 +16,27 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
-    private static final String TAG = "Profile";
+    private static final String TAG = "ProfileActivity";
 
     private Button itemsButton;
     private Button disputeButton;
     private Button updateButton;
 
-    String PROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
+    RequestQueue requestQueue;
+
+    String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
+    String POSTPROFILEURL = "http://20.106.78.177:8081/user/updateprofile/";
 
     EditText _firstName;
     EditText _lastName;
@@ -61,6 +62,7 @@ public class Profile extends AppCompatActivity {
     String country;
     String zip;
 
+    TextView name;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -69,6 +71,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        requestQueue = Volley.newRequestQueue(this);
+
+        Log.d(TAG, GETPROFILEURL);
         GETUSERPROFILE();
 
         itemsButton = findViewById(R.id.items_button);
@@ -78,7 +83,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent itemsIntent = new Intent(Profile.this, ItemsList.class);
+                Intent itemsIntent = new Intent(ProfileActivity.this, ItemsList.class);
                 startActivity(itemsIntent);
             }
         });
@@ -90,7 +95,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent disputeIntent = new Intent(Profile.this, Dispute.class);
+                Intent disputeIntent = new Intent(ProfileActivity.this, DisputeActivity.class);
                 startActivity(disputeIntent);
             }
         });
@@ -139,39 +144,33 @@ public class Profile extends AppCompatActivity {
                 Log.d(TAG, "ZIP = " + zip);
 
                 //missing error checking pop out error box
-
-                // NEED UPDATED URL
-                //UPDATEUSERPROFILE();
+                UPDATEUSERPROFILE();
             }
         });
-
     }
 
     private void GETUSERPROFILE ()
     {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, PROFILEURL, new Response.Listener<String>()
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFILEURL, null, new Response.Listener<JSONObject>()
         {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(String response)
+            public void onResponse(JSONObject response)
             {
-                String output = "";
+                Log.d(TAG, response.toString());
 
-                try
-                {
-                    // Process for parsing JSON Object
-                    JSONObject jsonResponse = new JSONObject(response);
-
-                    firstName = jsonResponse.getString("FirstName");
-                    lastName = jsonResponse.getString("LastName");
-                    email = jsonResponse.getString("Email");
-                    phone = jsonResponse.getString("Phone");
-                    unit = jsonResponse.getString("Unit");
-                    address1 = jsonResponse.getString("Address_line_1");
-                    address2 = jsonResponse.getString("Address_line_2");
-                    city = jsonResponse.getString("City");
-                    province = jsonResponse.getString("Province");
-                    country = jsonResponse.getString("Country");
-                    zip = jsonResponse.getString("ZIP_code");
+                try {
+                    firstName = response.getString("FirstName");
+                    lastName = response.getString("LastName");
+                    email = response.getString("Email");
+                    phone = response.getString("Phone");
+                    unit = response.getString("Unit");
+                    address1 = response.getString("Address_line_1");
+                    address2 = response.getString("Address_line_2");
+                    city = response.getString("City");
+                    province = response.getString("Province");
+                    country = response.getString("Country");
+                    zip = response.getString("ZIP_code");
 
                     _firstName = findViewById(R.id.first_name_caption);
                     _firstName.setText(firstName);
@@ -205,62 +204,62 @@ public class Profile extends AppCompatActivity {
 
                     _zip = findViewById(R.id.zip_caption);
                     _zip.setText(zip);
-                }
 
-                catch (JSONException e)
+                    Toast.makeText(ProfileActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+
+                    name = findViewById(R.id.name);
+                    name.setText(firstName + " " + lastName);
+                }
+                catch (Exception w)
                 {
-                    e.printStackTrace();
+                    Toast.makeText(ProfileActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
-        }, new Response.ErrorListener() {
-
+        }, new Response.ErrorListener()
+        {
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(getApplicationContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
-
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void UPDATEUSERPROFILE ()
     {
-        JSONObject jsonObject = new JSONObject();
-        RequestQueue queue = Volley.newRequestQueue(Profile.this);
-
-        StringRequest postRequest = new StringRequest(Request.Method.POST, PROFILEURL,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response)
+        RequestQueue queue = Volley.newRequestQueue(ProfileActivity.this);
+        StringRequest postRequest = new StringRequest(Request.Method.PUT, POSTPROFILEURL,
+                new Response.Listener<String>()
                 {
-                    Toast.makeText(Profile.this, "DATA SEND TO DB", Toast.LENGTH_SHORT).show();
-                }
-            },
-            new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(ProfileActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
                 {
-                    Toast.makeText(Profile.this, "FAILED TO SEND DATA: " + error, Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ProfileActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                    }
                 }
-            })
-
-        {
+        ){
             @Override
             protected Map<String, String> getParams()
             {
-                Map<String, String>  params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
 
                 params.put("UserID", MainActivity.idOfUser);
                 params.put("Email", email);
                 params.put("FirstName", firstName);
                 params.put("LastName", lastName);
-                params.put("Address1", address1);
-                params.put("Address2", address2);
+                params.put("Unit", unit);
+                params.put("Address_line_1", address1);
+                params.put("Address_line_2", address2);
                 params.put("City", city);
                 params.put("Province", province);
                 params.put("Country", country);

@@ -21,9 +21,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dispute extends AppCompatActivity
+public class DisputeActivity extends AppCompatActivity
 {
-    private static final String TAG = "Dispute";
+    private static final String TAG = "DisputeActivity";
 
     private Button submitButton;
 
@@ -73,7 +73,7 @@ public class Dispute extends AppCompatActivity
     private void GETDISPUTEUPDATE (final String URL)
     {
         JSONObject jsonObject = new JSONObject();
-        RequestQueue queue = Volley.newRequestQueue(Dispute.this);
+        RequestQueue queue = Volley.newRequestQueue(DisputeActivity.this);
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>()
@@ -81,7 +81,7 @@ public class Dispute extends AppCompatActivity
                     @Override
                     public void onResponse(String response)
                     {
-                        Toast.makeText(Dispute.this, "DATA SEND TO DB", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DisputeActivity.this, "DATA SEND TO DB", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()
@@ -89,7 +89,7 @@ public class Dispute extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(Dispute.this, "FAILED TO SEND DATA: " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DisputeActivity.this, "FAILED TO SEND DATA: " + error, Toast.LENGTH_SHORT).show();
                     }
                 })
 
