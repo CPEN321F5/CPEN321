@@ -20,7 +20,9 @@
         android:theme="@style/Theme.F5"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".MyItemActivity"
+            android:exported="false" />
         <activity
             android:name=".CheckoutActivity"
             android:exported="false"
