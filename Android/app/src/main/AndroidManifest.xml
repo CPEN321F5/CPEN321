@@ -24,7 +24,7 @@
             android:name=".ItemListActivity"
             android:exported="false" />
         <activity
-            android:name=".bidActivity"
+            android:name=".BidActivity"
             android:exported="false" />
         <activity
             android:name=".CheckoutActivity"

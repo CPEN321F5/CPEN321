@@ -2,9 +2,11 @@ package com.cpen321.f5;
 
 import static com.android.volley.VolleyLog.TAG;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -26,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +61,7 @@ public class PostActivity extends AppCompatActivity {
 
         postButton = findViewById(R.id.post_post);
         postButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 title = ((EditText)findViewById(R.id.post_title)).getText().toString().trim();
@@ -69,17 +73,21 @@ public class PostActivity extends AppCompatActivity {
                 timeLast = ((EditText)findViewById(R.id.post_time_last)).getText().toString().trim();
                 postTime = getTime();
 
-                timeExpire = "wait";
+
 
                 Log.d(TAG, "title = " + title);
                 Log.d(TAG, "description = " + description);
                 Log.d(TAG, "startP = " + startPrice);
                 Log.d(TAG, "stepP = " + stepPrice);
                 Log.d(TAG, "deposit = " + deposit);
-                Log.d(TAG, "hong lone = " + timeLast);
+                Log.d(TAG, "how lone = " + timeLast);
                 Log.d(TAG, "post time = " + postTime);
 
                 if (validCheck()){
+                    long currentTime = Instant.now().toEpochMilli() / 1000;
+                    long expireTime = currentTime + Integer.parseInt(timeLast) * 3600;
+                    timeExpire = Long.toString(expireTime);
+                    Log.d(TAG, "expire time = " + timeExpire);
                     postDataToServer();
                     Intent MainUI = new Intent(PostActivity.this, MainUI.class);
                     startActivity(MainUI);
