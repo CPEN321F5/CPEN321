@@ -35,7 +35,7 @@ public class ItemActivity extends AppCompatActivity {
     String itemDescription;
     String itemLocation;
 
-    String itemID = "1657336307732";
+    String itemID = ItemListActivity.ItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
 
@@ -62,15 +62,15 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response)
             {
-                Log.d(TAG, response.toString());
+                Log.d(TAG, "attribute = " + response.toString());
 
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("Seller");
-                    itemCategory = response.getString("Catagory");
+                    itemPrice = response.getString("sellerID");
+                    //itemCategory = response.getString("Catagory");
                     itemLocation = response.getString("ItemID");
-                    itemDescription = response.getString("Description");
+                    itemDescription = response.getString("description");
 
 
                     _itemName = findViewById(R.id.item_name_caption);

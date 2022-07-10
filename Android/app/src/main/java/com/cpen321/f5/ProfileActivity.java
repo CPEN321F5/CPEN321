@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent itemsIntent = new Intent(ProfileActivity.this, ItemsListActivity.class);
+                Intent itemsIntent = new Intent(ProfileActivity.this, ItemListActivity.class);
                 startActivity(itemsIntent);
             }
         });
@@ -254,6 +254,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("UserID", MainActivity.idOfUser);
+
                 params.put("Email", email);
                 params.put("FirstName", firstName);
                 params.put("LastName", lastName);

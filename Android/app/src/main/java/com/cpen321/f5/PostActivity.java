@@ -144,6 +144,13 @@ public class PostActivity extends AppCompatActivity {
                 params.put("timeLast", timeLast);
                 params.put("timeExpire", timeExpire);
 
+                params.put("expired", "false");
+                //const
+                params.put("refund", "false");
+                params.put("needAdmin", "false");
+                params.put("refundDescription", "");
+
+
                 return params;
             }
         };

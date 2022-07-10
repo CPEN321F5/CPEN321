@@ -1,7 +1,10 @@
 package com.cpen321.f5;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ItemListActivity extends AppCompatActivity {
+    public static String ItemID;
     ListView listView;
     String[] IDsArray;
-    List<Item> cache = SearchActivity.getItemList();
+    List<String> cache = SearchActivity.getItemList();
     private final String TAG = "ItemListActivity";
 
     @Override
@@ -28,9 +31,16 @@ public class ItemListActivity extends AppCompatActivity {
 
 
         int size = cache.size();
+        Log.d(TAG, "size = " + size);
+        //Log.d(TAG, "attribute = " + cache.get(0));
+
+        if (size == 0){
+            Toast.makeText(ItemListActivity.this, "No result found",Toast.LENGTH_SHORT).show();
+        }
+
         IDsArray = new String[size];
         for (int i = 0; i < size; i++){
-            IDsArray[i] = cache.get(i).getID();
+            IDsArray[i] = cache.get(i);
             Log.d(TAG, i + " => " + IDsArray[i]);
         }
 
@@ -44,22 +54,9 @@ public class ItemListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-//                        Intent donut = new Intent(MainActivity.this, Donut.class);
-//                        startActivity(donut);
-                        Toast.makeText(ItemListActivity.this, "YA MA DEI 0", Toast.LENGTH_LONG).show();
-                        break;
-                    case 1:
-                        Toast.makeText(ItemListActivity.this, "YA MA DEI 1", Toast.LENGTH_LONG).show();
-                        break;
-                    case 2:
-                        Toast.makeText(ItemListActivity.this, "YA MA DEI 2", Toast.LENGTH_LONG).show();
-                        break;
-                    case 3:
-                        Toast.makeText(ItemListActivity.this, "YA MA DEI 3", Toast.LENGTH_LONG).show();
-                        break;
-                }
+                ItemID = IDsArray[position];
+                Intent tmp = new Intent(ItemListActivity.this, ItemActivity.class);
+                startActivity(tmp);
             }
         });
 
