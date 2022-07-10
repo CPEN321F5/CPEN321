@@ -1,5 +1,7 @@
 package com.cpen321.f5;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,55 +25,74 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class PostActivity extends AppCompatActivity {
     String title;
     String description;
     String location;
-    double startPrice = 0;
-    double stepPrice = 0;
+    String startPrice;
+    String deposit;
+    String stepPrice;
+    String timeLast;
+    String postTime;
+
+    String timeExpire;
+
+    private final String TAG = "PostActivity";
 
     private Button postButton;
-
+    private Button cancelButton;
 
     JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("post_try", "enter onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_items);
 
-
-        title = ((EditText)findViewById(R.id.post_title)).getText().toString().trim();
-        description = ((EditText)findViewById(R.id.post_description)).getText().toString().trim();
-        location = ((TextView)findViewById(R.id.post_location)).getText().toString().trim();
-
-        //TODO: fix the bug while user input is not a double
-//        startPrice = Double.parseDouble(((EditText)findViewById(R.id.post_start_price)).getText().toString().trim());
-//        stepPrice = Double.parseDouble(((EditText)findViewById(R.id.post_step_price)).getText().toString().trim());
-        startPrice = 0;
-        stepPrice = 0;
-
-//        try {
-//            jsonObject.put("UserID", "13427");
-//            jsonObject.put("title", title);
-//            jsonObject.put("description", description);
-//            jsonObject.put("location", location);
-//            jsonObject.put("startPrice", startPrice);
-//            jsonObject.put("stepPrice", stepPrice);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         postButton = findViewById(R.id.post_post);
         postButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                postDataToServer();
+                title = ((EditText)findViewById(R.id.post_title)).getText().toString().trim();
+                description = ((EditText)findViewById(R.id.post_description)).getText().toString().trim();
+                location = ((TextView)findViewById(R.id.post_location)).getText().toString().trim();
+                startPrice = ((EditText)findViewById(R.id.post_start_price)).getText().toString().trim();
+                deposit = ((EditText)findViewById(R.id.post_deposit)).getText().toString().trim();
+                stepPrice = ((EditText)findViewById(R.id.post_step_price)).getText().toString().trim();
+                timeLast = ((EditText)findViewById(R.id.post_time_last)).getText().toString().trim();
+                postTime = getTime();
+
+                timeExpire = "wait";
+
+                Log.d(TAG, "title = " + title);
+                Log.d(TAG, "description = " + description);
+                Log.d(TAG, "startP = " + startPrice);
+                Log.d(TAG, "stepP = " + stepPrice);
+                Log.d(TAG, "deposit = " + deposit);
+                Log.d(TAG, "hong lone = " + timeLast);
+                Log.d(TAG, "post time = " + postTime);
+
+                if (validCheck()){
+                    postDataToServer();
+                    Intent MainUI = new Intent(PostActivity.this, MainUI.class);
+                    startActivity(MainUI);
+                }
+            }
+        });
+
+        cancelButton = findViewById(R.id.post_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent MainUI = new Intent(PostActivity.this, MainUI.class);
+                startActivity(MainUI);
             }
         });
 
@@ -79,7 +100,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private void postDataToServer(){
-        String url = "http://20.106.78.177:8081/";
+        String url = getString(R.string.url_post);
         RequestQueue queue = Volley.newRequestQueue(PostActivity.this);
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -104,16 +125,58 @@ public class PostActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("UserID", "13427");
-                params.put("title", title);
+                params.put("sellerID", "13427");
+                params.put("name", title);
                 params.put("description", description);
                 params.put("location", location);
-                params.put("startPrice", Double.toString(startPrice));
-                params.put("stepPrice", Double.toString(stepPrice));
+                params.put("startPrice", startPrice);
+                params.put("deposit", deposit);
+                params.put("stepPrice", stepPrice);
+                params.put("postTime", postTime);
+                params.put("timeLast", timeLast);
+                params.put("timeExpire", timeExpire);
+
                 return params;
             }
         };
         queue.add(postRequest);
+    }
+
+    private boolean validCheck(){
+        if (startPrice.equals("")){
+            Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (deposit.equals("")){
+            Toast.makeText(PostActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (stepPrice.equals("")){
+            Toast.makeText(PostActivity.this, "Fail, Step Price is not set yet", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+        if (timeLast.equals("")){
+            Toast.makeText(PostActivity.this, "Fail, the post last hour is not set yet", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (Integer.parseInt(timeLast) > 168){
+            Toast.makeText(PostActivity.this, "Fail, the post should last less than 7 days", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private String getTime(){
+        String time;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        return formatter.format(date);
     }
 
 
