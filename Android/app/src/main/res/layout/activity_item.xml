@@ -21,9 +21,9 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/item_image"
+                android:id="@+id/item_image_caption"
                 android:layout_width="0dp"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/item_image_placeholder"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -32,48 +32,60 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_name_caption"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text=""
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_image"/>
+                app:layout_constraintTop_toBottomOf="@id/item_image_caption" />
 
             <TextView
-                android:id="@+id/item_price"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_price_caption"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="PRICE PLACEHOLDER"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/product_name"/>
+                app:layout_constraintTop_toBottomOf="@+id/item_name_caption" />
 
             <TextView
-                android:id="@+id/item_location"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_category_caption"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="LOCATION PLACEHOLDER"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_price"/>
+                app:layout_constraintTop_toBottomOf="@+id/item_price_caption" />
 
             <TextView
-                android:id="@+id/item_description"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_location_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text=""
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_category_caption" />
+
+            <TextView
+                android:id="@+id/item_description_caption"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_marginTop="10dp"
-                android:text="DESCRIPTION PLACEHOLDER"
+                android:text=""
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_location"/>
+                app:layout_constraintTop_toBottomOf="@id/item_location_caption" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
