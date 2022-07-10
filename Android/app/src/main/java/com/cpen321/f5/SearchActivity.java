@@ -88,6 +88,7 @@ public class SearchActivity extends AppCompatActivity {
     private void getdata(String searchKey)
     {
         String url = getString(R.string.url_searchResult) + searchKey;
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
