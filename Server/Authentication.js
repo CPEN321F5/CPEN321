@@ -13,11 +13,11 @@ function Auth_module(){
 //the status in the user profile indicate user status, if status is new user, front end should prompt to update profile
 Auth_module.prototype.signin = function(user_id){
     console.log("[Auth] Signin Request for " + user_id)
-    return this.user_db.getProfile(user_id).then((user_profile) => 
+    return this.user_db.getProfile(user_id.toString()).then((user_profile) => 
         new Promise((resolve, reject) => {
             if(user_profile){
                 //not a new user, resolving to the user profile
-                console.log("[Auth] found user with user_id " + user_id)
+                console.log("[Auth] found user with user_id " + user_id.toString())
                 resolve(user_profile)
             }
             else{
@@ -25,7 +25,7 @@ Auth_module.prototype.signin = function(user_id){
                 console.log("[Auth] no profile for user id " + user_id)
                 var default_user = {
                     //Basic info
-                    "UserID"            : user_id,
+                    "UserID"            : user_id.toString(),
                     "Email"             : "N/A",
                     "DisplayName"       : "N/A",
                     "FirstName"         : "N/A",
@@ -70,7 +70,7 @@ module.exports = Auth_module
 
 // am = new Auth_module()
 
-// am.signin(1234).then(result => {console.log(result)})
+// am.signin(2).then(result => {console.log(result)})
 // // am.removeUser(1234).then(result => {console.log(result)})
 // profile_user = {
 //     //Basic info

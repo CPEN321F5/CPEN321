@@ -31,7 +31,7 @@ ChatDB.prototype.initConversation = function(conversation){
 	return this.connected.then(
 		db => new Promise((resolve, reject) => {
 			//using Date.now to create a "unique" id for each conversation
-			var conversationID = Date.now()
+			var conversationID = Date.now().toString()
 			conversation.conversationID = conversationID
 			console.log("[ChatDB] Initiating a conversation")
 			db.collection(db_coll).insertOne(conversation)
@@ -44,9 +44,9 @@ ChatDB.prototype.initConversation = function(conversation){
 ChatDB.prototype.getConversation = function(conversationID){
 	return this.connected.then(
 		db => new Promise((resolve, reject) => {
-			var query = {conversationID : conversationID}
-			console.log("[ChatDB] Getting a conversation by ID")
-            var conversation = db.collection("db_coll").findOne(query)
+			var query = {conversationID : conversationID.toString()}
+			console.log("[ChatDB] Getting a conversation by ID " + conversationID)
+            var conversation = db.collection(db_coll).findOne(query)
             resolve(conversation)
 		})
 	)
@@ -92,6 +92,7 @@ ChatDB.prototype.addMessageToConversation = function(message){
 			const filter = {conversationID : conversationID.toString()}
 			const message_update = { $push: { messages : message } }
 
+			console.log(filter)
 			var result = db.collection(db_coll).updateOne(filter, message_update)
 			resolve(result)
 		}).then(result =>{
@@ -103,6 +104,48 @@ ChatDB.prototype.addMessageToConversation = function(message){
                 return false
             }
         })
+	)
+}
+
+
+//interface with the user collection to get the display username of a user
+ChatDB.prototype.getUserName = function(UserID){
+	return this.connected.then(
+		db => new Promise((resolve, reject) => {
+			console.log("[ChatDB] getting user name of " + UserID)
+			var query = {UserID : UserID}
+            var user_profile = db.collection("Profile").findOne(query).then(user_profile =>{
+				if(user_profile != null && user_profile.hasOwnProperty("DisplayName")){
+					resolve(user_profile.DisplayName)
+				}
+				else{
+					resolve("NoName")
+				}
+			})	
+		})
+	)
+}
+
+//use aggregation pipeline to fetch num_messages message by latest time
+//resolve to a array of message objects
+ChatDB.prototype.findNewestMessage = function(ConversationID, num_messages){
+	return this.connected.then(
+		db => new Promise((resolve, reject) => {
+			var aggcur = db.collection(db_coll).aggregate([
+				{$match:{"conversationID" : ConversationID.toString()}},
+				{$unwind:"$messages"},
+				{$sort:{"messages.time":-1}},
+				{$limit:num_messages}
+			]);
+			var messages = []
+			aggcur.forEach(msg => {
+				messages.push(msg.messages)
+			}).then(
+				a => {
+					resolve(messages)
+				}
+			)
+		})
 	)
 }
 

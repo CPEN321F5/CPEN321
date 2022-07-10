@@ -72,7 +72,7 @@ app.get("/user/getprofile/:user_id", (req,res) => {
 /////////////////////////////////////////Item Module/////////////////////////////////////////
 
 const Item_Module = require("./ItemModule")
-var item_module = new Item_Module
+var item_module = new Item_Module()
 
 //posting an item
 app.post("/item/postitem/", (req,res) => {
@@ -170,20 +170,24 @@ app.post("/item/_init_index/", (req,res) => {
 
 /////////////////////////////////////////Chat Module/////////////////////////////////////////
 const SocketServer = require('websocket').server
+var Chat_Module = require("./ChatModule")
+chat_module = new Chat_Module()
 
 //initializing the socket server
 const server = http.createServer((req, res) => { })
 server.listen(8080, () => {
-    console.log("Listening on port 8000...")
+    console.log("Listening on port 8080...")
 })
 
 //configuring the socket server for messaging
 wsServer = new SocketServer({ httpServer: server })
 const connections = []
 wsServer.on('request', (req) => {
-    var UserID = req.resourceURL.query.UserID
-    const connection = req.accept()
-    console.log('new connection from user ' + UserID)
+    var ConversationID = req.resourceURL.query.ConversationID
+    var connection = req.accept()
+    //saving the connection conversationID to each conversation
+    connection.ConversationID = ConversationID
+    console.log('new connection from conversation ' + ConversationID)
     connections.push(connection)
     
 
@@ -192,9 +196,11 @@ wsServer.on('request', (req) => {
         var jsonmsg = JSON.parse(message.utf8Data)
         console.log(jsonmsg)
         connections.forEach(element => {
-            if (element != connection)
+            //relay the message to the other user connected with same ConversationID
+            if (element != connection && element.ConversationID == connection.ConversationID)
                 element.sendUTF(message.utf8Data)
         })
+        chat_module.addMessage(jsonmsg)
     })
 
     connection.on('close', (resCode, des) => {
@@ -202,6 +208,55 @@ wsServer.on('request', (req) => {
         connections.splice(connections.indexOf(connection), 1)
     })
 }) 
+
+//configuring the http server for Chat Module
+app.post("/chat/initconversation/:user1/:user2", (req, res) =>{
+    console.log("[Server] request for starting conversation between" + req.params.user1 + "and" + req.params.user2)
+    if(!req.params.user1 || !req.params.user2){
+        //invalid request
+        res.status(400).send("invalid request: user id not specified")
+    }
+    else{
+        chat_module.initConversation(req.params.user1, req.params.user2).then(conversation => {
+            //replying with the newly generated conversation
+            //of the existing conversation item if found in db
+            res.send(conversation)
+        })
+    }
+})
+
+//requesting for a list of conversation involved with a userID
+app.get("/chat/getconversationlist/:userID", (req, res) =>{
+    console.log("[Server] request for list of conversation for" + req.params.userID)
+    if(!req.params.userID){
+        //invalid request
+        res.status(400).send("invalid request: user id not specified")
+    }
+    else{
+        chat_module.getConversationList(req.params.userID).then(conversationList => {
+            //replying with the a list of abbriviated conversation objects
+            res.send(conversationList)
+        })
+    }
+})
+
+
+//requesting for a full conversation object by conversation ID
+app.get("/chat/getconversation/:conversationID", (req, res) =>{
+    console.log("[Server] request for list of conversation for" + req.params.conversationID)
+    if(!req.params.conversationID){
+        //invalid request
+        res.status(400).send("invalid request: user id not specified")
+    }
+    else{
+        chat_module.getConversation(req.params.conversationID).then(conversation => {
+            //replying with the newly generated conversation
+            //of the existing conversation item if found in db
+            res.send(conversation)
+        })
+    }
+})
+
 
 
 
