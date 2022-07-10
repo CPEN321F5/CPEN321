@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dispute">
+    tools:context=".DisputeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -146,14 +146,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Reason For Dispute">
+                android:hint="Order/Item ID">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/order_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/dispute"
-                    android:drawablePadding="10dp"
-                    android:text="Placeholder"/>
+                    android:drawablePadding="10dp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Reason For Dispute">
+
+                <EditText
+                    android:id="@+id/reason_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/dispute"
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,12 +178,12 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Refund Required">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/refund_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/refund"
-                    android:drawablePadding="10dp"
-                    android:text="Placeholder"/>
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,17 +193,18 @@
                 android:layout_marginBottom="10dp"
                 android:hint="Admin Interference Needed">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/admin_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/admin"
-                    android:drawablePadding="10dp"
-                    android:text="Email Placeholder" />
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <Button
+                android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SUBMIT DISPUTE">

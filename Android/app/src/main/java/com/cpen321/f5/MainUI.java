@@ -56,7 +56,7 @@ public class MainUI extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent profileActivity = new Intent(MainUI.this, Profile.class);
+                Intent profileActivity = new Intent(MainUI.this, ProfileActivity.class);
                 startActivity(profileActivity);
             }
         });
@@ -65,7 +65,7 @@ public class MainUI extends AppCompatActivity {
         IB1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB1Activity = new Intent(MainUI.this, Item.class);
+                Intent IB1Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB1Activity);
             }
         });
@@ -74,7 +74,7 @@ public class MainUI extends AppCompatActivity {
         IB2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB2Activity = new Intent(MainUI.this, Item.class);
+                Intent IB2Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB2Activity);
             }
         });
@@ -83,7 +83,7 @@ public class MainUI extends AppCompatActivity {
         IB3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB2Activity = new Intent(MainUI.this, Item.class);
+                Intent IB2Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB2Activity);
             }
         });
@@ -92,7 +92,7 @@ public class MainUI extends AppCompatActivity {
         IB4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB4Activity = new Intent(MainUI.this, Item.class);
+                Intent IB4Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB4Activity);
             }
         });
@@ -101,7 +101,7 @@ public class MainUI extends AppCompatActivity {
         IB5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB5Activity = new Intent(MainUI.this, Item.class);
+                Intent IB5Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB5Activity);
             }
         });
@@ -110,7 +110,7 @@ public class MainUI extends AppCompatActivity {
         IB6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IB6Activity = new Intent(MainUI.this, Item.class);
+                Intent IB6Activity = new Intent(MainUI.this, ItemActivity.class);
                 startActivity(IB6Activity);
             }
         });
