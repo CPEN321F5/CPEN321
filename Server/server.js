@@ -9,11 +9,13 @@ var ipaddr = "8.8.8.8"
 
 
 
-//User Authentication Module
+/////////////////////////////////////////User Authentication Module/////////////////////////////
+
 const User_Authentication = require("./Authentication")
 var auth_module = new User_Authentication()
 
-///////////////////User authentication Listners//////////////////////////
+////////////////////////////////////////User authentication Listners///////////////////////////////////////////
+
 //post request for signing in, creats a new profile if it is a new signin
 app.post("/user/signin/:user_id", (req,res) => {
     console.log("[Server] login request from user " + req.params.user_id)
@@ -67,7 +69,8 @@ app.get("/user/getprofile/:user_id", (req,res) => {
 })
 
 
-//Item Module
+/////////////////////////////////////////Item Module/////////////////////////////////////////
+
 const Item_Module = require("./ItemModule")
 var item_module = new Item_Module
 
@@ -162,6 +165,43 @@ app.post("/item/_init_index/", (req,res) => {
     item_module.item_db.createIndex()
     res.sendStatus(200)
 })
+
+
+
+/////////////////////////////////////////Chat Module/////////////////////////////////////////
+const SocketServer = require('websocket').server
+
+//initializing the socket server
+const server = http.createServer((req, res) => { })
+server.listen(8080, () => {
+    console.log("Listening on port 8000...")
+})
+
+//configuring the socket server for messaging
+wsServer = new SocketServer({ httpServer: server })
+const connections = []
+wsServer.on('request', (req) => {
+    var UserID = req.resourceURL.query.UserID
+    const connection = req.accept()
+    console.log('new connection from user ' + UserID)
+    connections.push(connection)
+    
+
+    connection.on('message', (message) => {
+        console.log(message)
+        var jsonmsg = JSON.parse(message.utf8Data)
+        console.log(jsonmsg)
+        connections.forEach(element => {
+            if (element != connection)
+                element.sendUTF(message.utf8Data)
+        })
+    })
+
+    connection.on('close', (resCode, des) => {
+        console.log('connection closed')
+        connections.splice(connections.indexOf(connection), 1)
+    })
+}) 
 
 
 

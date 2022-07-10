@@ -26,7 +26,6 @@
     "messages"       : [
         {
             "userID"    :  "11111",
-            "username"  : "alice",
             "type"      :  "text",
             "message"   :  "This is a message",
             "time"      :  "epoch time"
@@ -60,7 +59,6 @@ connection: user send the conversation id it is connecting to
 send message: {
     "conversationID" : "0000",
     "userID"    :  "11111",
-    "username"  : "alice",
     "type"      :  "text",
     "message"   :  "This is a message",
     "time"      :  "epoch time"
