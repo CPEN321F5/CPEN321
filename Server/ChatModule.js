@@ -143,17 +143,14 @@ Chat_module.prototype.addMessage = function(message){
         console.log("[ChatModule] recieved a homeless message without conversation iD")
     }
     else if(!message.hasOwnProperty("userID") 
-            || !message.hasOwnProperty("type")
-            || !message.hasOwnProperty("message")
             || !message.hasOwnProperty("time"))
             {
-        console.log("[ChatModule] recieved a inavlid message")
+        console.log("[ChatModule] recieved a invalid message")
     }
     else{
         //unify message datatype
         message.conversationID = message.conversationID.toString()
         message.userID = message.userID.toString()
-        message.type = message.type.toString()
         message.time = message.time.toString()
         return this.chat_db.addMessageToConversation(message)
     }

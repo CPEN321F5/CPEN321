@@ -218,7 +218,6 @@ wsServer.on('request', (req) => {
     
 
     connection.on('message', (message) => {
-        console.log(message)
         var jsonmsg = JSON.parse(message.utf8Data)
         //mark the time the message was recieved
         jsonmsg.time = Date.now().toString()
@@ -227,6 +226,7 @@ wsServer.on('request', (req) => {
             if (element != connection && element.ConversationID == connection.ConversationID)
                 element.sendUTF(JSON.stringify(jsonmsg))
         })
+        console.log("[Server] new message")
         chat_module.addMessage(jsonmsg)
     })
 
