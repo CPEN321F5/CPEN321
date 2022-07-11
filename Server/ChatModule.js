@@ -133,7 +133,20 @@ Chat_module.prototype.getConversationList = function(UserID){
 
 //get a full conversation object by conversationID
 Chat_module.prototype.getConversation = function(conversationID){
-    return this.chat_db.getConversation(conversationID)
+    return new Promise((resolve, reject) => {
+        this.chat_db.getConversation(conversationID).then(conversation => {
+            if(conversation.hasOwnProperty("user1") && conversation.hasOwnProperty("user2")){
+                this.chat_db.getUserName(conversation.user1.toString()).then(name1 => {
+                    this.chat_db.getUserName(conversation.user2.toString()).then(name2 => {
+                        //got the username for each userid
+                        conversation.user1name = name1
+                        conversation.user2name = name2
+                        resolve(conversation)                        
+                    })
+                })
+            }
+        })
+    })
 }
 
 //Add message to a conversation

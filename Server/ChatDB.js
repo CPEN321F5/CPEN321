@@ -115,8 +115,8 @@ ChatDB.prototype.getUserName = function(UserID){
 			console.log("[ChatDB] getting user name of " + UserID)
 			var query = {UserID : UserID}
             var user_profile = db.collection("Profile").findOne(query).then(user_profile =>{
-				if(user_profile != null && user_profile.hasOwnProperty("DisplayName")){
-					resolve(user_profile.DisplayName)
+				if(user_profile != null && user_profile.hasOwnProperty("FirstName")){
+					resolve(user_profile.FirstName)
 				}
 				else{
 					resolve("NoName")
