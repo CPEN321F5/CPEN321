@@ -33,6 +33,9 @@
             android:name=".AdminSearchActivity"
             android:exported="false" />
         <activity
+            android:name=".PostActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyItemActivity"
             android:exported="false" />
         <activity
@@ -40,6 +43,9 @@
             android:exported="false" />
         <activity
             android:name=".ItemListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ItemActivity"
             android:exported="false" />
         <activity
             android:name=".BidActivity"
@@ -55,9 +61,6 @@
 
         <activity
             android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PostActivity"
             android:exported="false" />
         <activity
             android:name=".MainUI"

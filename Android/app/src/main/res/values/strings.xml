@@ -16,6 +16,7 @@
     <!-- url for backend -->
     <string name="url_searchResult">http://20.106.78.177:8081/item/search/</string>
     <string name="url_post">http://20.106.78.177:8081/item/postitem/</string>
+    <string name="url_item_put">http://20.106.78.177:8081/item/updateitem/</string>
     <string name="title_activity_item_list">ItemListActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
