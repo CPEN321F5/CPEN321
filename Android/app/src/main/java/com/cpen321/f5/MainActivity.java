@@ -1,10 +1,15 @@
 package com.cpen321.f5;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -40,11 +43,17 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sharedpreferences;
     public static String MYPREFERENCES = "MyPrefs";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkLocationPermissions();
+        Log.d(TAG, "Trying to request location permissions");
+        Toast.makeText(MainActivity.this, "Trying to request location permissions", Toast.LENGTH_LONG).show();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -187,4 +196,39 @@ public class MainActivity extends AppCompatActivity
 
         queue.add(stringRequest);
     }
+
+    private void checkLocationPermissions() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(MainActivity.this, "We have these permissions yay!", Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+                Toast.makeText(MainActivity.this, "We need these location permissions to run!", Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Need Location Permissions")
+                        .setMessage("We need the location permissions to mark your location on a map")
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogIntergace, int i) {
+                                Toast.makeText(MainActivity.this, "We need these location permissions to run!",  Toast.LENGTH_LONG).show();
+                                dialogIntergace.dismiss();
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogIntergace, int i) {
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+                            }
+                        })
+                        .create()
+                        .show();
+            }else{
+                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+    }
+
 }
