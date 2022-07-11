@@ -97,11 +97,15 @@ Database.prototype.getItemByCondition = function(query){
 
 
 //Search for item using keyword
+//expired item will not appear in the result
 Database.prototype.searchItem = function(key_word){
     console.log("[ItemDB] searching for item with keyword " + key_word)
     return this.connected.then(
         db => new Promise((resolve, reject) => {
             const query = {$text : { $search : key_word.toString()}}
+            //const filter = {timeExpire : { $gt : Date.now() }}
+            //TODO add expire
+
             var items = db.collection("Items").find(query).toArray((err, result) => {
                 if(err){
                     reject(err)
@@ -127,6 +131,26 @@ Database.prototype.createIndex = function(){
                 }
             })
         }
+    )
+}
+
+Database.prototype.removeItem = function(itemID){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[ItemDB] deleting item with id " + itemID)
+            var query = {ItemID : itemID}
+            var result = db.collection("Items").deleteOne(query)
+            resolve(result)
+        }).then(result =>{
+            console.log("[ItemDB] deleted " + result.deletedCount + "document")
+            if (result.deletedCount >= 1){
+                console.log("[ItemDB] successfully delete item")
+                return true
+            }else{
+                console.log("[ItemDB] failed to delete item, item did not exist")
+                return false
+            }
+        })
     )
 }
 

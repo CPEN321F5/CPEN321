@@ -21,22 +21,40 @@ Item_module.prototype.getItemByID = function(itemId){
 }
 
 Item_module.prototype.getItemByBuyer = function(buyer_id){
-    var query = {Buyer : buyer_id}
+    var query = {buyerID : buyer_id}
     return this.item_db.getItemByCondition(query)
 }
 
-Item_module.prototype.getItemBySeller = function(buyer_id){
-    var query = {Seller : buyer_id}
+Item_module.prototype.getItemBySeller = function(seller_id){
+    var query = {sellerID : seller_id}
     return this.item_db.getItemByCondition(query)
 }
 
 Item_module.prototype.getItemByCatagory = function(Catagory){
-    var query = {Catagory : Catagory}
+    var query = {catagory : Catagory}
+    return this.item_db.getItemByCondition(query)
+}
+
+//return any items where needadmin field is true
+Item_module.prototype.getItemByAdmin = function(){
+    var query = {needAdmin : 'true'}
+    return this.item_db.getItemByCondition(query)
+}
+
+//return any item where refund field is true
+Item_module.prototype.getItemByRefund = function(){
+    var query = {refund : 'true'}
     return this.item_db.getItemByCondition(query)
 }
 
 Item_module.prototype.searchForItem = function(key_word){
     return this.item_db.searchItem(key_word)
+}
+
+Item_module.prototype.removeItem = function(itemID){
+    return this.item_db.removeItem(itemID).then(result => {
+        
+    })
 }
 
 module.exports = Item_module

@@ -24,16 +24,23 @@ Chat_module.prototype.initConversation = function(UserID1, UserID2){
                 //no previous conversation between the users
                 console.log("[ChatModule]Creating new conversation for users")
                 //create new conversation
-                conversation = {
-                    "user1"          : UserID1.toString(),
-                    "user2"          : UserID2.toString(),
-                    "messages"       : []
-                }
-                //adding new conversation to db
-                this.chat_db.initConversation(conversation).then(new_conversation => {
-                    console.log("[ChatModule] Successfully add conversation")
-                    resolve(new_conversation)
+                this.chat_db.getUserName(UserID1.toString()).then(name1 => {
+                    this.chat_db.getUserName(UserID2.toString()).then(name2 => {
+                        conversation = {
+                            "user1"          : UserID1.toString(),
+                            "user2"          : UserID2.toString(),
+                            "user1name"      : name1,
+                            "user2name"      : name2,
+                            "messages"       : []
+                        }
+                        //adding new conversation to db
+                        this.chat_db.initConversation(conversation).then(new_conversation => {
+                            console.log("[ChatModule] Successfully add conversation")
+                            resolve(new_conversation)
+                        })
+                    })
                 })
+                
             }
         })
     )

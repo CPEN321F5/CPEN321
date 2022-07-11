@@ -144,6 +144,18 @@ app.get("/item/getbycond/:type/:data", (req, res) => {
             res.send(items)
         })
     }
+    else if (req.params.type == "admin"){
+        console.log("[Server] getting items that need admin attention" + req.params.data)
+        item_module.getItemByAdmin(req.params.data).then(items => {
+            res.send(items)
+        })
+    }
+    else if (req.params.type == "refund"){
+        console.log("[Server] getting items that is refunded" + req.params.data)
+        item_module.getItemByRefund(req.params.data).then(items => {
+            res.send(items)
+        })
+    }
     else{
         //invalid condition type
         res.status(200).send("invalid condition type, need to be catagory, buyer, or seller")
@@ -164,6 +176,20 @@ app.post("/item/_init_index/", (req,res) => {
     console.log("[Server] Creating Index")
     item_module.item_db.createIndex()
     res.sendStatus(200)
+})
+
+app.delete("/item/removeitem/:item_id", (req,res) => {
+    console.log("[Server] request for removing item")
+    item_id = req.params.item_id
+    if(!item_id){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid delete, need to have itemID")
+    }
+    else{
+        item_module.removeItem(item_id).then(result => {
+            res.sendStatus(200)
+        })
+    }
 })
 
 
@@ -194,11 +220,12 @@ wsServer.on('request', (req) => {
     connection.on('message', (message) => {
         console.log(message)
         var jsonmsg = JSON.parse(message.utf8Data)
-        console.log(jsonmsg)
+        //mark the time the message was recieved
+        jsonmsg.time = Date.now().toString()
         connections.forEach(element => {
             //relay the message to the other user connected with same ConversationID
             if (element != connection && element.ConversationID == connection.ConversationID)
-                element.sendUTF(message.utf8Data)
+                element.sendUTF(JSON.stringify(jsonmsg))
         })
         chat_module.addMessage(jsonmsg)
     })
