@@ -143,7 +143,7 @@ public class PostActivity extends AppCompatActivity {
                 params.put("timeLast", timeLast);
                 params.put("timeExpire", timeExpire);
 
-                params.put("highestPriceHolder", "no one bid yet");
+                params.put("currentPriceHolder", "no one bid yet");
                 params.put("currentPrice", startPrice);
                 params.put("needAdmin", "false");
                 params.put("refundDescrition", "");

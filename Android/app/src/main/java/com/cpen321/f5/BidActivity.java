@@ -3,6 +3,8 @@ package com.cpen321.f5;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,13 +97,15 @@ public class BidActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updPrice();
+                Intent ItemUI = new Intent(BidActivity.this, ItemActivity.class);
+                startActivity(ItemUI);
             }
         });
     }
 
     private void updPrice() {
         RequestQueue queue = Volley.newRequestQueue(BidActivity.this);
-        String url = getString(R.string.url_post);
+        String url = getString(R.string.url_item_put);
         currentPrice += addPrice;
         currentPriceHolder = MainActivity.idOfUser;
         StringRequest postRequest = new StringRequest(Request.Method.PUT, url,

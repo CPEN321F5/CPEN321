@@ -29,7 +29,6 @@ public class ItemActivity extends AppCompatActivity {
     public static String highestPriceHolder;
     public static String expireTime;
 
-    Button bidButton;
 
     RequestQueue requestQueue;
 
@@ -42,7 +41,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private Button bidButton;
 
-    public static String stepPrice;
+
     String itemName;
     //String itemPrice;
     String itemCategory;
@@ -50,9 +49,10 @@ public class ItemActivity extends AppCompatActivity {
     String itemLocation;
     String itemNumber;
 
-    public static String itemID = ItemListActivity.ItemID;
+    public static String itemID;
+    String tmpID = ItemListActivity.ItemID;
 
-    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
+    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + tmpID + "/";;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,6 +72,7 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                itemID = tmpID;
                 Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
                 startActivity(bidIntent);
             }
@@ -91,13 +92,13 @@ public class ItemActivity extends AppCompatActivity {
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("startPrice");
+                    itemPrice = response.getString("currentPrice");
                     itemCategory = response.getString("name");
                     itemLocation = response.getString("location");
                     itemNumber = response.getString("ItemID");
                     itemDescription = response.getString("description");
                     highestPriceHolder = response.getString("currentPriceHolder");
-
+                    stepPrice = response.getString("stepPrice");
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
 
