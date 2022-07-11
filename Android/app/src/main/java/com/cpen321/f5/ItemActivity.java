@@ -1,9 +1,20 @@
 package com.cpen321.f5;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +32,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ItemActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+
+public class ItemActivity extends AppCompatActivity implements LocationListener {
 
     private static final String TAG = "ItemActivity";
 
@@ -56,13 +72,35 @@ public class ItemActivity extends AppCompatActivity {
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + tmpID + "/";;
 
+    LocationManager locationManager;
+    private double distance;
+    private double lat, lon;
+    private double lat_item, lon_item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+        lat_item = PostActivity.lat;
+        lon_item = PostActivity.lon;
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
+
+        distance = distance(lat, lon, lat_item, lon_item, 'K');
+        Log.d(TAG, "distance = " + distance);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -154,7 +192,7 @@ public class ItemActivity extends AppCompatActivity {
                     _itemCategory.setText(itemCategory);
 
                     _itemLocation = findViewById(R.id.item_location_caption);
-                    _itemLocation.setText("Item Location: " + itemLocation);
+                    _itemLocation.setText("Distance to you: " + Double.toString(distance));
 
                     _itemNumber = findViewById(R.id.item_id_caption);
                     _itemNumber.setText("Item ID: " + itemNumber);
@@ -179,6 +217,55 @@ public class ItemActivity extends AppCompatActivity {
         });
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(degToRad(lat1)) * Math.sin(degToRad(lat2)) + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.cos(degToRad(theta));
+        dist = Math.acos(dist);
+        dist = radToDeg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K') {
+            dist = dist * 1.609344;
+        } else if (unit == 'N') {
+            dist = dist * 0.8684;
+        }
+        return (dist);
+    }
+
+    private double degToRad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+    private double radToDeg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        Log.d(TAG, "Lat: " + location.getLatitude() + " | Long: " + location.getLongitude());
+        lat = location.getLatitude();
+        lon = location.getLongitude();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+            Log.d(TAG, "debug sign: " + addresses.size() + "---" + lat + "---" + lon);
+            String cityName = addresses.get(0).getLocality();
+            //Log.d(TAG, "*************city name: " + cityName);
+
+            Formatter formatter = new Formatter();
+            formatter.format("%.5f", lat);
+            formatter.format("%.5f", lon);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull List<Location> locations) {
+        LocationListener.super.onLocationChanged(locations);
     }
 
 }

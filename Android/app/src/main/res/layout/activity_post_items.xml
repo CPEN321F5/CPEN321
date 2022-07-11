@@ -320,6 +320,20 @@
                 android:background="@color/color_link" />
 
 
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="location:">
+            </TextView>
+
+            <TextView
+                android:id="@+id/show_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="uninitialized">
+            </TextView>
+
             <Button
                 android:id="@+id/refresh_location"
                 android:layout_width="wrap_content"
