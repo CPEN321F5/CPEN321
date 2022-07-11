@@ -74,7 +74,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + tmpID + "/";;
 
     LocationManager locationManager;
-    private double distance;
+    private int distance;
     private double lat, lon;
     private double lat_item, lon_item;
 
@@ -96,15 +96,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
-
-        distance = distance(lat, lon, lat_item, lon_item, 'K');
-
-        Log.d(TAG, "lat = " + lat);
-        Log.d(TAG, "lon = " + lon);
-        Log.d(TAG, "lat_item = " + lat_item);
-        Log.d(TAG, "lon_item = " + lon_item);
-
-        Log.d(TAG, "distance = " + distance);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -186,8 +177,17 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
 
-                    lat_item = Double.parseDouble(itemLocationLong);
-                    lon_item = Double.parseDouble(itemLocationLat);
+                    lon_item = Double.parseDouble(itemLocationLong);
+                    lat_item = Double.parseDouble(itemLocationLat);
+
+                    Log.d(TAG, "lat = " + lat);
+                    Log.d(TAG, "lon = " + lon);
+                    Log.d(TAG, "lat_item = " + lat_item);
+                    Log.d(TAG, "lon_item = " + lon_item);
+
+                    distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
+
+                    Log.d(TAG, "distance = " + distance);
 
                     _itemName = findViewById(R.id.item_name_caption);
                     _itemName.setText(itemName);
@@ -199,13 +199,14 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     _itemCategory.setText(itemCategory);
 
                     _itemLocation = findViewById(R.id.item_location_caption);
-                    _itemLocation.setText("Distance to you: " + Double.toString(distance));
+                    _itemLocation.setText("Distance to you: " + Integer.toString(distance) + " km");
 
                     _itemNumber = findViewById(R.id.item_id_caption);
                     _itemNumber.setText("Item ID: " + itemNumber);
 
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
+
 
                     Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
@@ -226,11 +227,11 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         requestQueue.add(jsonObjectRequest);
     }
 
-    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+    private static double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
         double theta = lon1 - lon2;
-        double dist = Math.sin(degToRad(lat1)) * Math.sin(degToRad(lat2)) + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.cos(degToRad(theta));
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
-        dist = radToDeg(dist);
+        dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
         if (unit == 'K') {
             dist = dist * 1.609344;
@@ -240,12 +241,37 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         return (dist);
     }
 
-    private double degToRad(double deg) {
+    private static double deg2rad(double deg) {
         return (deg * Math.PI / 180.0);
     }
-    private double radToDeg(double rad) {
+
+
+    private static double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
+
+//
+//
+//    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+//        double theta = lon1 - lon2;
+//        double dist = Math.sin(degToRad(lat1)) * Math.sin(degToRad(lat2)) + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.cos(degToRad(theta));
+//        dist = Math.acos(dist);
+//        dist = radToDeg(dist);
+//        dist = dist * 60 * 1.1515;
+//        if (unit == 'K') {
+//            dist = dist * 1.609344;
+//        } else if (unit == 'N') {
+//            dist = dist * 0.8684;
+//        }
+//        return (dist);
+//    }
+//
+//    private double degToRad(double deg) {
+//        return (deg * Math.PI / 180.0);
+//    }
+//    private double radToDeg(double rad) {
+//        return (rad * 180.0 / Math.PI);
+//    }
     @Override
     public void onLocationChanged(@NonNull Location location) {
         Log.d(TAG, "Lat: " + location.getLatitude() + " | Long: " + location.getLongitude());

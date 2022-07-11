@@ -223,9 +223,17 @@
             android:id="@+id/checkout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:text="tmp-Checkout"
-            android:textSize="6dp"
-            android:layout_alignParentRight="true"/>
+            android:textSize="6dp" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="LOGOUT" />
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

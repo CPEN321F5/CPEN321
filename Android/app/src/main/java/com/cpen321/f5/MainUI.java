@@ -1,5 +1,6 @@
 package com.cpen321.f5;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,6 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 
@@ -24,12 +28,15 @@ public class MainUI extends AppCompatActivity {
     private Button checkoutButton;
     private Button profileButton;
     private Button chatButton;
+    private Button logoutButton;
     private ImageButton IB1;
     private ImageButton IB2;
     private ImageButton IB3;
     private ImageButton IB4;
     private ImageButton IB5;
     private ImageButton IB6;
+
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,5 +161,32 @@ public class MainUI extends AppCompatActivity {
                 startActivity(IB6Activity);
             }
         });
+
+//        logoutButton = findViewById(R.id.logout_button);
+//        logoutButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                if (v.getId() == R.id.logout_button)
+//                {
+//                    signOut();
+//                }
+//            }
+//        });
     }
+
+//    private void signOut()
+//    {
+//        mGoogleSignInClient.signOut()
+//                .addOnCompleteListener(this, new OnCompleteListener<Void>()
+//                {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task)
+//                    {
+//                        Intent logoutActivity = new Intent(MainUI.this, MainActivity.class);
+//                        startActivity(logoutActivity);
+//                    }
+//                });
+//    }
 }
