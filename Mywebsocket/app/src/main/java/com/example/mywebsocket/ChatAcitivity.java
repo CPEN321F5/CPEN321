@@ -27,8 +27,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +45,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -48,9 +56,9 @@ import okhttp3.WebSocketListener;
 
 public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
-    private String username;
     private WebSocket webSocket;
     private EditText messageText;
+    private TextView chatRoomName;
     private View sendButton;
     private View imageButton;
     private View cameraButton;
@@ -62,14 +70,60 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     private Uri imageUri;
     private ChatAdapter chatAdapter;
 
+    private String wholeConversation;
+    private JSONObject JsonConversation;
+    private String myID = "1";
+    private String userID1;
+    private String userID2;
+    private String user1name;
+    private String user2name;
+    private String messagesString;
+    private JSONArray messagesJson;
+    private String conversationID;
+
+    private String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
+
+    private String TAG = "ChatActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_acitivity);
 
-        username = getIntent().getStringExtra("name");
+        wholeConversation = getIntent().getStringExtra("conversations");
+
+
+
+
+        //get items from JSON
+        if( wholeConversation!= null){
+            try {
+                JsonConversation = new JSONObject(wholeConversation);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                JsonConversation = new JSONObject();
+            }
+
+            try {
+                userID1 = JsonConversation.getString("user1");
+                userID2 = JsonConversation.getString("user2");
+                user1name = JsonConversation.getString("user1name");
+                user2name = JsonConversation.getString("user2name");
+                messagesJson = JsonConversation.getJSONArray("messages");
+                conversationID = JsonConversation.getString("conversationID");
+                myID = JsonConversation.getString("myID");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d(TAG, "Creating Chat Activity");
+            Log.d(TAG, JsonConversation.toString());
+        }
+
+        //create socket
         new SocketListener().run();
-        initView();
+
+        //initView(); //use to test without server
     }
 
     //call when client successfully connect to the server
@@ -80,7 +134,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(PATHofSERVER)
+                    .url(PATHofSERVER + "?ConversationID=" + conversationID)
                     .build();
 
             webSocket = client.newWebSocket(request, this);
@@ -93,7 +147,13 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             super.onOpen(webSocket, response);
             runOnUiThread(()->{
                 Toast.makeText(ChatAcitivity.this, "Socket Connection Successful", Toast.LENGTH_SHORT).show();
-                initView();
+                try {
+                    Log.d(TAG, "Opening Socket Connection");
+                    initView();
+                } catch (JSONException e) {
+                    Log.d("TEST", "init error");
+                    e.printStackTrace();
+                }
             });
         }
 
@@ -104,7 +164,6 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             runOnUiThread(() ->{
                 try {
                     JSONObject jsonObject = new JSONObject(text);
-                    jsonObject.put("isSent", false); //is when receive
                     chatAdapter.addItem(jsonObject);
                     recycleContent.smoothScrollToPosition(chatAdapter.getItemCount()-1);
                 } catch (JSONException error) {
@@ -150,7 +209,8 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         messageText.addTextChangedListener(this);
     }
 
-    private void initView() {
+    private void initView() throws JSONException {
+        chatRoomName = findViewById(R.id.chatRoomName);
         messageText = findViewById(R.id.editMessage);
         sendButton = findViewById(R.id.Send_button);
         imageButton = findViewById(R.id.image_button);
@@ -158,23 +218,34 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         chatListButton = findViewById(R.id.chatList_chatroom_button);
         homeButton = findViewById(R.id.home_chatroom_button);
         recycleContent = findViewById(R.id.recyclerView);
+        if(Objects.equals(myID, userID1)){
+            chatRoomName.setText(user2name);
+        }else{
+            chatRoomName.setText(user1name);
+        }
+
 
         /*initialize adapter */
 
-        chatAdapter = new ChatAdapter(getLayoutInflater());
+        chatAdapter = new ChatAdapter(getLayoutInflater(),myID,  userID1, userID2, user2name, conversationID);
         recycleContent.setAdapter(chatAdapter);
         recycleContent.setLayoutManager(new LinearLayoutManager(this));
 
         /*initialize adapter */
 
+        //load history
+        initHistory(messagesJson);
+
         messageText.addTextChangedListener(this);
+
+        //code for sending text message
         sendButton.setOnClickListener(v->{ //transfer to Json
             JSONObject jsonObject = new JSONObject();
             try{
-                jsonObject.put("name",username);
+                jsonObject.put("conversationID",conversationID);
                 jsonObject.put("message",messageText.getText().toString());
+                jsonObject.put("userID",myID);
                 webSocket.send(jsonObject.toString());
-                jsonObject.put("isSent", true);
                 chatAdapter.addItem(jsonObject);
                 recycleContent.smoothScrollToPosition(chatAdapter.getItemCount()-1);
                 resetMessageContent();
@@ -226,8 +297,24 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         });
 
         chatListButton.setOnClickListener(v ->{
+            String chatList_url = chatList_init_url + myID;
+            RequestQueue queue = Volley.newRequestQueue(v.getContext());
             Intent intent = new Intent(this, ChatlistsActivity.class);
-            startActivity(intent);
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    Log.d("TEST1", response.toString());
+                    intent.putExtra("conversationsList", response.toString());
+                    intent.putExtra("myID", myID);
+                    startActivity(intent);
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("TEST1", chatList_url);
+                }
+            });
+            queue.add(jsonArrayRequest);
         });
 
         homeButton.setOnClickListener(v ->{
@@ -278,14 +365,26 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
         JSONObject jsonObject = new JSONObject();
         try{
-            jsonObject.put("name",username);
+            jsonObject.put("conversationID",conversationID);
+            jsonObject.put("userID",myID);
             jsonObject.put("image",b64String);
+            jsonObject.put("message","[Click to see this image...]");
             webSocket.send(jsonObject.toString());
-            jsonObject.put("isSent", true);
             chatAdapter.addItem(jsonObject);
             recycleContent.smoothScrollToPosition(chatAdapter.getItemCount()-1);
         }catch (JSONException error){
             error.printStackTrace();
+        }
+    }
+
+    private void initHistory(JSONArray messagesJson){
+        for(int i = 0; i <= messagesJson.length() - 1; i++){
+            try {
+                chatAdapter.addItem(messagesJson.getJSONObject(i));
+                recycleContent.smoothScrollToPosition(chatAdapter.getItemCount()-1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

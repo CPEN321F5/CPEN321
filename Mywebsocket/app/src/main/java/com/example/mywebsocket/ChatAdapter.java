@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter {
@@ -26,54 +28,60 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private static final int IMAGE_RECEIVE = 3;
 
     private LayoutInflater chatInflate; // instantiate the contents of layout XML files into View objects
+    private String myID;
+    private String userID1;
+    private String userID2;
+    private String user2name;
+    private String conversationID;
     private List<JSONObject> messages = new ArrayList<>();
 
-    public ChatAdapter (LayoutInflater chatInflate) {
+    public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String userID2, String user2name, String conversationID) {
 
         this.chatInflate = chatInflate;
+        this.userID1 = userID1;
+        this.userID2 = userID2;
+        this.user2name = user2name;
+        this.conversationID = conversationID;
+        this.myID = myID;
 
     }
 
     private class SentTextHolder extends RecyclerView.ViewHolder {
-        TextView messageText, sendDate, sendTime;;
+        TextView messageText, sendTime;;
         public SentTextHolder(@NonNull View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.sentText);
-            sendDate = itemView.findViewById(R.id.sendDate);
             sendTime = itemView.findViewById(R.id.sendTime);
         }
     }
 
     private class ReceiveTextHolder extends RecyclerView.ViewHolder {
-        TextView nameText, messageText, receiveDate, receiveTime;
+        TextView nameText, messageText, receiveTime;
         public ReceiveTextHolder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.NameText);
             messageText = itemView.findViewById(R.id.receiveText);
-            receiveDate = itemView.findViewById(R.id.receiveDate);
             receiveTime = itemView.findViewById(R.id.receiveTime);
         }
     }
 
     private class SentImageHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView sendDate, sendTime;
+        TextView sendTime;
         public SentImageHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.sendImage);
-            sendDate = itemView.findViewById(R.id.sendDate2);
             sendTime = itemView.findViewById(R.id.sendTime2);
         }
     }
 
     private class ReceiveImageHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView nameText, receiveDate, receiveTime;
+        TextView nameText, receiveTime;
         public ReceiveImageHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.receiveImage);
             nameText = itemView.findViewById(R.id.NameText);
-            receiveDate = itemView.findViewById(R.id.receiveDate2);
             receiveTime = itemView.findViewById(R.id.receiveTime2);
         }
     }
@@ -82,14 +90,14 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         JSONObject message = messages.get(position);
         try {
-            if (message.getBoolean("isSent")) {
-                if (message.has("message")){
+            if (message.getString("userID").equals(myID)) {
+                if (!message.has("image")){
                     return TEXT_SENT;
                 }else{
                     return IMAGE_SENT;
                 }
             } else {
-                if (message.has("message")){
+                if (!message.has("image")){
                     return TEXT_RECEIVE;
                 }else{
                     return IMAGE_RECEIVE;
@@ -125,35 +133,38 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override //get data
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         JSONObject message = messages.get(position);
+        long epoch_time = 0;
+        try {
+            epoch_time = Long.parseLong(message.has("time") ? message.getString("time") : String.valueOf(System.currentTimeMillis()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String date = new SimpleDateFormat("MM/dd/ HH:mm:ss").format(epoch_time);
 
         try {
-            if (message.getBoolean("isSent")) {
-                if (message.has("message")) {
+            if (message.getString("userID").equals(myID)) {
+                if (!message.has("image")) {
                     SentTextHolder textHolder = (SentTextHolder) holder;
                     textHolder.messageText.setText(message.getString("message"));
-                    textHolder.sendDate.setText("Aug 18");
-                    textHolder.sendTime.setText("12:00");
+                    textHolder.sendTime.setText(date);
                 } else {
                     SentImageHolder imageHolder = (SentImageHolder) holder;
                     Bitmap bitmap = getBitmapFromString(message.getString("image")); //base64 to bitmap
                     imageHolder.imageView.setImageBitmap(bitmap);
-                    imageHolder.sendDate.setText("Dec 13");
-                    imageHolder.sendTime.setText("01:00");
+                    imageHolder.sendTime.setText(date);
                 }
             } else {
-                if (message.has("message")) {
+                if (!message.has("image")) {
                     ReceiveTextHolder textHolder = (ReceiveTextHolder) holder;
-                    textHolder.nameText.setText(message.getString("name"));
+                    textHolder.nameText.setText(user2name);
                     textHolder.messageText.setText(message.getString("message"));
-                    //textHolder.receiveDate.setText();
-                    //textHolder.receiveTime.setText();
+                    textHolder.receiveTime.setText(date);
                 } else {
                     ReceiveImageHolder imageHolder = (ReceiveImageHolder) holder;
-                    imageHolder.nameText.setText(message.getString("name"));
+                    imageHolder.nameText.setText(user2name);
                     Bitmap bitmap = getBitmapFromString(message.getString("image"));
                     imageHolder.imageView.setImageBitmap(bitmap);
-                    //imageHolder.receiveDate.setText();
-                    //imageHolder.receiveTime.setText();
+                    imageHolder.receiveTime.setText(date);
                 }
 
             }

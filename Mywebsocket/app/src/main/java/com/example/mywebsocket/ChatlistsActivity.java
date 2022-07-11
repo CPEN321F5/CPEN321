@@ -22,12 +22,28 @@ public class ChatlistsActivity extends AppCompatActivity {
     private RecyclerView chatList;
     private ImageView homeBtn, profileBtn;
     private ChatListAdapter chatListAdapter;
+    //get from server
+    private String wholeConversationList;
+    private JSONArray JsonConversationList;
+    private String myID;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatlists);
+        wholeConversationList = getIntent().getStringExtra("conversationsList");
+        myID = getIntent().getStringExtra("myID");
+        //parse data
+        if( wholeConversationList!= null){
+            try {
+                JsonConversationList = new JSONArray(wholeConversationList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                JsonConversationList = new JSONArray();
+            }
+        }
         initView();
     }
 
@@ -37,36 +53,20 @@ public class ChatlistsActivity extends AppCompatActivity {
         homeBtn = findViewById(R.id.home_chat_button);
         profileBtn = findViewById(R.id.profile_chat_button);
 
-        chatListAdapter = new ChatListAdapter(getLayoutInflater());
+        chatListAdapter = new ChatListAdapter(getLayoutInflater(), myID);
         chatList.setAdapter(chatListAdapter);
         chatList.setLayoutManager(new LinearLayoutManager(this));
 
-        current_userID = "122132142342";
-        coresChats = "[{\"conversationID\":\"0001\",\"name\":\"Andrew\",\"Last message\":\"Andrew\",\"Time\":\"June 11 8:00\"}," +
-                "{\"conversationID\":\"0001\",\"name\":\"Peter\", \"Last message\":\"HHHgfdgdfgfdgdfffffffffffffffffffffffH\",\"Time\":\"June 11 9:00\"}," +
-                "{\"conversationID\":\"0001\",\"name\":\"Peteeeer\", \"Last message\":\"HHHddfgfdgdfgfdgdfgfdH\",\"Time\":\"June 11 9:00\"}," +
-                "{\"conversationID\":\"0001\",\"name\":\"Peeeeter\", \"Last message\":\"HH fdgfdg rtert betreg HH\",\"Time\":\"June 11 9:00\"}," +
-                "{\"conversationID\":\"0001\",\"name\":\"Peteeeer\", \"Last message\":\"HHdfdsfffffffcvxxxxxxxxxxfdddddwesfddddddddddxw3ersfdHH\",\"Time\":\"June 11 9:00\"},]";
 
-        if( coresChats!= null){
-            try {
-                coresChatsJson = new JSONArray(coresChats);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                coresChatsJson = new JSONArray();
-            }
-
-            for(int i = 0; i <= coresChatsJson.length() - 1; i++){
-
-
+            for(int i = 0; i <= JsonConversationList.length() - 1; i++){
                 try {
-                    chatListAdapter.addList(coresChatsJson.getJSONObject(i));
+                    chatListAdapter.addList(JsonConversationList.getJSONObject(i));
                     //chatList.smoothScrollToPosition(chatListAdapter.getItemCount()-1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }
+
 
 
         //Btns to do list

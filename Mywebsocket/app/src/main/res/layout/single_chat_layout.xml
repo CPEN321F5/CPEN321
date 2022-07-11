@@ -42,7 +42,7 @@
         android:paddingTop="4dp"
         android:paddingEnd="8dp"
         android:paddingBottom="4dp"
-        android:text="This is a sample message LOLLLLLLLLLLLL"
+        android:text="No Recent Message"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.053"
@@ -51,8 +51,8 @@
 
     <TextView
         android:id="@+id/lastTime"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/lastMessage"
         android:layout_alignStart="@+id/lastMessage"
         android:layout_marginStart="0dp"

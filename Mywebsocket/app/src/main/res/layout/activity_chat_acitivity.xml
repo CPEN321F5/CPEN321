@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTop"
+        app:layout_constraintTop_toBottomOf="@+id/chatRoomName"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_receive_text" />
 
@@ -57,9 +57,9 @@
         app:layout_constraintTop_toTopOf="@+id/editMessage" />
 
     <TextView
-        android:id="@+id/textTop"
-        android:layout_width="411dp"
-        android:layout_height="49dp"
+        android:id="@+id/chatRoomName"
+        android:layout_width="408dp"
+        android:layout_height="61dp"
         android:background="@color/teal_200"
         android:padding="10dp"
         android:text="Chat Room"
@@ -100,24 +100,26 @@
         android:id="@+id/home_chatroom_button"
         android:layout_width="63dp"
         android:layout_height="49dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textTop"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="@+id/textTop"
+        app:layout_constraintStart_toStartOf="@+id/chatRoomName"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_home_24" />
 
     <ImageView
         android:id="@+id/chatList_chatroom_button"
         android:layout_width="52dp"
         android:layout_height="46dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textTop"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="92dp"
+        app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.685"
-        app:layout_constraintStart_toStartOf="@+id/textTop"
+        app:layout_constraintHorizontal_bias="0.898"
+        app:layout_constraintStart_toStartOf="@+id/chatRoomName"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_baseline_chat_24" />
