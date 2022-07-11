@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ItemActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class ItemActivity extends AppCompatActivity {
     TextView _itemNumber;
 
     private Button bidButton;
+    private Button contactsellerButton;
 
 
     String itemName;
@@ -60,10 +62,16 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
+
+
         requestQueue = Volley.newRequestQueue(this);
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
+
+        String chat_init_url = "http://20.106.78.177:8081/chat/initconversation/";
+        String myID = MainActivity.idOfUser;
+
 
         bidButton = findViewById(R.id.bid_button);
         bidButton.setOnClickListener(new View.OnClickListener()
@@ -75,6 +83,39 @@ public class ItemActivity extends AppCompatActivity {
                 itemID = tmpID;
                 Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
                 startActivity(bidIntent);
+            }
+        });
+
+        contactsellerButton = findViewById(R.id.contact_seller_button);
+        contactsellerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //init userid2 string here to wait for GETITEM response
+                String userID2 = ItemActivity.sellerID;
+                String chat_url = chat_init_url + myID + "/" + userID2;
+
+                RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
+                Intent intent = new Intent(ItemActivity.this, ChatAcitivity.class);
+                Log.d("CHAT", "starting chat with url" + chat_url);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, chat_url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            response.put("myID", myID);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("CHAT", response.toString());
+                        intent.putExtra("conversations", response.toString());
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("TEST1", error.getMessage());
+                    }
+                });
+                queue.add(jsonObjectRequest);
             }
         });
     }
