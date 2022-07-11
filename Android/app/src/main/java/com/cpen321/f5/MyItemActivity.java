@@ -85,7 +85,7 @@ public class MyItemActivity extends AppCompatActivity
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("startPrice");
+                    itemPrice = response.getString("currentPrice");
                     itemCategory = response.getString("name");
                     itemLocation = response.getString("location");
                     itemNumber = response.getString("ItemID");
