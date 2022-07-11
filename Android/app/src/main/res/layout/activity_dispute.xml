@@ -176,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Refund Required">
+                android:hint="Refund Required (true/false)">
 
                 <EditText
                     android:id="@+id/refund_caption"
@@ -191,7 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Admin Interference Needed">
+                android:hint="Admin Needed (true/false)">
 
                 <EditText
                     android:id="@+id/admin_caption"

@@ -3,8 +3,11 @@ package com.cpen321.f5;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ public class ItemActivity extends AppCompatActivity {
 
     private static final String TAG = "ItemActivity";
 
+    Button bidButton;
+
     RequestQueue requestQueue;
 
     TextView _itemName;
@@ -28,12 +33,14 @@ public class ItemActivity extends AppCompatActivity {
     TextView _itemCategory;
     TextView _itemDescription;
     TextView _itemLocation;
+    TextView _itemNumber;
 
     String itemName;
     String itemPrice;
     String itemCategory;
     String itemDescription;
     String itemLocation;
+    String itemNumber;
 
     String itemID = ItemListActivity.ItemID;
 
@@ -50,8 +57,17 @@ public class ItemActivity extends AppCompatActivity {
         Log.d(TAG, GETITEMURL);
         GETITEM();
 
-//        productName = findViewById(R.id.product_name);
-//        productName.setText(SearchActivity.itemSelected);
+        bidButton = findViewById(R.id.bid_button);
+        bidButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
+                startActivity(bidIntent);
+            }
+        });
     }
 
     private void GETITEM ()
@@ -67,9 +83,10 @@ public class ItemActivity extends AppCompatActivity {
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("sellerID");
-                    //itemCategory = response.getString("Catagory");
-                    itemLocation = response.getString("ItemID");
+                    itemPrice = response.getString("startPrice");
+                    itemCategory = response.getString("name");
+                    itemLocation = response.getString("location");
+                    itemNumber = response.getString("ItemID");
                     itemDescription = response.getString("description");
 
 
@@ -77,13 +94,16 @@ public class ItemActivity extends AppCompatActivity {
                     _itemName.setText(itemName);
 
                     _itemPrice = findViewById(R.id.item_price_caption);
-                    _itemPrice.setText(itemPrice);
+                    _itemPrice.setText("$ " + itemPrice);
 
                     _itemCategory = findViewById(R.id.item_category_caption);
                     _itemCategory.setText(itemCategory);
 
                     _itemLocation = findViewById(R.id.item_location_caption);
-                    _itemLocation.setText(itemLocation);
+                    _itemLocation.setText("Item Location: " + itemLocation);
+
+                    _itemNumber = findViewById(R.id.item_id_caption);
+                    _itemNumber.setText("Item ID: " + itemNumber);
 
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
