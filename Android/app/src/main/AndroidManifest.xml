@@ -21,6 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".AdminResponseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DisputeCheckActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminDisputeActivity"
             android:exported="false" />
         <activity

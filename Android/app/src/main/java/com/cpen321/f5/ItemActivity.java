@@ -28,7 +28,7 @@ public class ItemActivity extends AppCompatActivity {
     public static String itemPrice;
     public static String highestPriceHolder;
     public static String expireTime;
-
+    public static String sellerID;
 
     RequestQueue requestQueue;
 
@@ -97,6 +97,7 @@ public class ItemActivity extends AppCompatActivity {
                     itemLocation = response.getString("location");
                     itemNumber = response.getString("ItemID");
                     itemDescription = response.getString("description");
+                    sellerID = response.getString("sellerID");
                     highestPriceHolder = response.getString("currentPriceHolder");
                     stepPrice = response.getString("stepPrice");
                     expireTime = response.getString("timeExpire");

@@ -148,8 +148,7 @@ public class PostActivity extends AppCompatActivity {
                 params.put("needAdmin", "false");
                 params.put("refundDescrition", "");
                 params.put("expired", "false");
-                params.put("adminResponse", "");
-
+                params.put("adminResponse", "Waiting For Admin To Resolve Dispute!");
 
                 return params;
             }
