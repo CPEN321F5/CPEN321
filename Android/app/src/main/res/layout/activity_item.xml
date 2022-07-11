@@ -78,6 +78,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/item_category_caption" />
 
             <TextView
+                android:id="@+id/item_id_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text=""
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_location_caption" />
+
+            <TextView
                 android:id="@+id/item_description_caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,7 +95,7 @@
                 android:layout_marginTop="10dp"
                 android:text=""
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_location_caption" />
+                app:layout_constraintTop_toBottomOf="@id/item_id_caption" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,7 +109,7 @@
         android:text="BID FOR ITEM"
         android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/contact_seller_button"

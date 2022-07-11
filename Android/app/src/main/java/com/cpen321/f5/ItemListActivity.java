@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,15 +21,14 @@ public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
     ListView listView;
     String[] IDsArray;
-    List<String> cache = SearchActivity.getItemList();
+    List<String> cache = new ArrayList<>(SearchActivity.getItemList());
+
     private final String TAG = "ItemListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-
-
 
         int size = cache.size();
         Log.d(TAG, "size = " + size);

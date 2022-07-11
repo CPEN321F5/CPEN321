@@ -3,8 +3,11 @@ package com.cpen321.f5;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +32,17 @@ public class ItemActivity extends AppCompatActivity {
     TextView _itemDescription;
     TextView _itemLocation;
 
+    private Button bidButton;
+
+    public static String stepPrice;
     String itemName;
-    String itemPrice;
+    public static String itemPrice;
     String itemCategory;
     String itemDescription;
     String itemLocation;
-
-    String itemID = ItemListActivity.ItemID;
+    public static String highestPriceHolder;
+    public static String expireTime;
+    public static String itemID = ItemListActivity.ItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
 
@@ -49,6 +56,16 @@ public class ItemActivity extends AppCompatActivity {
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
+
+        bidButton = findViewById(R.id.bid_button);
+        bidButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent next = new Intent(ItemActivity.this, BidActivity.class);
+                startActivity(next);
+            }
+        });
+
 
 //        productName = findViewById(R.id.product_name);
 //        productName.setText(SearchActivity.itemSelected);
@@ -67,11 +84,15 @@ public class ItemActivity extends AppCompatActivity {
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("sellerID");
+                    itemPrice = response.getString("currentPrice");
+                    stepPrice = response.getString("stepPrice");
                     //itemCategory = response.getString("Catagory");
                     itemLocation = response.getString("ItemID");
                     itemDescription = response.getString("description");
+                    highestPriceHolder = response.getString("currentPriceHolder");
 
+                    expireTime = response.getString("timeExpire");
+//                            "1320105600";
 
                     _itemName = findViewById(R.id.item_name_caption);
                     _itemName.setText(itemName);
@@ -106,4 +127,5 @@ public class ItemActivity extends AppCompatActivity {
 
         requestQueue.add(jsonObjectRequest);
     }
+
 }

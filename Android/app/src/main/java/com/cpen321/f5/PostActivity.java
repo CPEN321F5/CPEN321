@@ -44,7 +44,6 @@ public class PostActivity extends AppCompatActivity {
     String stepPrice;
     String timeLast;
     String postTime;
-
     String timeExpire;
 
     private final String TAG = "PostActivity";
@@ -144,11 +143,12 @@ public class PostActivity extends AppCompatActivity {
                 params.put("timeLast", timeLast);
                 params.put("timeExpire", timeExpire);
 
-                params.put("expired", "false");
-                //const
-                params.put("refund", "false");
+                params.put("highestPriceHolder", "no one bid yet");
+                params.put("currentPrice", startPrice);
                 params.put("needAdmin", "false");
-                params.put("refundDescription", "");
+                params.put("refundDescrition", "");
+                params.put("expired", "false");
+                params.put("adminResponse", "");
 
 
                 return params;
@@ -196,4 +196,3 @@ public class PostActivity extends AppCompatActivity {
 
 
 }
-
