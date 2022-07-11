@@ -4,15 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 
 public class MainUI extends AppCompatActivity {
     private Button searchButton;
     private Button postButton;
     private Button checkoutButton;
     private Button profileButton;
+    private Button chatButton;
     private ImageButton IB1;
     private ImageButton IB2;
     private ImageButton IB3;
@@ -25,6 +36,11 @@ public class MainUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
         //initial commit
+        //url strings for chat list activity
+        String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
+        String myID = MainActivity.idOfUser;
+        String chatList_url = chatList_init_url + myID;
+
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +74,30 @@ public class MainUI extends AppCompatActivity {
             public void onClick(View v) {
                 Intent profileActivity = new Intent(MainUI.this, ProfileActivity.class);
                 startActivity(profileActivity);
+            }
+        });
+
+        chatButton = findViewById(R.id.chat_button);
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestQueue queue = Volley.newRequestQueue(MainUI.this);
+                Intent intent = new Intent(MainUI.this, ChatlistsActivity.class);
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("TEST1", response.toString());
+                        intent.putExtra("conversationsList", response.toString());
+                        intent.putExtra("myID", myID);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("CHAT", chatList_url);
+                    }
+                });
+                queue.add(jsonArrayRequest);
             }
         });
 

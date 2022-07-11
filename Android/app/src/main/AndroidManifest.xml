@@ -75,13 +75,16 @@
             android:name=".DisputeActivity"
             android:exported="false" />
         <activity
-            android:name=".ItemActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".AdminMain"
+            android:exported="false" />
+        <activity
+            android:name=".ChatlistsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatAcitivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -92,6 +95,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.f5.camera.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>
