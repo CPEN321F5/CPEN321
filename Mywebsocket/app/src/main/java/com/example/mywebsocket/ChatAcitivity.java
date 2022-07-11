@@ -12,12 +12,14 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -44,6 +46,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -264,7 +267,6 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 photo = new File(getExternalCacheDir(), "output_photo.jpg");
 
                 //if the same photo exist, directly use the existing one
@@ -282,13 +284,16 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
                     imageUri = Uri.fromFile(photo);
                 }else{
                     // use file provider to protect data
-                    imageUri = FileProvider.getUriForFile(ChatAcitivity.this, "com.f5.camera.fileprovider", photo);
+                    imageUri = FileProvider.getUriForFile(ChatAcitivity.this, "com.example.mywebsocket.fileprovider", photo);
                 }
 
                 //open camera
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 //specify the saving path
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                Log.e(TAG, "onClick: "+photo.getAbsolutePath());
+                if (photo.exists())
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(photo)));
                 //save photo into output_photo.jpg
                 requestForCamera.launch(intent);
 
@@ -332,6 +337,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
                         try{
                             InputStream Is = getContentResolver().openInputStream(imageUri);
                             Bitmap image = BitmapFactory.decodeStream(Is);
+                            saveImage(image);
                             sendImage(image);
                         }catch (FileNotFoundException error){
                             error.printStackTrace();
@@ -360,7 +366,13 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
     private void sendImage(Bitmap image) {
         ByteArrayOutputStream Os = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG,50, Os);
+        image.compress(Bitmap.CompressFormat.JPEG,20, Os);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {    //API 19
+            Log.e(TAG, "sendImage.getAllocationByteCount: "+image.getAllocationByteCount() );
+        }else {
+            Log.e(TAG, "sendImage.getByteCount: "+image.getByteCount() );
+        }
+
         String b64String = Base64.encodeToString(Os.toByteArray(), Base64.DEFAULT);
 
         JSONObject jsonObject = new JSONObject();
@@ -385,6 +397,20 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void saveImage(Bitmap image) {
+        Uri insertUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        try {
+            OutputStream outputStream = getContentResolver().openOutputStream(insertUri, "rw");
+            if (image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)) {
+                Log.e("success", "success");
+            } else {
+                Log.e("fail", "fail");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
