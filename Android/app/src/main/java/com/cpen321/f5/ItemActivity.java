@@ -27,6 +27,7 @@ public class ItemActivity extends AppCompatActivity {
     public static String stepPrice;
     public static String itemPrice;
     public static String highestPriceHolder;
+    public static String expireTime;
 
     Button bidButton;
 
@@ -46,7 +47,7 @@ public class ItemActivity extends AppCompatActivity {
     String itemLocation;
     String itemNumber;
 
-    String itemID = ItemListActivity.ItemID;
+    public static String itemID = ItemListActivity.ItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
 
