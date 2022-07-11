@@ -20,9 +20,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-public class MyItemActivity extends AppCompatActivity
+public class AdminItemActivity extends AppCompatActivity
 {
-    private static final String TAG = "MyItemActivity";
+    private static final String TAG = "AdminItemActivity";
 
     Button removeButton;
 
@@ -42,7 +42,7 @@ public class MyItemActivity extends AppCompatActivity
     String itemLocation;
     String itemNumber;
 
-    String itemID = MyItemListActivity.MyItemID;
+    String itemID = AdminListActivity.adminItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
     String REMOVEITEMURL = "http://20.106.78.177:8081/item/removeitem/" + itemID;
@@ -51,7 +51,7 @@ public class MyItemActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_item);
+        setContentView(R.layout.activity_admin_item);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -66,7 +66,7 @@ public class MyItemActivity extends AppCompatActivity
             {
                 REMOVEITEM();
 
-                Intent removeIntent = new Intent(MyItemActivity.this, MainUI.class);
+                Intent removeIntent = new Intent(AdminItemActivity.this, AdminMain.class);
                 startActivity(removeIntent);
             }
         });
@@ -110,11 +110,11 @@ public class MyItemActivity extends AppCompatActivity
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
 
-                    Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
-                    Toast.makeText(MyItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener()
@@ -122,7 +122,7 @@ public class MyItemActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(MyItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -141,11 +141,11 @@ public class MyItemActivity extends AppCompatActivity
 
                 try
                 {
-                    Toast.makeText(MyItemActivity.this, "ITEM REMOVED", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this, "ITEM REMOVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
-                    Toast.makeText(MyItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener()
@@ -153,7 +153,7 @@ public class MyItemActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(MyItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 

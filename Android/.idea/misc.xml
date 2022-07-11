@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_list.xml" value="0.21829710144927536" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/drawable/ic_search.xml" value="0.4605" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_admin_main.xml" value="0.5755208333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_bid.xml" value="0.353125" />
@@ -21,6 +23,10 @@
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/content_scrolling.xml" value="0.5755208333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/menu/menu.xml" value="0.46458333333333335" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/menu/menu_item_list.xml" value="0.5755208333333334" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_item.xml" value="0.21829710144927536" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_search.xml" value="0.21829710144927536" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_dispute.xml" value="0.31875" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_my_item.xml" value="0.21829710144927536" />
       </map>
     </option>
   </component>

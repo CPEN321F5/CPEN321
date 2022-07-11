@@ -24,6 +24,13 @@ public class ItemActivity extends AppCompatActivity {
 
     private static final String TAG = "ItemActivity";
 
+    public static String stepPrice;
+    public static String itemPrice;
+    public static String highestPriceHolder;
+    public static String expireTime;
+
+    Button bidButton;
+
     RequestQueue requestQueue;
 
     TextView _itemName;
@@ -31,17 +38,18 @@ public class ItemActivity extends AppCompatActivity {
     TextView _itemCategory;
     TextView _itemDescription;
     TextView _itemLocation;
+    TextView _itemNumber;
 
     private Button bidButton;
 
     public static String stepPrice;
     String itemName;
-    public static String itemPrice;
+    //String itemPrice;
     String itemCategory;
     String itemDescription;
     String itemLocation;
-    public static String highestPriceHolder;
-    public static String expireTime;
+    String itemNumber;
+
     public static String itemID = ItemListActivity.ItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
@@ -58,17 +66,16 @@ public class ItemActivity extends AppCompatActivity {
         GETITEM();
 
         bidButton = findViewById(R.id.bid_button);
-        bidButton.setOnClickListener(new View.OnClickListener() {
+        bidButton.setOnClickListener(new View.OnClickListener()
+        {
+
             @Override
-            public void onClick(View v) {
-                Intent next = new Intent(ItemActivity.this, BidActivity.class);
-                startActivity(next);
+            public void onClick(View v)
+            {
+                Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
+                startActivity(bidIntent);
             }
         });
-
-
-//        productName = findViewById(R.id.product_name);
-//        productName.setText(SearchActivity.itemSelected);
     }
 
     private void GETITEM ()
@@ -84,10 +91,10 @@ public class ItemActivity extends AppCompatActivity {
                 try
                 {
                     itemName = response.getString("name");
-                    itemPrice = response.getString("currentPrice");
-                    stepPrice = response.getString("stepPrice");
-                    //itemCategory = response.getString("Catagory");
-                    itemLocation = response.getString("ItemID");
+                    itemPrice = response.getString("startPrice");
+                    itemCategory = response.getString("name");
+                    itemLocation = response.getString("location");
+                    itemNumber = response.getString("ItemID");
                     itemDescription = response.getString("description");
                     highestPriceHolder = response.getString("currentPriceHolder");
 
@@ -98,13 +105,16 @@ public class ItemActivity extends AppCompatActivity {
                     _itemName.setText(itemName);
 
                     _itemPrice = findViewById(R.id.item_price_caption);
-                    _itemPrice.setText(itemPrice);
+                    _itemPrice.setText("$ " + itemPrice);
 
                     _itemCategory = findViewById(R.id.item_category_caption);
                     _itemCategory.setText(itemCategory);
 
                     _itemLocation = findViewById(R.id.item_location_caption);
-                    _itemLocation.setText(itemLocation);
+                    _itemLocation.setText("Item Location: " + itemLocation);
+
+                    _itemNumber = findViewById(R.id.item_id_caption);
+                    _itemNumber.setText("Item ID: " + itemNumber);
 
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);

@@ -27,10 +27,12 @@ public class DisputeActivity extends AppCompatActivity
 
     private Button submitButton;
 
+    EditText _orderItemID;
     EditText _reason;
     EditText _refund;
     EditText _admin;
 
+    String orderItemID;
     String reason;
     String refund;
     String admin;
@@ -48,34 +50,38 @@ public class DisputeActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                _orderItemID = findViewById(R.id.order_caption);
                 _reason = findViewById(R.id.reason_caption);
                 _refund = findViewById(R.id.refund_caption);
                 _admin = findViewById(R.id.admin_caption);
 
+                orderItemID = _orderItemID.getText().toString();
                 reason = _reason.getText().toString();
                 refund = _refund.getText().toString();
                 admin = _admin.getText().toString();
 
-
+                Log.d(TAG, "ID = " + orderItemID);
                 Log.d(TAG, "REASON = " + reason);
                 Log.d(TAG, "REFUND = " + refund);
                 Log.d(TAG, "ADMIN = " + admin);
 
                 //missing error checking pop out error box
-
-                //NEED UPDATED URL
-                String PROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
-                GETDISPUTEUPDATE(PROFILEURL);
+                if (validCheck())
+                {
+                    GETDISPUTEUPDATE();
+                }
             }
         });
     }
 
-    private void GETDISPUTEUPDATE (final String URL)
+    private void GETDISPUTEUPDATE ()
     {
+        String DISPUTEUPDATEURL = "http://20.106.78.177:8081/item/updateitem/";
+
         JSONObject jsonObject = new JSONObject();
         RequestQueue queue = Volley.newRequestQueue(DisputeActivity.this);
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
+        StringRequest postRequest = new StringRequest(Request.Method.PUT, DISPUTEUPDATEURL,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -99,11 +105,10 @@ public class DisputeActivity extends AppCompatActivity
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                // FIELD UNDETERMINED, WAITING FOR ORDERS DB
-                params.put("OrderID", MainActivity.idOfUser);
-                params.put("Reason", reason);
-                params.put("Refund", refund);
-                params.put("Admin", admin);
+                params.put("ItemID", orderItemID);
+                params.put("refundDescription", reason);
+                params.put("refund", refund);
+                params.put("needAdmin", admin);
 
                 return params;
             }
@@ -111,4 +116,44 @@ public class DisputeActivity extends AppCompatActivity
         queue.add(postRequest);
     }
 
+    private boolean validCheck()
+    {
+        if (orderItemID.equals(""))
+        {
+            Toast.makeText(DisputeActivity.this, "ID Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (reason.equals(""))
+        {
+            Toast.makeText(DisputeActivity.this, "Reason Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (refund.equals(""))
+        {
+            Toast.makeText(DisputeActivity.this, "Refund Needed Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (admin.equals(""))
+        {
+            Toast.makeText(DisputeActivity.this, "Admin Needed Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!refund.equals("false") && !refund.equals("true"))
+        {
+            Toast.makeText(DisputeActivity.this, "Must Enter ture or false for Refund Needed", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!admin.equals("false") && !admin.equals("true"))
+        {
+            Toast.makeText(DisputeActivity.this, "Must Enter ture or false for Admin Needed", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
 }

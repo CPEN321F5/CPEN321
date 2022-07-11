@@ -29,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
 
+    private Button postButton;
     private Button itemsButton;
     private Button disputeButton;
     private Button updateButton;
@@ -76,6 +77,18 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d(TAG, GETPROFILEURL);
         GETUSERPROFILE();
 
+        postButton = findViewById(R.id.post_button);
+        postButton.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent postIntent = new Intent(ProfileActivity.this, PostActivity.class);
+                startActivity(postIntent);
+            }
+        });
+
         itemsButton = findViewById(R.id.items_button);
         itemsButton.setOnClickListener(new View.OnClickListener()
         {
@@ -83,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent itemsIntent = new Intent(ProfileActivity.this, ItemListActivity.class);
+                Intent itemsIntent = new Intent(ProfileActivity.this, MyItemListActivity.class);
                 startActivity(itemsIntent);
             }
         });
@@ -143,8 +156,10 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.d(TAG, "COUNTRY = " + country);
                 Log.d(TAG, "ZIP = " + zip);
 
-                //missing error checking pop out error box
-                UPDATEUSERPROFILE();
+                if (validCheck())
+                {
+                    UPDATEUSERPROFILE();
+                }
             }
         });
     }
@@ -159,7 +174,8 @@ public class ProfileActivity extends AppCompatActivity {
             {
                 Log.d(TAG, response.toString());
 
-                try {
+                try
+                {
                     firstName = response.getString("FirstName");
                     lastName = response.getString("LastName");
                     email = response.getString("Email");
@@ -271,5 +287,58 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
+    }
+
+    private boolean validCheck()
+    {
+        if (email.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "Email Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (firstName.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "First Name Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (lastName.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "Last Name Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (address1.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "Address Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (city.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "City Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (country.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "Country Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (zip.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "ZIP Code Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (phone.equals(""))
+        {
+            Toast.makeText(ProfileActivity.this, "Phone Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

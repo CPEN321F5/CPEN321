@@ -132,7 +132,7 @@ public class PostActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("sellerID", "13427");
+                params.put("sellerID", MainActivity.idOfUser);
                 params.put("name", title);
                 params.put("description", description);
                 params.put("location", location);

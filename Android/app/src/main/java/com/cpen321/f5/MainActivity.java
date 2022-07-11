@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
             // Send token to backend server
             //account.getIdToken();
 
-            //admin email:cpen321f5ad@gmail.com
+            //admin email: cpen321f5ad@gmail.com
             //password: 321f5admin
 
             if (Objects.equals(account.getEmail(), "cpen321f5ad@gmail.com"))
