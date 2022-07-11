@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.cpen321.f5" >
+    package="com.cpen321.f5">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,7 +19,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.F5"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".AdminDisputeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminSearchActivity"
+            android:exported="false" />
         <activity
             android:name=".MyItemActivity"
             android:exported="false" />
@@ -64,7 +76,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

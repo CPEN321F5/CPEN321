@@ -20,15 +20,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-public class ItemActivity extends AppCompatActivity {
+public class AdminItemActivity extends AppCompatActivity
+{
+    private static final String TAG = "AdminItemActivity";
 
-    private static final String TAG = "ItemActivity";
-
-    public static String stepPrice;
-    public static String itemPrice;
-    public static String highestPriceHolder;
-
-    Button bidButton;
+    Button removeButton;
 
     RequestQueue requestQueue;
 
@@ -40,36 +36,38 @@ public class ItemActivity extends AppCompatActivity {
     TextView _itemNumber;
 
     String itemName;
-    //String itemPrice;
+    String itemPrice;
     String itemCategory;
     String itemDescription;
     String itemLocation;
     String itemNumber;
 
-    String itemID = ItemListActivity.ItemID;
+    String itemID = AdminListActivity.adminItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
+    String REMOVEITEMURL = "http://20.106.78.177:8081/item/removeitem/" + itemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+        setContentView(R.layout.activity_admin_item);
 
         requestQueue = Volley.newRequestQueue(this);
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
 
-        bidButton = findViewById(R.id.bid_button);
-        bidButton.setOnClickListener(new View.OnClickListener()
+        removeButton = findViewById(R.id.remove_button);
+        removeButton.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
-                Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
-                startActivity(bidIntent);
+                REMOVEITEM();
+
+                Intent removeIntent = new Intent(AdminItemActivity.this, AdminMain.class);
+                startActivity(removeIntent);
             }
         });
     }
@@ -112,11 +110,11 @@ public class ItemActivity extends AppCompatActivity {
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
 
-                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
-                    Toast.makeText(ItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener()
@@ -124,7 +122,38 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error)
             {
-                Toast.makeText(ItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void REMOVEITEM()
+    {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, REMOVEITEMURL, null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    Toast.makeText(AdminItemActivity.this, "ITEM REMOVED", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(AdminItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(AdminItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 

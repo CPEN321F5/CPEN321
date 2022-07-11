@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_item.xml" value="0.21829710144927536" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_list.xml" value="0.21829710144927536" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_main.xml" value="0.21822916666666667" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_search.xml" value="0.21829710144927536" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_bid.xml" value="0.22916666666666666" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_dispute.xml" value="0.31875" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_item.xml" value="0.1" />
