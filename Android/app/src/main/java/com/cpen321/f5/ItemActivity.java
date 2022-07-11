@@ -47,7 +47,7 @@ public class ItemActivity extends AppCompatActivity {
     String itemLocation;
     String itemNumber;
 
-    public static String itemID = ItemListActivity.ItemID;
+    String itemID = ItemListActivity.ItemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
 
