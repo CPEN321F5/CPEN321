@@ -64,7 +64,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     //String itemPrice;
     String itemCategory;
     String itemDescription;
-    String itemLocation;
+    String itemLocationLong;
+    String itemLocationLat;
     String itemNumber;
 
     public static String itemID;
@@ -83,9 +84,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        lat_item = PostActivity.lat;
-        lon_item = PostActivity.lon;
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -100,6 +98,12 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
 
         distance = distance(lat, lon, lat_item, lon_item, 'K');
+
+        Log.d(TAG, "lat = " + lat);
+        Log.d(TAG, "lon = " + lon);
+        Log.d(TAG, "lat_item = " + lat_item);
+        Log.d(TAG, "lon_item = " + lon_item);
+
         Log.d(TAG, "distance = " + distance);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -109,7 +113,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
 
         String chat_init_url = "http://20.106.78.177:8081/chat/initconversation/";
         String myID = MainActivity.idOfUser;
-
 
         bidButton = findViewById(R.id.bid_button);
         bidButton.setOnClickListener(new View.OnClickListener()
@@ -173,7 +176,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     itemName = response.getString("name");
                     itemPrice = response.getString("currentPrice");
                     itemCategory = response.getString("name");
-                    itemLocation = response.getString("location");
+                    itemLocationLong = response.getString("location_lon");
+                    itemLocationLat = response.getString("location_lat");
                     itemNumber = response.getString("ItemID");
                     itemDescription = response.getString("description");
                     sellerID = response.getString("sellerID");
@@ -181,6 +185,9 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     stepPrice = response.getString("stepPrice");
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
+
+                    lat_item = Double.parseDouble(itemLocationLong);
+                    lon_item = Double.parseDouble(itemLocationLat);
 
                     _itemName = findViewById(R.id.item_name_caption);
                     _itemName.setText(itemName);
