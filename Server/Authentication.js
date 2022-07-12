@@ -39,6 +39,8 @@ Auth_module.prototype.signin = function(user_id){
                     "Country"           : "N/A",
                     "ZIP_code"          : "N/A",
                     "Phone"             : "N/A",
+
+                    "balance"           : "0",
                     
                     "Status"            : "new_user"
                 }
