@@ -78,6 +78,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     private double lat, lon;
     private double lat_item, lon_item;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -250,28 +251,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         return (rad * 180.0 / Math.PI);
     }
 
-//
-//
-//    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
-//        double theta = lon1 - lon2;
-//        double dist = Math.sin(degToRad(lat1)) * Math.sin(degToRad(lat2)) + Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.cos(degToRad(theta));
-//        dist = Math.acos(dist);
-//        dist = radToDeg(dist);
-//        dist = dist * 60 * 1.1515;
-//        if (unit == 'K') {
-//            dist = dist * 1.609344;
-//        } else if (unit == 'N') {
-//            dist = dist * 0.8684;
-//        }
-//        return (dist);
-//    }
-//
-//    private double degToRad(double deg) {
-//        return (deg * Math.PI / 180.0);
-//    }
-//    private double radToDeg(double rad) {
-//        return (rad * 180.0 / Math.PI);
-//    }
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
         Log.d(TAG, "Lat: " + location.getLatitude() + " | Long: " + location.getLongitude());

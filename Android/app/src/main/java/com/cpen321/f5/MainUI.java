@@ -31,6 +31,8 @@ public class MainUI extends AppCompatActivity {
     private Button profileButton;
     private Button chatButton;
     private Button logoutButton;
+    private Button categoryButton;
+    private Button walletButton;
     private ImageButton IB1;
     private ImageButton IB2;
     private ImageButton IB3;
@@ -55,6 +57,15 @@ public class MainUI extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        categoryButton = findViewById(R.id.main_ui_more);
+        categoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent categoryList = new Intent(MainUI.this, CategoryActivity.class);
+                startActivity(categoryList);
+            }
+        });
 
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +188,15 @@ public class MainUI extends AppCompatActivity {
             public void onClick(View v)
             {
                 signOut();
+            }
+        });
+
+        walletButton = findViewById(R.id.post_wallet);
+        walletButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent walletActivity = new Intent(MainUI.this, WalletActivity.class);
+                startActivity(walletActivity);
             }
         });
     }

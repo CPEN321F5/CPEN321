@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,54 +23,42 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
-    final String TAG = "SearchActivity";
-    String searchKey;
-    private Button searchButton;
-    RequestQueue requestQueue;
-    private static List<String> itemIDList;
+public class CategoryActivity extends AppCompatActivity {
+    private static ArrayList<String> itemIDList;
 
+    RequestQueue requestQueue;
+    String[] categories;
+
+    private String category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_category);
 
+        categories = getResources().getStringArray(R.array.categories);
         requestQueue = Volley.newRequestQueue(this);
 
-        searchButton = findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, categories);
+
+        ListView listView = (ListView) findViewById(R.id.category_list);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemIDList = new ArrayList<>();
-                searchKey = ((EditText)findViewById(R.id.search_bar)).getText().toString().trim();
-                if( validCheck() ){
-                    Log.d(TAG, "search key = " + searchKey);
+                category = categories[position];
 
-                    getdata(searchKey);
-
-
-                }
-
+                getdata(category);
+//                Intent tmp = new Intent(ItemListActivity.this, ItemActivity.class);
+//                startActivity(tmp);
             }
         });
-
-    }
-
-
-
-    private boolean validCheck(){
-        if (searchKey.equals("")){
-            Toast.makeText(SearchActivity.this, "Fail, please type in something", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
     }
 
     private void getdata(String searchKey)
     {
-        String url = getString(R.string.url_searchResult) + searchKey;
+        String url = getString(R.string.url_item_get_by_categories) + searchKey;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -85,20 +73,20 @@ public class SearchActivity extends AppCompatActivity {
                         itemIDList.add(itemID);
                         //Log.d(TAG, "ATTRIBUTE = " + itemIDList.get(0));
                     }
-                    Intent ListUI = new Intent(SearchActivity.this, ItemListActivity.class);
+                    Intent ListUI = new Intent(CategoryActivity.this, ItemListActivity.class);
                     startActivity(ListUI);
                     //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception w)
                 {
-                    Toast.makeText(SearchActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CategoryActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SearchActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(CategoryActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.add(jsonArrayRequest);
@@ -107,5 +95,4 @@ public class SearchActivity extends AppCompatActivity {
     public static List<String> getItemList(){
         return itemIDList;
     }
-
 }
