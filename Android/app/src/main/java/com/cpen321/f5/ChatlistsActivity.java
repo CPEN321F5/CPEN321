@@ -76,7 +76,8 @@ public class ChatlistsActivity extends AppCompatActivity {
         });
 
         profileBtn.setOnClickListener(v ->{
-
+            Intent profileIntent = new Intent(this, ProfileActivity.class);
+            startActivity(profileIntent);
         });
 
     }
