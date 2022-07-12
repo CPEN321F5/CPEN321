@@ -1,0 +1,74 @@
+{
+    //data sent to the user when requesting for chat room list
+    "ChatList" :[
+        {
+            "conversationID" : "0000",
+            "name" : "Alice",
+            "Last message" : "this is a message",
+            "Time"          : "July 10, 10:10" 
+        },
+        {
+            "conversationID" : "0001",
+            "name" : "Bob",
+            "Last message" : "this is a message",
+            "Time"          : "July 10, 10:10" 
+        }
+    ]
+}
+
+
+//data stored in Chat DB:
+
+{
+    "conversationID" : "id of the conversation",
+    "user1"          : "11111",
+    "user2"          : "22222",
+    "messages"       : [
+        {
+            "userID"    :  "11111",
+            "type"      :  "text",
+            "message"   :  "This is a message",
+            "time"      :  "epoch time"
+        }
+    ]
+}
+
+//API for starting a conversation
+post start conversation
+    send user 1 and user 2 to server
+    if first time, server returns new conversation object
+    else returns a existing conversation object 
+
+    client reciev the conversation object and goes to chat page
+
+get conversation list
+    send own user id
+    recieve a list of json object, each with conversation id and essental info
+    
+    client renders conversation list
+
+get conversation
+    client send conversation id
+    recieve the conversation object //message may be limited to reduce chance of huge http response
+
+
+socket:
+
+connection: user send the conversation id it is connecting to
+
+send message: {
+    "conversationID" : "0000",
+    "userID"    :  "11111",
+    "type"      :  "text",
+    "message"   :  "This is a message",
+    "time"      :  "epoch time"
+}
+
+    server add message to conversation
+    relay information to other client connected with the same conversation ID
+
+recieve message:
+    client recieve message from socket
+    renders message to message list
+
+
