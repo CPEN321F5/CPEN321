@@ -37,8 +37,12 @@ public class AdminResponseActivity extends AppCompatActivity
     String POSTRESPONSEURL = "http://20.106.78.177:8081/item/updateitem/";
 
     EditText _adminResponse;
+    EditText _adminNeeded;
+    TextView _disputeReason;
 
     String adminResponse;
+    String disputeReason;
+    String adminNeeded;
 
 
     @SuppressLint("SetTextI18n")
@@ -61,10 +65,13 @@ public class AdminResponseActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 _adminResponse = findViewById(R.id.response_caption);
+                _adminNeeded = findViewById(R.id.admin_caption);
 
                 adminResponse = _adminResponse.getText().toString();
+                adminNeeded = _adminNeeded.getText().toString();
 
                 Log.d(TAG, "RESPONSE = " + adminResponse);
+                Log.d(TAG, "ADMIN NEEDED = " + adminNeeded);
 
                 if (validCheck())
                 {
@@ -87,10 +94,17 @@ public class AdminResponseActivity extends AppCompatActivity
                 try
                 {
                     adminResponse = response.getString("adminResponse");
-
+                    disputeReason = response.getString("refundDescription");
+                    adminNeeded = response.getString("needAdmin");
 
                     _adminResponse = findViewById(R.id.response_caption);
                     _adminResponse.setText(adminResponse);
+
+                    _adminNeeded = findViewById(R.id.admin_caption);
+                    _adminNeeded.setText(adminNeeded);
+
+                    _disputeReason = findViewById(R.id.reason_caption);
+                    _disputeReason.setText("Reason For Dispute: " + disputeReason);
 
                     Toast.makeText(AdminResponseActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
@@ -140,6 +154,7 @@ public class AdminResponseActivity extends AppCompatActivity
                 params.put("ItemID", AdminDisputeActivity.AdminItemID);
 
                 params.put("adminResponse", adminResponse);
+                params.put("needAdmin", adminNeeded);
 
                 return params;
             }

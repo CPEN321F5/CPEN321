@@ -21,6 +21,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:hint="Admin Needed">
+
+                <EditText
+                    android:id="@+id/admin_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/name"
+                    android:drawablePadding="10dp"
+                    android:text=""/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:hint="Response">
 
                 <EditText
@@ -39,6 +55,18 @@
                 android:layout_height="wrap_content"
                 android:text="UPDATE">
             </Button>
+
+            <TextView
+                android:id="@+id/reason_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/update_button" />
 
         </LinearLayout>
 

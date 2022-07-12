@@ -31,7 +31,7 @@ public class AdminDisputeActivity extends AppCompatActivity
     public static String AdminItemID;
 
     String searchKey = MainActivity.idOfUser;
-    String GETADMINDISPUTEURL = "http://20.106.78.177:8081/item/getbycond/refund/1";
+    String GETADMINDISPUTEURL = "http://20.106.78.177:8081/item/getbycond/admin/1";
 
     RequestQueue requestQueue;
     private static List<String> itemIDList;

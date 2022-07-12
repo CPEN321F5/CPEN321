@@ -16,7 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -47,6 +49,12 @@ public class MainUI extends AppCompatActivity {
         String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
         String myID = MainActivity.idOfUser;
         String chatList_url = chatList_init_url + myID;
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -162,31 +170,28 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-//        logoutButton = findViewById(R.id.logout_button);
-//        logoutButton.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                if (v.getId() == R.id.logout_button)
-//                {
-//                    signOut();
-//                }
-//            }
-//        });
+        logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                signOut();
+            }
+        });
     }
 
-//    private void signOut()
-//    {
-//        mGoogleSignInClient.signOut()
-//                .addOnCompleteListener(this, new OnCompleteListener<Void>()
-//                {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task)
-//                    {
-//                        Intent logoutActivity = new Intent(MainUI.this, MainActivity.class);
-//                        startActivity(logoutActivity);
-//                    }
-//                });
-//    }
+    private void signOut()
+    {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        Intent logoutActivity = new Intent(MainUI.this, MainActivity.class);
+                        startActivity(logoutActivity);
+                    }
+                });
+    }
 }
