@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatAdapter extends RecyclerView.Adapter {
 
@@ -32,17 +33,22 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private String userID1;
     private String userID2;
     private String user2name;
+    private String user1name;
+    private String othername;
     private String conversationID;
     private List<JSONObject> messages = new ArrayList<>();
 
-    public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String userID2, String user2name, String conversationID) {
+    public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String userID2, String user1name, String user2name, String conversationID) {
 
         this.chatInflate = chatInflate;
         this.userID1 = userID1;
         this.userID2 = userID2;
+        this.user1name = user1name;
         this.user2name = user2name;
         this.conversationID = conversationID;
         this.myID = myID;
+
+        this.othername = Objects.equals(userID1, myID) ? user2name : user1name;
 
     }
 
@@ -156,12 +162,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
             } else {
                 if (!message.has("image")) {
                     ReceiveTextHolder textHolder = (ReceiveTextHolder) holder;
-                    textHolder.nameText.setText(user2name);
+                    textHolder.nameText.setText(othername);
                     textHolder.messageText.setText(message.getString("message"));
                     textHolder.receiveTime.setText(date);
                 } else {
                     ReceiveImageHolder imageHolder = (ReceiveImageHolder) holder;
-                    imageHolder.nameText.setText(user2name);
+                    imageHolder.nameText.setText(othername);
                     Bitmap bitmap = getBitmapFromString(message.getString("image"));
                     imageHolder.imageView.setImageBitmap(bitmap);
                     imageHolder.receiveTime.setText(date);
