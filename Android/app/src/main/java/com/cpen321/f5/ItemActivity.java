@@ -56,10 +56,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     TextView _itemLocation;
     TextView _itemNumber;
 
-    private Button bidButton;
-    private Button contactsellerButton;
-
-
     String itemName;
     //String itemPrice;
     String itemCategory;
@@ -76,13 +72,17 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     LocationManager locationManager;
     private int distance;
     private double lat, lon;
-    private double lat_item, lon_item;
+    private double lat_item;
+    private double lon_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        Button contactsellerButton;
+        Button bidButton;
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

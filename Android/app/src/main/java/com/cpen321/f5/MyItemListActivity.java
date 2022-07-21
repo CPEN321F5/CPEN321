@@ -63,6 +63,7 @@ public class MyItemListActivity extends AppCompatActivity
             public void onResponse(JSONArray response)
             {
                 JSONArray jsonArray = response;
+                Toast.makeText(MyItemListActivity.this,"CURRENT USER ID: " + searchKey,Toast.LENGTH_SHORT).show();
                 try
                 {
                     for (int i = 0; i < jsonArray.length(); i++)

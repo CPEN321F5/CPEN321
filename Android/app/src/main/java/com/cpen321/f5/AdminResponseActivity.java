@@ -3,7 +3,7 @@ package com.cpen321.f5;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+//import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,8 +29,6 @@ public class AdminResponseActivity extends AppCompatActivity
 {
     private static final String TAG = "AdminResponseActivity";
 
-    private Button updateButton;
-
     RequestQueue requestQueue;
 
     String GETRESPONSEURL = "http://20.106.78.177:8081/item/getbyid/" + AdminDisputeActivity.AdminItemID + "/";
@@ -51,6 +49,8 @@ public class AdminResponseActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_response);
+
+        Button updateButton;
 
         requestQueue = Volley.newRequestQueue(this);
 

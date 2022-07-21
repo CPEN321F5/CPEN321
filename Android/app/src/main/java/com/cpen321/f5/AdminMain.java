@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,6 +36,8 @@ public class AdminMain extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        Log.d(TAG, "CURRENTLY IN ADMIN UI");
 
         searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener()

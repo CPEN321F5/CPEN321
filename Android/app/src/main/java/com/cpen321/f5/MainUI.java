@@ -28,20 +28,23 @@ public class MainUI extends AppCompatActivity {
     private Button searchButton;
     private Button postButton;
     private Button checkoutButton;
-    private Button profileButton;
+
     private Button chatButton;
-    private Button logoutButton;
-    private ImageButton IB1;
-    private ImageButton IB2;
-    private ImageButton IB3;
-    private ImageButton IB4;
-    private ImageButton IB5;
-    private ImageButton IB6;
 
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button logoutButton;
+        Button profileButton;
+
+        ImageButton IB1;
+        ImageButton IB2;
+        ImageButton IB3;
+        ImageButton IB4;
+        ImageButton IB5;
+        ImageButton IB6;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
         //initial commit

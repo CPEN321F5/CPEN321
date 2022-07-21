@@ -28,7 +28,6 @@ public class AdminSearchActivity extends AppCompatActivity
     private static final String TAG = "AdminSearchActivity";
 
     String searchKey;
-    private Button searchButton;
     RequestQueue requestQueue;
     private static List<String> adminItemIDList;
 
@@ -37,6 +36,8 @@ public class AdminSearchActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_search);
+
+        Button searchButton;
 
         requestQueue = Volley.newRequestQueue(this);
 

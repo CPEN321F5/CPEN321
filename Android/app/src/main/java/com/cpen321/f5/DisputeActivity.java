@@ -28,9 +28,6 @@ public class DisputeActivity extends AppCompatActivity
 {
     private static final String TAG = "DisputeActivity";
 
-    private Button submitButton;
-    private Button checkButton;
-
     RequestQueue requestQueue;
 
 
@@ -52,6 +49,9 @@ public class DisputeActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispute);
+
+        Button checkButton;
+        Button submitButton;
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -108,7 +108,7 @@ public class DisputeActivity extends AppCompatActivity
     {
         String DISPUTEUPDATEURL = "http://20.106.78.177:8081/item/updateitem/";
 
-        JSONObject jsonObject = new JSONObject();
+        //JSONObject jsonObject = new JSONObject();
         RequestQueue queue = Volley.newRequestQueue(DisputeActivity.this);
 
         StringRequest postRequest = new StringRequest(Request.Method.PUT, DISPUTEUPDATEURL,

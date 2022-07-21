@@ -29,11 +29,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
 
-    private Button postButton;
-    private Button itemsButton;
-    private Button disputeButton;
-    private Button updateButton;
-
     RequestQueue requestQueue;
 
     String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
@@ -71,6 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        Button itemsButton;
+        Button postButton;
+        Button disputeButton;
+        Button updateButton;
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -291,21 +291,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean validCheck()
     {
-        if (email.equals(""))
+        if (email.equals("") || phone.equals(""))
         {
-            Toast.makeText(ProfileActivity.this, "Email Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "Email Or Phone Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (firstName.equals(""))
+        if (firstName.equals("") || lastName.equals(""))
         {
-            Toast.makeText(ProfileActivity.this, "First Name Cannot Be Empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (lastName.equals(""))
-        {
-            Toast.makeText(ProfileActivity.this, "Last Name Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "Name Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -315,27 +309,15 @@ public class ProfileActivity extends AppCompatActivity {
             return false;
         }
 
-        if (city.equals(""))
+        if (city.equals("") || country.equals(""))
         {
-            Toast.makeText(ProfileActivity.this, "City Cannot Be Empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (country.equals(""))
-        {
-            Toast.makeText(ProfileActivity.this, "Country Cannot Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, "City Or Country Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (zip.equals(""))
         {
             Toast.makeText(ProfileActivity.this, "ZIP Code Cannot Be Empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (phone.equals(""))
-        {
-            Toast.makeText(ProfileActivity.this, "Phone Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;
         }
 
