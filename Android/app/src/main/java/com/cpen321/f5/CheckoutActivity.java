@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 
-import com.cpen321.f5.R;
 import com.cpen321.f5.viewmodel.CheckoutViewModel;
 
 import java.util.Locale;
@@ -35,7 +34,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private CheckoutViewModel model;
 
-    private ActivityCheckoutBinding layoutBinding;
     private View googlePayButton;
 
     /**
@@ -55,7 +53,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private void initializeUi() {
 
         // Use view binding to access the UI elements
-        layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
+        com.cpen321.f5.databinding.ActivityCheckoutBinding layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(layoutBinding.getRoot());
 
         // The Google Pay button is a layout file – take the root view
@@ -109,28 +107,30 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            // value passed in AutoResolveHelper
-            case LOAD_PAYMENT_DATA_REQUEST_CODE:
-                switch (resultCode) {
+        // value passed in AutoResolveHelper
+        if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
+            switch (resultCode) {
 
-                    case AppCompatActivity.RESULT_OK:
-                        PaymentData paymentData = PaymentData.getFromIntent(data);
-                        handlePaymentSuccess(paymentData);
-                        break;
+                case AppCompatActivity.RESULT_OK:
+                    PaymentData paymentData = PaymentData.getFromIntent(data);
+                    handlePaymentSuccess(paymentData);
+                    break;
 
-                    case AppCompatActivity.RESULT_CANCELED:
-                        // The user cancelled the payment attempt
-                        break;
+                case AppCompatActivity.RESULT_CANCELED:
+                    // The user cancelled the payment attempt
+                    break;
 
-                    case AutoResolveHelper.RESULT_ERROR:
-                        Status status = AutoResolveHelper.getStatusFromIntent(data);
-                        handleError(status);
-                        break;
-                }
+                case AutoResolveHelper.RESULT_ERROR:
+                    Status status = AutoResolveHelper.getStatusFromIntent(data);
+                    handleError(status);
+                    break;
 
-                // Re-enables the Google Pay payment button.
-                googlePayButton.setClickable(true);
+                default:
+                    break;
+            }
+
+            // Re-enables the Google Pay payment button.
+            googlePayButton.setClickable(true);
         }
     }
 
@@ -162,7 +162,8 @@ public class CheckoutActivity extends AppCompatActivity {
             Log.d("Google Pay token: ", token);
 
         } catch (JSONException e) {
-            throw new RuntimeException("The selected garment cannot be parsed from the list of elements");
+            Log.e("CheckoutActivity", "The selected garment cannot be parsed from the list of elements");
+            //throw new RuntimeException("The selected garment cannot be parsed from the list of elements");
         }
     }
 

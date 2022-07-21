@@ -24,7 +24,7 @@ import java.util.List;
  * <li> If you're using {@code DIRECT} integration, please edit protocol version and public key as
  *      per the instructions.
  */
-public class Constants {
+public class ConstantsUtils {
 
     /**
      * Changing this to ENVIRONMENT_PRODUCTION will make the API return chargeable card information.

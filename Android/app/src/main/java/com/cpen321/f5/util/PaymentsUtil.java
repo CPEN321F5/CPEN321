@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.cpen321.f5.Constants;
+import com.cpen321.f5.ConstantsUtils;
 
 /**
  * Contains helper static methods for dealing with the Payments API.
@@ -37,13 +37,13 @@ public class PaymentsUtil {
 
     /**
      * Creates an instance of {@link PaymentsClient} for use in an {@link Context} using the
-     * environment and theme set in {@link Constants}.
+     * environment and theme set in {@link ConstantsUtils}.
      *
      * @param context is the caller's context.
      */
     public static PaymentsClient createPaymentsClient(Context context) {
         Wallet.WalletOptions walletOptions =
-                new Wallet.WalletOptions.Builder().setEnvironment(Constants.PAYMENTS_ENVIRONMENT).build();
+                new Wallet.WalletOptions.Builder().setEnvironment(ConstantsUtils.PAYMENTS_ENVIRONMENT).build();
         return Wallet.getPaymentsClient(context, walletOptions);
     }
 
@@ -82,16 +82,16 @@ public class PaymentsUtil {
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#PaymentMethodTokenizationSpecification">PaymentMethodTokenizationSpecification</a>
      */
-    private static JSONObject getDirectTokenizationSpecification()
-            throws JSONException, RuntimeException {
-        JSONObject tokenizationSpecification = new JSONObject();
-
-        tokenizationSpecification.put("type", "DIRECT");
-        JSONObject parameters = new JSONObject(Constants.DIRECT_TOKENIZATION_PARAMETERS);
-        tokenizationSpecification.put("parameters", parameters);
-
-        return tokenizationSpecification;
-    }
+//    private static JSONObject getDirectTokenizationSpecification()
+//            throws JSONException, RuntimeException {
+//        JSONObject tokenizationSpecification = new JSONObject();
+//
+//        tokenizationSpecification.put("type", "DIRECT");
+//        JSONObject parameters = new JSONObject(ConstantsUtils.DIRECT_TOKENIZATION_PARAMETERS);
+//        tokenizationSpecification.put("parameters", parameters);
+//
+//        return tokenizationSpecification;
+//    }
 
     /**
      * Card networks supported by your app and your gateway.
@@ -103,7 +103,7 @@ public class PaymentsUtil {
      * href="https://developers.google.com/pay/api/android/reference/object#CardParameters">CardParameters</a>
      */
     private static JSONArray getAllowedCardNetworks() {
-        return new JSONArray(Constants.SUPPORTED_NETWORKS);
+        return new JSONArray(ConstantsUtils.SUPPORTED_NETWORKS);
     }
 
     /**
@@ -117,7 +117,7 @@ public class PaymentsUtil {
      * href="https://developers.google.com/pay/api/android/reference/object#CardParameters">CardParameters</a>
      */
     private static JSONArray getAllowedCardAuthMethods() {
-        return new JSONArray(Constants.SUPPORTED_METHODS);
+        return new JSONArray(ConstantsUtils.SUPPORTED_METHODS);
     }
 
     /**
@@ -199,8 +199,8 @@ public class PaymentsUtil {
         JSONObject transactionInfo = new JSONObject();
         transactionInfo.put("totalPrice", price);
         transactionInfo.put("totalPriceStatus", "FINAL");
-        transactionInfo.put("countryCode", Constants.COUNTRY_CODE);
-        transactionInfo.put("currencyCode", Constants.CURRENCY_CODE);
+        transactionInfo.put("countryCode", ConstantsUtils.COUNTRY_CODE);
+        transactionInfo.put("currencyCode", ConstantsUtils.CURRENCY_CODE);
         transactionInfo.put("checkoutOption", "COMPLETE_IMMEDIATE_PURCHASE");
 
         return transactionInfo;
@@ -243,7 +243,7 @@ public class PaymentsUtil {
             JSONObject shippingAddressParameters = new JSONObject();
             shippingAddressParameters.put("phoneNumberRequired", false);
 
-            JSONArray allowedCountryCodes = new JSONArray(Constants.SHIPPING_SUPPORTED_COUNTRIES);
+            JSONArray allowedCountryCodes = new JSONArray(ConstantsUtils.SHIPPING_SUPPORTED_COUNTRIES);
 
             shippingAddressParameters.put("allowedCountryCodes", allowedCountryCodes);
             paymentDataRequest.put("shippingAddressParameters", shippingAddressParameters);

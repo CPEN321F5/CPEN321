@@ -26,7 +26,6 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
     final String TAG = "SearchActivity";
     String searchKey;
-    private Button searchButton;
     RequestQueue requestQueue;
     private static List<String> itemIDList;
 
@@ -39,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        searchButton = findViewById(R.id.search_button);
+        Button searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -90,7 +90,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
             try {
                 userID1 = JsonConversation.getString("user1");
-                String userID2 = JsonConversation.getString("user2");
+                //String userID2 = JsonConversation.getString("user2");
                 user1name = JsonConversation.getString("user1name");
                 user2name = JsonConversation.getString("user2name");
                 messagesJson = JsonConversation.getJSONArray("messages");
@@ -211,7 +211,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
         /*initialize adapter */
 
-        chatAdapter = new ChatAdapter(getLayoutInflater(),myID,  userID1, user1name, user2name);
+        chatAdapter = new ChatAdapter(getLayoutInflater(), myID,  userID1, user1name, user2name);
         recycleContent.setAdapter(chatAdapter);
         recycleContent.setLayoutManager(new LinearLayoutManager(this));
 
