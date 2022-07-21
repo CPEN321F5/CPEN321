@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,32 +27,22 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private static final int IMAGE_SENT = 2;
     private static final int IMAGE_RECEIVE = 3;
 
-    private LayoutInflater chatInflate; // instantiate the contents of layout XML files into View objects
-    private String myID;
-    private String userID1;
-    private String userID2;
-    private String user2name;
-    private String user1name;
-    private String othername;
-    private String conversationID;
-    private List<JSONObject> messages = new ArrayList<>();
+    private final LayoutInflater chatInflate; // instantiate the contents of layout XML files into View objects
+    private final String myID;
+    private final String othername;
+    private final List<JSONObject> messages = new ArrayList<>();
 
     public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String userID2, String user1name, String user2name, String conversationID) {
 
         this.chatInflate = chatInflate;
-        this.userID1 = userID1;
-        this.userID2 = userID2;
-        this.user1name = user1name;
-        this.user2name = user2name;
-        this.conversationID = conversationID;
         this.myID = myID;
-
         this.othername = Objects.equals(userID1, myID) ? user2name : user1name;
 
     }
 
     private class SentTextHolder extends RecyclerView.ViewHolder {
-        TextView messageText, sendTime;;
+        TextView messageText;
+        TextView sendTime;
         public SentTextHolder(@NonNull View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.sentText);
@@ -62,7 +51,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     private class ReceiveTextHolder extends RecyclerView.ViewHolder {
-        TextView nameText, messageText, receiveTime;
+        TextView nameText;
+        TextView messageText;
+        TextView receiveTime;
         public ReceiveTextHolder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.NameText);
@@ -83,7 +74,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     private class ReceiveImageHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView nameText, receiveTime;
+        TextView nameText;
+        TextView receiveTime;
         public ReceiveImageHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.receiveImage);
@@ -132,6 +124,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
             case IMAGE_RECEIVE:
                 view = chatInflate.inflate(R.layout.item_receive_image, parent, false);
                 return new ReceiveImageHolder(view);
+            default:
+                Log.d("ChatAdapter", "invalid view type");
         }
         return null;
     }

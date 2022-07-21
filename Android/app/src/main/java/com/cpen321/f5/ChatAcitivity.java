@@ -3,7 +3,6 @@ package com.cpen321.f5;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,7 +24,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,14 +36,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.Socket;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -58,26 +52,17 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
     private WebSocket webSocket;
     private EditText messageText;
-    private TextView chatRoomName;
-    private View sendButton;
-    private View imageButton;
-    private View cameraButton;
-    private View chatListButton;
-    private View homeButton;
     private RecyclerView recycleContent;
     private String PATHofSERVER ="ws://20.106.78.177:8080";
-    private File photo;
     private Uri imageUri;
     private ChatAdapter chatAdapter;
 
-    private String wholeConversation;
     private JSONObject JsonConversation;
     private String myID = "1";
     private String userID1;
     private String userID2;
     private String user1name;
     private String user2name;
-    private String messagesString;
     private JSONArray messagesJson;
     private String conversationID;
 
@@ -90,13 +75,13 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_acitivity);
 
-        wholeConversation = getIntent().getStringExtra("conversations");
+        String wholeConversation = getIntent().getStringExtra("conversations");
 
 
 
 
         //get items from JSON
-        if( wholeConversation!= null){
+        if( wholeConversation != null){
             try {
                 JsonConversation = new JSONObject(wholeConversation);
             } catch (JSONException e) {
@@ -187,12 +172,12 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        //required override method
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+        //required override method
     }
 
     @Override
@@ -210,13 +195,13 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     }
 
     private void initView() throws JSONException {
-        chatRoomName = findViewById(R.id.chatRoomName);
+        TextView chatRoomName = findViewById(R.id.chatRoomName);
         messageText = findViewById(R.id.editMessage);
-        sendButton = findViewById(R.id.Send_button);
-        imageButton = findViewById(R.id.image_button);
-        cameraButton = findViewById(R.id.camera_button);
-        chatListButton = findViewById(R.id.chatList_chatroom_button);
-        homeButton = findViewById(R.id.home_chatroom_button);
+        View sendButton = findViewById(R.id.Send_button);
+        View imageButton = findViewById(R.id.image_button);
+        View cameraButton = findViewById(R.id.camera_button);
+        View chatListButton = findViewById(R.id.chatList_chatroom_button);
+        View homeButton = findViewById(R.id.home_chatroom_button);
         recycleContent = findViewById(R.id.recyclerView);
         if(Objects.equals(myID, userID1)){
             chatRoomName.setText(user2name);
@@ -265,7 +250,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
 
-                photo = new File(getExternalCacheDir(), "output_photo.jpg");
+                File photo = new File(getExternalCacheDir(), "output_photo.jpg");
 
                 //if the same photo exist, directly use the existing one
                 try {
@@ -340,7 +325,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
                 }
             });
 
-    private ActivityResultLauncher<Intent> requestForAlbum =
+    private final ActivityResultLauncher<Intent> requestForAlbum =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result){

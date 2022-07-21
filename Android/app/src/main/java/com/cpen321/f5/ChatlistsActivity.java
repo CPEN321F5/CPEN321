@@ -6,37 +6,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ChatlistsActivity extends AppCompatActivity {
 
-    private String current_userID;
-    private String coresChats;
-    private JSONArray coresChatsJson;
-    //private JSONArray chatListJson = new JSONArray();
-    private RecyclerView chatList;
-    private ImageView homeBtn, profileBtn;
-    private ChatListAdapter chatListAdapter;
-    //get from server
-    private String wholeConversationList;
     private JSONArray JsonConversationList;
     private String myID;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatlists);
-        wholeConversationList = getIntent().getStringExtra("conversationsList");
+        //get from server
+        String wholeConversationList = getIntent().getStringExtra("conversationsList");
         myID = getIntent().getStringExtra("myID");
         //parse data
-        if( wholeConversationList!= null){
+        if( wholeConversationList != null){
             try {
                 JsonConversationList = new JSONArray(wholeConversationList);
             } catch (JSONException e) {
@@ -49,11 +37,12 @@ public class ChatlistsActivity extends AppCompatActivity {
 
     private void initView() {
 
-        chatList = findViewById(R.id.chatLists);
-        homeBtn = findViewById(R.id.home_chat_button);
-        profileBtn = findViewById(R.id.profile_chat_button);
+        //private JSONArray chatListJson = new JSONArray();
+        RecyclerView chatList = findViewById(R.id.chatLists);
+        ImageView homeBtn = findViewById(R.id.home_chat_button);
+        ImageView profileBtn = findViewById(R.id.profile_chat_button);
 
-        chatListAdapter = new ChatListAdapter(getLayoutInflater(), myID);
+        ChatListAdapter chatListAdapter = new ChatListAdapter(getLayoutInflater(), myID);
         chatList.setAdapter(chatListAdapter);
         chatList.setLayoutManager(new LinearLayoutManager(this));
 

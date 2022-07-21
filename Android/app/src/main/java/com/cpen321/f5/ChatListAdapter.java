@@ -15,7 +15,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -23,9 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
-public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.singleListHolder> {
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.SingleListHolder> {
 
     private LayoutInflater chatListInflate;
     private String myID;
@@ -41,13 +38,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.single
 
     @NonNull
     @Override
-    public singleListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SingleListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = chatListInflate.inflate(R.layout.single_chat_layout, parent,false);
-        return new singleListHolder(view);
+        return new SingleListHolder(view);
     }
 
     @Override //get data
-    public void onBindViewHolder(@NonNull singleListHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SingleListHolder holder, int position) {
         /* TO DO
          * username
          * last message (check if last message is an image then show [click to see image...])
@@ -105,13 +102,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.single
         notifyDataSetChanged();
     }
 
-    public static class singleListHolder extends RecyclerView.ViewHolder{
-        TextView userName, lastMessage, lastTime;
+    public static class SingleListHolder extends RecyclerView.ViewHolder{
+        TextView userName;
+        TextView lastMessage;
+        TextView lastTime;
         Button deleteBtn;
         String conversationID;
         String chatGet_url;
 
-        public singleListHolder(@NonNull View itemView) {
+        public SingleListHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.Username);
             lastMessage = itemView.findViewById(R.id.lastMessage);
