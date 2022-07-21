@@ -1,6 +1,5 @@
 package com.cpen321.f5;
 
-import static com.android.volley.VolleyLog.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -9,9 +8,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -21,8 +18,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +33,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -50,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 public class PostActivity extends AppCompatActivity implements LocationListener{
@@ -64,12 +57,11 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     String postTime;
     String timeExpire;
 
-    public static double lat, lon;
+    public static double lat;
+    public static double lon;
 
     private final String TAG = "PostActivity";
 
-    private Button postButton;
-    private Button cancelButton;
     private TextView showLocation;
 
     LocationManager locationManager;
@@ -101,9 +93,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 
 
-
-
-        postButton = findViewById(R.id.post_post);
+        Button postButton = findViewById(R.id.post_post);
         postButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -139,7 +129,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
             }
         });
 
-        cancelButton = findViewById(R.id.post_cancel);
+        Button cancelButton = findViewById(R.id.post_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +225,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     }
 
     private String getTime(){
-        String time;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         return formatter.format(date);
@@ -254,7 +243,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
             List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
             //Log.d(TAG, "debug sign: " + addresses.size() + "---" + lat + "---" + lon);
             String cityName = addresses.get(0).getLocality();
-            //Log.d(TAG, "*************city name: " + cityName);
+            Log.d(TAG, "*************city name: " + cityName);
 
             Formatter formatter = new Formatter();
             formatter.format("%.5f", lat);

@@ -25,11 +25,6 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONArray;
 
 public class MainUI extends AppCompatActivity {
-    private Button searchButton;
-    private Button postButton;
-    private Button checkoutButton;
-
-    private Button chatButton;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -59,7 +54,7 @@ public class MainUI extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        searchButton = findViewById(R.id.search_button);
+        Button searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +63,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        postButton = findViewById(R.id.post_button);
+        Button postButton = findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +72,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        checkoutButton = findViewById(R.id.checkout_button);
+        Button checkoutButton = findViewById(R.id.checkout_button);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +90,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        chatButton = findViewById(R.id.chat_button);
+        Button chatButton = findViewById(R.id.chat_button);
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

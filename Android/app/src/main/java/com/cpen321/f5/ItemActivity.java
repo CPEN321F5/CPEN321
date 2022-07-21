@@ -70,10 +70,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + tmpID + "/";;
 
     LocationManager locationManager;
-    private int distance;
-    private double lat, lon;
-    private double lat_item;
-    private double lon_item;
+    private double lat;
+    private double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -177,15 +175,15 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
 
-                    lon_item = Double.parseDouble(itemLocationLong);
-                    lat_item = Double.parseDouble(itemLocationLat);
+                    double lon_item = Double.parseDouble(itemLocationLong);
+                    double lat_item = Double.parseDouble(itemLocationLat);
 
                     Log.d(TAG, "lat = " + lat);
                     Log.d(TAG, "lon = " + lon);
                     Log.d(TAG, "lat_item = " + lat_item);
                     Log.d(TAG, "lon_item = " + lon_item);
 
-                    distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
+                    int distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
 
                     Log.d(TAG, "distance = " + distance);
 
@@ -284,7 +282,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
             List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
             Log.d(TAG, "debug sign: " + addresses.size() + "---" + lat + "---" + lon);
             String cityName = addresses.get(0).getLocality();
-            //Log.d(TAG, "*************city name: " + cityName);
+            Log.d(TAG, "city name: " + cityName);
 
             Formatter formatter = new Formatter();
             formatter.format("%.5f", lat);

@@ -60,7 +60,6 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     private JSONObject JsonConversation;
     private String myID = "1";
     private String userID1;
-    private String userID2;
     private String user1name;
     private String user2name;
     private JSONArray messagesJson;
@@ -91,7 +90,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
             try {
                 userID1 = JsonConversation.getString("user1");
-                userID2 = JsonConversation.getString("user2");
+                String userID2 = JsonConversation.getString("user2");
                 user1name = JsonConversation.getString("user1name");
                 user2name = JsonConversation.getString("user2name");
                 messagesJson = JsonConversation.getJSONArray("messages");

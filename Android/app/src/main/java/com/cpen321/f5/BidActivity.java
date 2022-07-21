@@ -1,11 +1,8 @@
 package com.cpen321.f5;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ClipData;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,21 +19,17 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class BidActivity extends AppCompatActivity {
     private final String TAG = "BidActivity";
 
-    private Button bidButton;
-    private FloatingActionButton addButton, subButton;
-    private TextView toAddPriceText, currentPriceText, priceHolderText, expireTimeText;
+    private TextView toAddPriceText;
+    private TextView currentPriceText;
+    private TextView priceHolderText;
     int currentPrice = Integer.parseInt(ItemActivity.itemPrice);
     int stepPrice = Integer.parseInt(ItemActivity.stepPrice);
     String currentPriceHolder = ItemActivity.highestPriceHolder;
@@ -61,14 +54,14 @@ public class BidActivity extends AppCompatActivity {
         //formattedExpireTime = ItemActivity.expireTime;
         Log.d(TAG, "time = " + formattedExpireTime);
 
-        addButton = findViewById(R.id.add_button);
-        subButton = findViewById(R.id.sub_button);
-        bidButton = findViewById(R.id.inner_bid_button);
+        FloatingActionButton addButton = findViewById(R.id.add_button);
+        FloatingActionButton subButton = findViewById(R.id.sub_button);
+        Button bidButton = findViewById(R.id.inner_bid_button);
 
         toAddPriceText = findViewById(R.id.to_add_price);
         currentPriceText = findViewById(R.id.currentPrice);
         priceHolderText = findViewById(R.id.highestBidder);
-        expireTimeText = findViewById(R.id.end_time);
+        TextView expireTimeText = findViewById(R.id.end_time);
 
         currentPriceText.setText(Integer.toString(currentPrice));
         priceHolderText.setText(currentPriceHolder);
