@@ -53,7 +53,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private void initializeUi() {
 
         // Use view binding to access the UI elements
-        com.cpen321.f5.databinding.ActivityCheckoutBinding layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
+        ActivityCheckoutBinding layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(layoutBinding.getRoot());
 
         // The Google Pay button is a layout file – take the root view
