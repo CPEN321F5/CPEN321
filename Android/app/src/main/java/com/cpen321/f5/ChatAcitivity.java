@@ -212,7 +212,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
 
         /*initialize adapter */
 
-        chatAdapter = new ChatAdapter(getLayoutInflater(),myID,  userID1, userID2, user1name, user2name, conversationID);
+        chatAdapter = new ChatAdapter(getLayoutInflater(),myID,  userID1, user1name, user2name);
         recycleContent.setAdapter(chatAdapter);
         recycleContent.setLayoutManager(new LinearLayoutManager(this));
 

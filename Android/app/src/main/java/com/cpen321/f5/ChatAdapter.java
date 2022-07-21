@@ -32,7 +32,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private final String othername;
     private final List<JSONObject> messages = new ArrayList<>();
 
-    public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String userID2, String user1name, String user2name, String conversationID) {
+    public ChatAdapter (LayoutInflater chatInflate, String myID, String userID1, String user1name, String user2name) {
 
         this.chatInflate = chatInflate;
         this.myID = myID;
@@ -126,8 +126,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 return new ReceiveImageHolder(view);
             default:
                 Log.d("ChatAdapter", "invalid view type");
+                return null;
         }
-        return null;
     }
 
     @Override //get data
