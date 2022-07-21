@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID } = require('mongodb');	// require the mongodb driver
+const { MongoClient } = require('mongodb');	// require the mongodb driver
 
 //connect to a new database
 function Database(mongoUrl, dbName){

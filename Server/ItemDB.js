@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID } = require('mongodb');	// require the mongodb driver
+const { MongoClient } = require('mongodb');	// require the mongodb driver
 
 //connect to a new database
 function Database(mongoUrl, dbName){
@@ -32,7 +32,7 @@ Database.prototype.postItem = function(item){
             var item_id = Date.now()
             item.ItemID = item_id.toString()
             console.log("[ItemDB] Adding an item to DB")
-            var result = db.collection("Items").insertOne(item)
+            db.collection("Items").insertOne(item)
             resolve(item)
         })
     )
@@ -85,7 +85,7 @@ Database.prototype.getItemByCondition = function(query){
     console.log(query)
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            var items = db.collection("Items").find(query).toArray((err, result) => {
+            db.collection("Items").find(query).toArray((err, result) => {
                 if(err){
                     reject(err)
                 }

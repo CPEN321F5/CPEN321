@@ -78,7 +78,7 @@ Chat_module.prototype.getConversationList = function(UserID){
             //using a promise to wait for all async code in for each to finish
             var conversation_promist = new Promise((resolve, reject) => {
                 //no message for user, return empty list
-                if(loop_count == 0){
+                if(loop_count === 0){
                     resolve([])
                 }
                 conversations.forEach((conversation, index, array) => {
@@ -89,7 +89,6 @@ Chat_module.prototype.getConversationList = function(UserID){
         
                     //getting the userid and name of the other user
                     var other_user_id
-                    var other_user_name
                     if(conversation.user1 == UserID){
                         other_user_id = conversation.user2
                     }
@@ -104,7 +103,7 @@ Chat_module.prototype.getConversationList = function(UserID){
                         this.chat_db.findNewestMessage(conversation.conversationID, 1).then(messages => {
                             if(messages[0]){
                                 chatlistEntry.Last_message = messages[0].message
-                                var date = new Date(parseInt(messages[0].time))
+                                var date = new Date(parseInt(messages[0].time), 10)
                                 chatlistEntry.Time = date.toLocaleString()
                             }
                             else{
@@ -135,7 +134,7 @@ Chat_module.prototype.getConversationList = function(UserID){
 Chat_module.prototype.getConversation = function(conversationID){
     return new Promise((resolve, reject) => {
         this.chat_db.getConversation(conversationID).then(conversation => {
-            if(conversation.hasOwnProperty("user1") && conversation.hasOwnProperty("user2")){
+            if(Object.prototype.hasOwnProperty.call(conversation, "user1") && Object.prototype.hasOwnProperty.call(conversation, "user2")){
                 this.chat_db.getUserName(conversation.user1.toString()).then(name1 => {
                     this.chat_db.getUserName(conversation.user2.toString()).then(name2 => {
                         //got the username for each userid
@@ -152,11 +151,12 @@ Chat_module.prototype.getConversation = function(conversationID){
 //Add message to a conversation
 //message need to have conversationID
 Chat_module.prototype.addMessage = function(message){
-    if(!message.hasOwnProperty("conversationID")){
+    Object.prototype.hasOwnProperty.call(message, "user1")
+    if(!Object.prototype.hasOwnProperty.call(message, "conversationID")){
         console.log("[ChatModule] recieved a homeless message without conversation iD")
     }
-    else if(!message.hasOwnProperty("userID") 
-            || !message.hasOwnProperty("time"))
+    else if(!Object.prototype.hasOwnProperty.call(message, "userID") 
+            || !Object.prototype.hasOwnProperty.call(message, "time"))
             {
         console.log("[ChatModule] recieved a invalid message")
     }

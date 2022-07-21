@@ -1,4 +1,3 @@
-const { query } = require('express')
 const Item_Database = require('./ItemDB.js')
 
 function Item_module(){

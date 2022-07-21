@@ -1,5 +1,4 @@
 var express = require("express")
-var bodyParser = require("body-parser")
 var app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true })) // to parse application/x-www-form-urlencoded
@@ -34,7 +33,7 @@ app.post("/user/signin/:user_id", (req,res) => {
 //put request for updating profile for a user
 app.put("/user/updateprofile/", (req,res) => {
     var profile = req.body
-    if(profile == null || !profile.hasOwnProperty("UserID")){
+    if(profile == null || !Object.prototype.hasOwnProperty.call(profile,"UserID")){
         //invalid request
         res.status(400).send("invalid request: no user id in profile")
     }
@@ -78,7 +77,7 @@ var item_module = new Item_Module()
 app.post("/item/postitem/", (req,res) => {
     console.log("[Server] posting an item")
     var item = req.body
-    if(item == null || !item.hasOwnProperty("name")){
+    if(item == null || !Object.prototype.hasOwnProperty.call(item, "name")){
         //item is invalid
         res.status(400).send("Invalid item, Item need to have name")
     }
@@ -94,7 +93,7 @@ app.post("/item/postitem/", (req,res) => {
 app.put("/item/updateitem/", (req, res) => {
     console.log("[Server] updating an existing item")
     var item_update = req.body
-    if(item_update == null || !item_update.hasOwnProperty("ItemID")){
+    if(item_update == null || !Object.prototype.hasOwnProperty.call(item_update, "ItemID")){
         //update invalid, need to have itemID
         res.status(400).send("invalid update, need to have itemID")
     }

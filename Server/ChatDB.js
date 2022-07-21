@@ -1,4 +1,4 @@
-const { MongoClient, ObjectID } = require('mongodb');	// require the mongodb driver
+const { MongoClient } = require('mongodb');	// require the mongodb driver
 const db_coll = "Chat" 
 
 //connect to the new database for chat module
@@ -113,8 +113,8 @@ ChatDB.prototype.getUserName = function(UserID){
 	return this.connected.then(
 		db => new Promise((resolve, reject) => {
 			console.log("[ChatDB] getting user name of " + UserID)
-			var query = {UserID : UserID}
-            var user_profile = db.collection("Profile").findOne(query).then(user_profile =>{
+			var query = {UserID}
+            db.collection("Profile").findOne(query).then(user_profile =>{
 				if(user_profile != null && user_profile.hasOwnProperty("FirstName")){
 					resolve(user_profile.FirstName)
 				}
