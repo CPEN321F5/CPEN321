@@ -73,6 +73,9 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     private double lat;
     private double lon;
 
+    private double lat_item;
+    private double lon_item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -175,17 +178,20 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
 
-                    double lon_item = Double.parseDouble(itemLocationLong);
-                    double lat_item = Double.parseDouble(itemLocationLat);
+                    lon_item = Double.parseDouble(itemLocationLong);
+                    lat_item = Double.parseDouble(itemLocationLat);
 
                     Log.d(TAG, "lat = " + lat);
                     Log.d(TAG, "lon = " + lon);
                     Log.d(TAG, "lat_item = " + lat_item);
                     Log.d(TAG, "lon_item = " + lon_item);
 
-                    int distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
 
-                    Log.d(TAG, "distance = " + distance);
+                    //int distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
+
+
+
+                    //Log.d(TAG, "distance = " + distance);
 
                     _itemName = findViewById(R.id.item_name_caption);
                     _itemName.setText(itemName);
@@ -196,8 +202,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     _itemCategory = findViewById(R.id.item_category_caption);
                     _itemCategory.setText(itemCategory);
 
-                    _itemLocation = findViewById(R.id.item_location_caption);
-                    _itemLocation.setText("Distance to you: " + Integer.toString(distance) + " km");
+//                    _itemLocation = findViewById(R.id.item_location_caption);
+//                    _itemLocation.setText("Distance to you: " + Integer.toString(distance) + " km");
 
                     _itemNumber = findViewById(R.id.item_id_caption);
                     _itemNumber.setText("Item ID: " + itemNumber);
@@ -292,6 +298,13 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        int distance = (int) distance(lat, lon, lat_item, lon_item, 'K');
+
+        Log.d(TAG, "distance = " + distance);
+
+        _itemLocation = findViewById(R.id.item_location_caption);
+        _itemLocation.setText("Distance to you: " + Integer.toString(distance) + " km");
     }
 
     @Override
