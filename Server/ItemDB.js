@@ -106,7 +106,7 @@ Database.prototype.searchItem = function(key_word){
             //const filter = {timeExpire : { $gt : Date.now() }}
             //TODO add expire
 
-            var items = db.collection("Items").find(query).toArray((err, result) => {
+            db.collection("Items").find(query).toArray((err, result) => {
                 if(err){
                     reject(err)
                 }

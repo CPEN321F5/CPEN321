@@ -103,7 +103,7 @@ Chat_module.prototype.getConversationList = function(UserID){
                         this.chat_db.findNewestMessage(conversation.conversationID, 1).then(messages => {
                             if(messages[0]){
                                 chatlistEntry.Last_message = messages[0].message
-                                var date = new Date(parseInt(messages[0].time), 10)
+                                var date = new Date(parseInt(messages[0].time, 10))
                                 chatlistEntry.Time = date.toLocaleString()
                             }
                             else{
