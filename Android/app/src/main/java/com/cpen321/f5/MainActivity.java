@@ -28,6 +28,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("1073711084344-vvjarmtoahi6mqjur4dglgnocjfm8j4i.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -149,7 +152,8 @@ public class MainActivity extends AppCompatActivity
             String URL = "http://20.106.78.177:8081/user/signin/";
             URL = URL + idOfUser + "/";
             Log.d(TAG, URL);
-            GETUSERID(URL);
+            Log.d(TAG, "ID token" + account.getIdToken());
+            GETUSERID(URL, account.getIdToken());
 
 
             // Send token to backend server
@@ -163,16 +167,10 @@ public class MainActivity extends AppCompatActivity
                 Intent adminIntent = new Intent(MainActivity.this, AdminMain.class);
                 startActivity(adminIntent);
             }
-
-            else
-            {
-                Intent userIntent = new Intent(MainActivity.this, MainUI.class);
-                startActivity(userIntent);
-            }
         }
     }
 
-    public void GETUSERID (final String URL)
+    public void GETUSERID (final String URL, final String idToken)
     {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -182,6 +180,12 @@ public class MainActivity extends AppCompatActivity
                 public void onResponse(String response)
                 {
                     Log.d(TAG, response);
+
+                    //allow login for varified user
+                    {
+                        Intent userIntent = new Intent(MainActivity.this, MainUI.class);
+                        startActivity(userIntent);
+                    }
                 }
             },
             new Response.ErrorListener()
@@ -192,7 +196,17 @@ public class MainActivity extends AppCompatActivity
                     // error
                     Log.d("Error.Response", String.valueOf(error));
                 }
-            });
+            }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("Token", idToken);
+
+                return params;
+            }
+        };
 
         queue.add(stringRequest);
     }

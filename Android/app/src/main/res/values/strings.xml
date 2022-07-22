@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">F5</string>
+    <string name="web_client_id">1073711084344-vvjarmtoahi6mqjur4dglgnocjfm8j4i.apps.googleusercontent.com</string>
 
     <!-- Checkout activity -->
     <string name="title_activity_checkout">CheckoutActivity</string>

@@ -7,6 +7,29 @@ var http = require('http');
 var ipaddr = "8.8.8.8"
 
 
+//Google ID token authentication
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = "1073711084344-vvjarmtoahi6mqjur4dglgnocjfm8j4i.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
+async function verify(token) {
+  try{
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    console.log("varified user with userid " + userid)
+    // If request specified a G Suite domain:
+    // const domain = payload['hd'];
+    return true
+  }
+  catch(err){
+    console.log(err)
+    return false
+  }
+}
 
 /////////////////////////////////////////User Authentication Module/////////////////////////////
 
@@ -17,8 +40,9 @@ var auth_module = new User_Authentication()
 
 //post request for signing in, creats a new profile if it is a new signin
 app.post("/user/signin/:user_id", (req,res) => {
-    console.log("[Server] login request from user " + req.params.user_id)
-    if(!req.params.user_id){
+    console.log("[Server] login request from user " + req.params.user_id + "with Token" + req.body.Token)
+    
+    if(!req.params.user_id || !verify(req.body.Token)){
         //invalid request
         res.status(400).send("invalid request: login user id not specified")
     }
@@ -195,7 +219,8 @@ app.delete("/item/removeitem/:item_id", (req,res) => {
 
 /////////////////////////////////////////Chat Module/////////////////////////////////////////
 const SocketServer = require('websocket').server
-var Chat_Module = require("./ChatModule")
+var Chat_Module = require("./ChatModule");
+const { Verify } = require("crypto");
 chat_module = new Chat_Module()
 
 //initializing the socket server
