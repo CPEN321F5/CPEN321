@@ -44,7 +44,7 @@ app.post("/user/signin/:user_id", (req,res) => {
     
     if(!req.params.user_id || !verify(req.body.Token)){
         //invalid request
-        res.status(400).send("invalid request: login user id not specified")
+        res.status(400).send("invalid login request")
     }
     else{
         //login successful send user profile or a default profile for new user
@@ -220,7 +220,6 @@ app.delete("/item/removeitem/:item_id", (req,res) => {
 /////////////////////////////////////////Chat Module/////////////////////////////////////////
 const SocketServer = require('websocket').server
 var Chat_Module = require("./ChatModule");
-const { Verify } = require("crypto");
 chat_module = new Chat_Module()
 
 //initializing the socket server
