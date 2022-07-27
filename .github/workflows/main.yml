@@ -29,6 +29,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "16"
+      
+      
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: "5.0"
+
           
       # Install required deps for action
       - name: Install Dependencies
