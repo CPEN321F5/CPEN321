@@ -18,10 +18,6 @@ function Database(mongoUrl, dbName){
 			}
 		)
 	});
-	this.status = () => this.connected.then(
-		db => ({ error: null, url: mongoUrl, db: dbName }),
-		err => ({ error: err })
-	);
 }
 
 //Post Item
@@ -43,20 +39,26 @@ Database.prototype.postItem = function(item){
 Database.prototype.updateItem = function(item){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            console.log("[ItemDB] updating item" + item.ItemID)
+            if(item != null && Object.prototype.hasOwnProperty.call(item, "ItemID")){
+                console.log("[ItemDB] updating item" + item.ItemID)
 
-            //configuring the parameter for update
-            const filter = { ItemID: item.ItemID.toString() };
-            const options = { upsert: true };
-            const update_profile = {$set: item}
+                //configuring the parameter for update
+                const filter = { ItemID: item.ItemID.toString() };
+                const options = { upsert: false };
+                const update_profile = {$set: item}
 
-            console.log(update_profile)
-            var result = db.collection("Items").updateOne(filter, update_profile, options)
-            resolve(result);
+                console.log(update_profile)
+                var result = db.collection("Items").updateOne(filter, update_profile, options)
+                resolve(result);
+            }else{
+                console.log("[ItemDB] invalid update request ")
+                resolve({matchedCount : 0, modifiedCount : 0})
+            }
+            
 
         }).then(result =>{
             console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
-            if (result.modifiedCount >= 1){
+            if (result.matchedCount >= 1){
                 console.log("[ItemDB] successfully updated item")
                 return true
             }else{
@@ -86,9 +88,6 @@ Database.prototype.getItemByCondition = function(query){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
             db.collection("Items").find(query).toArray((err, result) => {
-                if(err){
-                    reject(err)
-                }
                 resolve(result)
             })
         })
@@ -107,9 +106,6 @@ Database.prototype.searchItem = function(key_word){
             //TODO add expire
 
             db.collection("Items").find(query).toArray((err, result) => {
-                if(err){
-                    reject(err)
-                }
                 resolve(result)
             })
         })

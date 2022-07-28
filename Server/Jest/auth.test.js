@@ -2,15 +2,15 @@ const Authentication = require("../Authentication")
 
 // jest.mock('../Authentication')
 
-//setting up the mock object
+//setting up the test object
 const am = new Authentication()
 
 //mocking getUser response
-const Userresp = {  "UserID"            : "1",
-                    "Email"             : "N/A",
-                    "DisplayName"       : "N/A",
-                    "FirstName"         : "N/A",
-                    "LastName"          : "N/A"}
+// const Userresp = {  "UserID"            : "1",
+//                     "Email"             : "N/A",
+//                     "DisplayName"       : "N/A",
+//                     "FirstName"         : "N/A",
+//                     "LastName"          : "N/A"}
 
 // am.getUser.mockResolvedValue(Userresp)
 
@@ -203,6 +203,12 @@ test('Testing authentication module - removeUser interface - removing a existing
 
 })
 
+test('Testing authentication module - removeUser interface - removing another existing user ', () => {
+
+    return am.removeUser('a21*2@#Y!#(@').then(result => expect(result).toBeTruthy())
+
+})
+
 test('Testing authentication module - removeUser interface - removing a non existing user', () => {
 
     return am.removeUser("0000002").then(result => expect(result).toBeFalsy())
@@ -213,10 +219,4 @@ test('Testing authentication module - removeUser interface - null user id ', () 
 
     return am.removeUser().then(result => expect(result).toBeFalsy())
 
-})
-
-afterAll(() => {
-    //cleanup the user in db
-    //if test failed on a non-onetime use database, a manual clean of the db may be required
-    am.removeUser('a21*2@#Y!#(@')
 })

@@ -20,16 +20,32 @@ Item_module.prototype.getItemByID = function(itemId){
 }
 
 Item_module.prototype.getItemByBuyer = function(buyer_id){
+    if(buyer_id == null){
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
     var query = {buyerID : buyer_id}
     return this.item_db.getItemByCondition(query)
 }
+    
 
 Item_module.prototype.getItemBySeller = function(seller_id){
+    if(seller_id == null){
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
     var query = {sellerID : seller_id}
     return this.item_db.getItemByCondition(query)
 }
 
 Item_module.prototype.getItemByCatagory = function(Catagory){
+    if(Catagory == null){
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
     var query = {catagory : Catagory}
     return this.item_db.getItemByCondition(query)
 }
@@ -47,13 +63,21 @@ Item_module.prototype.getItemByRefund = function(){
 }
 
 Item_module.prototype.searchForItem = function(key_word){
+    if(key_word == null){
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
     return this.item_db.searchItem(key_word)
 }
 
 Item_module.prototype.removeItem = function(itemID){
-    return this.item_db.removeItem(itemID).then(result => {
-        
-    })
+    if(itemID == null){
+        return new Promise((resolve, reject) => {
+            resolve(false)
+        })
+    }
+    return this.item_db.removeItem(itemID)
 }
 
 module.exports = Item_module
