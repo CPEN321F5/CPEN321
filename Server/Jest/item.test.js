@@ -274,3 +274,11 @@ test('Testing Item module - RemoveItemByID interface - removing a non-existing I
 test('Testing Item module - RemoveItemByID interface - removing a null itemID', () => {
     return im.removeItem().then(result => expect(result).toBeFalsy())
 })
+
+test('Testing Item module - Cleanning up db - 1', () => {
+    return im.removeItem(item_id_1).then(result => expect(result).toBeTruthy())
+})
+
+test('Testing Item module - Cleanning up db - 2', () => {
+    return im.removeItem(item_id_2).then(result => expect(result).toBeTruthy())
+})
