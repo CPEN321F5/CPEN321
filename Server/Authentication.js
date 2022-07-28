@@ -12,6 +12,12 @@ function Auth_module(){
 //resolve to the user profile found in UserDB otherwise.
 //the status in the user profile indicate user status, if status is new user, front end should prompt to update profile
 Auth_module.prototype.signin = function(user_id){
+    if(user_id == null){
+        console.log("[Auth] invalid signin request " + user_id)
+        return new Promise((resolve, reject) => {
+            resolve ({})
+        })
+    }
     console.log("[Auth] Signin Request for " + user_id)
     return this.user_db.getProfile(user_id.toString()).then((user_profile) => 
         new Promise((resolve, reject) => {

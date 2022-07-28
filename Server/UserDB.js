@@ -52,24 +52,29 @@ Database.prototype.addUser = function(user){
 Database.prototype.updateProfile = function(profile){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            console.log("[UserDB] updating user profile for user " + profile.UserID)
+            if(profile != null && Object.prototype.hasOwnProperty.call(profile, "UserID")){
+                console.log("[UserDB] updating user profile for user " + profile.UserID)
 
-            //configuring the parameter for update
-            const filter = { UserID: profile.UserID.toString() };
-            const options = { upsert: true };
-            const update_profile = {$set: profile}
+                //configuring the parameter for update
+                const filter = { UserID: profile.UserID.toString() };
+                const options = { upsert: false };
+                const update_profile = {$set: profile}
 
-            console.log(update_profile)
-            var result = db.collection("Profile").updateOne(filter, update_profile, options)
-            resolve(result);
-
+                console.log(update_profile)
+                var result = db.collection("Profile").updateOne(filter, update_profile, options)
+                resolve(result);
+            }
+            else{
+                console.log("[UserDB] invalid update request ")
+                resolve({matchedCount : 0, modifiedCount : 0})
+            }
         }).then(result =>{
             console.log("[UserDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
-            if (result.modifiedCount >= 1){
+            if (result.matchedCount >= 1){
                 console.log("[UserDB] successfully updated profile")
                 return true
             }else{
-                console.log("[UserDB] failed to updated profile, inserted as new profile")
+                console.log("[UserDB] failed to updated profile")
                 return false
             }
         })

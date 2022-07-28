@@ -86,7 +86,12 @@ app.get("/user/getprofile/:user_id", (req,res) => {
     else{
         //login successful send user profile or a default profile for new user
         auth_module.getUser(req.params.user_id).then((profile) => {
-            res.send(profile)
+            if(profile == null){
+                res.status(404).send("user not found")
+            }
+            else{
+                res.send(profile)
+            }
         })
     }
 })
