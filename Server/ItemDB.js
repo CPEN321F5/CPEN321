@@ -18,6 +18,10 @@ function Database(mongoUrl, dbName){
 			}
 		)
 	});
+	this.status = () => this.connected.then(
+		db => ({ error: null, url: mongoUrl, db: dbName }),
+		err => ({ error: err })
+	);
 }
 
 //Post Item
@@ -88,6 +92,9 @@ Database.prototype.getItemByCondition = function(query){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
             db.collection("Items").find(query).toArray((err, result) => {
+                if(err){
+                    reject(err)
+                }
                 resolve(result)
             })
         })
@@ -106,6 +113,9 @@ Database.prototype.searchItem = function(key_word){
             //TODO add expire
 
             db.collection("Items").find(query).toArray((err, result) => {
+                if(err){
+                    reject(err)
+                }
                 resolve(result)
             })
         })

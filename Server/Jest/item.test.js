@@ -33,7 +33,7 @@ beforeAll(async () => {
     //init intm_db index for search
     im.item_db.createIndex()
     //mongodb seem to have some delay before document being created in new collection and being able to updated, adding a slight delay to resolve that
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 })
 
 //adding an item that later tests can use
