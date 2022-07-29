@@ -70,7 +70,7 @@ app.put("/user/updateprofile/", (req,res) => {
                 res.status(200).send("successfully updated profile")
             }
             else{
-                res.status(200).send("nothing changed or profile does not exist, so i created it")
+                res.status(404).send("no matching profile")
             }
         })
     }
@@ -128,7 +128,13 @@ app.put("/item/updateitem/", (req, res) => {
     }
     else{
         item_module.updateItem(item_update).then(result => {
-            res.send(result)
+            if(result){
+                res.send("success")
+            }
+            else{
+                res.status(404).send("Item not found")
+            }
+            
         })
     }
 })
@@ -215,7 +221,13 @@ app.delete("/item/removeitem/:item_id", (req,res) => {
     }
     else{
         item_module.removeItem(item_id).then(result => {
-            res.sendStatus(200)
+            if(result){
+                res.sendStatus(200)
+            }
+            else{
+                res.sendStatus(404)
+            }
+            
         })
     }
 })
@@ -229,9 +241,10 @@ chat_module = new Chat_Module()
 
 //initializing the socket server
 const server = http.createServer((req, res) => { })
-server.listen(8080, () => {
-    console.log("Listening on port 8080...")
-})
+//for jest testing un comment when deploying
+// server.listen(8080, () => {
+//     console.log("Listening on port 8080...")
+// })
 
 //configuring the socket server for messaging
 wsServer = new SocketServer({ httpServer: server })
@@ -249,6 +262,11 @@ wsServer.on('request', (req) => {
         var jsonmsg = JSON.parse(message.utf8Data)
         //mark the time the message was recieved
         jsonmsg.time = Date.now().toString()
+        if(jsonmsg.send_time != null){
+            var timediff = Date.now() - parseInt(jsonmsg.send_time, 10)
+            console.log("recieved message with sending time " + timediff)
+        }
+
         connections.forEach(element => {
             //relay the message to the other user connected with same ConversationID
             if (element != connection && element.ConversationID == connection.ConversationID)
@@ -307,21 +325,19 @@ app.get("/chat/getconversation/:conversationID", (req, res) =>{
         chat_module.getConversation(req.params.conversationID).then(conversation => {
             //replying with the newly generated conversation
             //of the existing conversation item if found in db
-            res.send(conversation)
+            if(conversation == null){
+                res.status(404).send("no conversation found")
+            }
+            else{
+                res.send(conversation)
+            }
         })
     }
 })
 
-
-
-
-app.get("/", (req,res) =>{
-    res.send("DATA")
-})
-
-app.get("/img", (req,res) =>{
-    res.sendFile("/home/CPEN321F5/F5/img1.png");
-})
+// app.get("/img", (req,res) =>{
+//     res.sendFile("/home/CPEN321F5/F5/img1.png");
+// })
 
 
 
@@ -348,5 +364,7 @@ http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
   });
 });
 
+module.exports = app
 
-run()
+// run() 
+///////////for jest testing un comment when deploying

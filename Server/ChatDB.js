@@ -95,6 +95,7 @@ ChatDB.prototype.addMessageToConversation = function(message){
 			console.log(filter)
 			var result = db.collection(db_coll).updateOne(filter, message_update)
 			resolve(result)
+			
 		}).then(result =>{
             console.log("[ChatDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
             if (result.modifiedCount >= 1){

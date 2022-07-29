@@ -1,4 +1,4 @@
-const Authentication = require("../Authentication")
+const Authentication = require("../../Authentication")
 
 // jest.mock('../Authentication')
 

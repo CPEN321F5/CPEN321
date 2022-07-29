@@ -134,7 +134,10 @@ Chat_module.prototype.getConversationList = function(UserID){
 Chat_module.prototype.getConversation = function(conversationID){
     return new Promise((resolve, reject) => {
         this.chat_db.getConversation(conversationID).then(conversation => {
-            if(Object.prototype.hasOwnProperty.call(conversation, "user1") && Object.prototype.hasOwnProperty.call(conversation, "user2")){
+            if(conversation == null){
+                resolve()
+            }
+            else if(Object.prototype.hasOwnProperty.call(conversation, "user1") && Object.prototype.hasOwnProperty.call(conversation, "user2")){
                 this.chat_db.getUserName(conversation.user1.toString()).then(name1 => {
                     this.chat_db.getUserName(conversation.user2.toString()).then(name2 => {
                         //got the username for each userid
@@ -143,6 +146,9 @@ Chat_module.prototype.getConversation = function(conversationID){
                         resolve(conversation)                        
                     })
                 })
+            }
+            else{
+                resolve()
             }
         })
     })

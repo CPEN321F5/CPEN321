@@ -1,4 +1,4 @@
-const ItemModule = require("../ItemModule")
+const ItemModule = require("../../ItemModule")
 
 //setting up module under test
 const im = new ItemModule()
