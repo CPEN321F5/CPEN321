@@ -1,27 +1,40 @@
 package com.cpen321.f5;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +46,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -57,6 +77,8 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     String postTime;
     String timeExpire;
 
+    String[] uploadedImages = new String[5];
+
     public static double lat;
     public static double lon;
 
@@ -67,6 +89,13 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     LocationManager locationManager;
 
     JSONObject jsonObject = new JSONObject();
+
+
+    private View imageButton;
+    private View cameraButton;
+
+
+    private int imgCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +145,8 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
                 Log.d(TAG, "deposit = " + deposit);
                 Log.d(TAG, "how lone = " + timeLast);
                 Log.d(TAG, "post time = " + postTime);
+                Log.d(TAG, "image_0 = " + uploadedImages[0]);
+                Log.d(TAG, "image_4 = " + uploadedImages[4]);
 
                 if (validCheck()){
                     long currentTime = Instant.now().toEpochMilli() / 1000;
@@ -137,6 +168,16 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
                 startActivity(MainUI);
             }
         });
+
+        imageButton = findViewById(R.id.image_add_button);
+        imageButton.setOnClickListener(v ->{
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            requestForAlbum.launch(intent);
+            Toast.makeText(PostActivity.this, "Trying to open album", Toast.LENGTH_SHORT).show();
+        });
+
+        cameraButton = findViewById(R.id.post_camera_button);
 
     }
 
@@ -187,6 +228,12 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
                 params.put("refundDescrition", "");
                 params.put("expired", "false");
                 params.put("adminResponse", "Waiting For Admin To Resolve Dispute!");
+
+                params.put("image_0", uploadedImages[0]);
+                params.put("image_1", uploadedImages[1]);
+                params.put("image_2", uploadedImages[2]);
+                params.put("image_3", uploadedImages[3]);
+                params.put("image_4", uploadedImages[4]);
 
                 return params;
             }
@@ -258,6 +305,50 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     @Override
     public void onLocationChanged(@NonNull List<Location> locations) {
         LocationListener.super.onLocationChanged(locations);
+    }
+
+    private final ActivityResultLauncher<Intent> requestForAlbum =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result){
+                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                        try{
+                            InputStream Is = getContentResolver().openInputStream(result.getData().getData());
+                            Bitmap image = BitmapFactory.decodeStream(Is);
+
+
+
+                            Toast.makeText(PostActivity.this, "work", Toast.LENGTH_SHORT).show();
+                            uploadedImages[imgCount] = sendImage(image);
+                            displayImage(image);
+                        }catch (FileNotFoundException error){
+                            Toast.makeText(PostActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+
+    private String sendImage(Bitmap image) {
+        ByteArrayOutputStream Os = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,50, Os);
+        String b64String = Base64.encodeToString(Os.toByteArray(), Base64.DEFAULT);
+
+        return b64String;
+    }
+
+
+
+    private void displayImage(Bitmap myBitmap){
+        ImageView img = findViewById(R.id.post_item_img0 + imgCount);
+        img.setImageBitmap(myBitmap);
+        imgCount++;
+
+        if (imgCount == 5){
+            imageButton.setVisibility(View.INVISIBLE);
+            cameraButton.setVisibility(View.INVISIBLE);
+        }
     }
 
 }
