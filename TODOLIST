@@ -14,3 +14,7 @@ Item Page: add a like button
 Profile page: a like list
 Profile page: browsing history (can be stored in disk rather than in backend) -> (send to backend after equit the program) - Yitong
 MainUI: machine learning for recommendation. - Yitong
+Profile page - itemList: EXPIRED item list (add a function to repost the item)
+
+Backend:
+ItemDB: item is expired (cannot be searched anymore)
