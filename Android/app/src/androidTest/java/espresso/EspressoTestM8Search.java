@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.startsWith;
 
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
@@ -109,6 +110,7 @@ public class EspressoTestM8Search
         onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
         long end = System.currentTimeMillis();
 
+        Log.d("searchingTime", Long.toString(end - now) + "ms");
         Assert.assertTrue(lessThanThree(now, end));
     }
 
