@@ -17,6 +17,7 @@ import androidx.test.filters.LargeTest;
 
 //import com.cpen321.f5.MainActivity;
 import com.cpen321.f5.MainUI;
+import com.cpen321.f5.PostActivity;
 import com.cpen321.f5.ProfileActivity;
 import com.cpen321.f5.R;
 
@@ -26,11 +27,11 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class EspressoTest
+public class EspressoTestM6
 {
 
     @Rule
-    public IntentsTestRule<MainUI> intentsRule = new IntentsTestRule<>(MainUI.class);
+    public IntentsTestRule<MainUI> intentsRuleMainUI = new IntentsTestRule<>(MainUI.class);
 
     @Test
     public void m6ButtonTest()
