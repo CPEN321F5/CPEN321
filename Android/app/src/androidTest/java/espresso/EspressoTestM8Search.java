@@ -76,7 +76,6 @@ public class EspressoTestM8Search
         onView(withId(R.id.search_button)).perform(ViewActions.click());
         intended(hasComponent(ItemListActivity.class.getName()));
         onView(withText("No result found")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
-
     }
 
     @Test
