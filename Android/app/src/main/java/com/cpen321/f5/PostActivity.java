@@ -20,8 +20,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +49,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class PostActivity extends AppCompatActivity implements LocationListener{
+public class PostActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
     String title;
     String description;
     String location;
@@ -56,6 +59,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     String timeLast;
     String postTime;
     String timeExpire;
+    String category;
 
     public static double lat;
     public static double lon;
@@ -63,7 +67,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
     private final String TAG = "PostActivity";
 
     private TextView showLocation;
-
+    private Spinner dropdownCategory;
     LocationManager locationManager;
 
     JSONObject jsonObject = new JSONObject();
@@ -74,6 +78,14 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
         setContentView(R.layout.activity_post_items);
 
 
+        //*********
+
+        Spinner dropdownCategory = findViewById(R.id.post_category_spinner);
+        String[] items = getResources().getStringArray(R.array.categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdownCategory.setAdapter(adapter);
+        dropdownCategory.setOnItemSelectedListener(this);
+        //*********
 
         showLocation = findViewById(R.id.show_location);
 
@@ -116,7 +128,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
                 Log.d(TAG, "deposit = " + deposit);
                 Log.d(TAG, "how lone = " + timeLast);
                 Log.d(TAG, "post time = " + postTime);
-
+                Log.d(TAG, "catagory = " + category);
                 if (validCheck()){
                     long currentTime = Instant.now().toEpochMilli() / 1000;
                     long expireTime = currentTime + Integer.parseInt(timeLast) * 3600;
@@ -188,6 +200,9 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
                 params.put("expired", "false");
                 params.put("adminResponse", "Waiting For Admin To Resolve Dispute!");
 
+                params.put("catagory", category);
+
+                Log.d(TAG, "categoryURL = " + "http://20.106.78.177:8081/item/getbycond/catagory/" + category);
                 return params;
             }
         };
@@ -260,4 +275,13 @@ public class PostActivity extends AppCompatActivity implements LocationListener{
         LocationListener.super.onLocationChanged(locations);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        category = getResources().getStringArray(R.array.categories)[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        category = getResources().getStringArray(R.array.categories)[0];
+    }
 }

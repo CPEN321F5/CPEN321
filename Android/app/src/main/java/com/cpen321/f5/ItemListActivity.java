@@ -21,7 +21,8 @@ public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
     ListView listView;
     String[] IDsArray;
-    List<String> cache = new ArrayList<>(SearchActivity.getItemList());
+    List<String> cache;
+
 
     private final String TAG = "ItemListActivity";
 
@@ -30,15 +31,34 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        int size = cache.size();
+        int size;
+        try{
+            cache = new ArrayList<>(SearchActivity.getItemList());
+            size = cache.size();
+            if (size == 0){
+                Toast.makeText(ItemListActivity.this, "No result found",Toast.LENGTH_SHORT).show();
+            }
+        }catch (NullPointerException e_item_search){
+            try{
+                cache = new ArrayList<>(CategoryActivity.getItemList());
+                size = cache.size();
+                if (size == 0){
+                    Toast.makeText(ItemListActivity.this, "No result found",Toast.LENGTH_SHORT).show();
+                }
+            }catch (NullPointerException e_category_search){
+                cache = new ArrayList<>();
+                size = 0;
+            }
+        }
+
+
+
         Log.d(TAG, "size = " + size);
         //Log.d(TAG, "attribute = " + cache.get(0));
 
-        if (size == 0){
-            Toast.makeText(ItemListActivity.this, "No result found",Toast.LENGTH_SHORT).show();
-        }
 
         IDsArray = new String[size];
+
         for (int i = 0; i < size; i++){
             IDsArray[i] = cache.get(i);
             Log.d(TAG, i + " => " + IDsArray[i]);
