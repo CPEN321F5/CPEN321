@@ -32,6 +32,7 @@ import com.cpen321.f5.ProfileActivity;
 import com.cpen321.f5.R;
 import com.cpen321.f5.SearchActivity;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,5 +98,24 @@ public class EspressoTestM8Search
         intended(hasComponent(ItemListActivity.class.getName()));
         onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
         intended(hasComponent(ItemActivity.class.getName()));
+    }
+
+    @Test
+    public void m8TestSearchLoadingTimeLessThanThree(){
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
+        long now = System.currentTimeMillis();
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
+        long end = System.currentTimeMillis();
+
+        Assert.assertTrue(lessThanThree(now, end));
+    }
+
+    boolean lessThanThree(long num1, long num2){
+        if (num2 - num1 < 3000){
+            return true;
+        }
+        return false;
     }
 }
