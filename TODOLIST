@@ -15,6 +15,7 @@ Profile page: a like list - Domi
 Profile page: browsing history (can be stored in disk rather than in backend) -> (send to backend after equit the program) - Yitong
 MainUI: machine learning for recommendation. - Yitong
 Profile page - itemList: EXPIRED item list (add a function to repost the item) - Domi
+Dispute Bug - Admin resolving dispute making dispute unavaliable on user end - Domi
 
 Backend:
 ItemDB: item is expired (cannot be searched anymore)
