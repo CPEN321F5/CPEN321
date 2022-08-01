@@ -3,8 +3,8 @@ Add todo list for anything I missed
 UI optimization
 
 
-PostActivity: Add pictures - Yitong (in process)
-Searched menu list: Display search result with title and pic rather than id (Yitong)
+PostActivity: Add pictures - Yitong (finsihed)
+Searched menu list: Display search result with title and pic rather than id (Yitong) (in process)
 Item Page: UI optimization (constant text should be defined in xml rather than activity) - Domi
 Chat bug: eg. Zhangsan posts an item, but Zhangsan can still chat with the seller who is himself.
 Item Page: displays pictures (Yitong's new version on PostActivity will include pictures info in Json)
