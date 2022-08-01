@@ -10,9 +10,9 @@ name + "finished"
 
 
 UI optimization
-PostActivity: Add pictures - Yitong (finsihed)
-Searched menu list: Display search result with title and pic rather than id (Yitong) (in process)
-Item Page: UI optimization (constant text should be defined in xml rather than activity) - Domi
+PostActivity: Add pictures - Yitong (finsihed)\
+Searched menu list: Display search result with title and pic rather than id (Yitong) (in process)\
+Item Page: UI optimization (constant text should be defined in xml rather than activity) - Domi\
 Chat bug: eg. Zhangsan posts an item, but Zhangsan can still chat with the seller who is himself.
 Item Page: displays pictures (Yitong's new version on PostActivity will include pictures info in Json)
 Item and Bid bug: Need to overwrite the onback process button (corresponding to refresh the page) - Domi
