@@ -335,6 +335,18 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     }
 
     private boolean validCheck(){
+        if (title.equals("")){
+            Toast.makeText(PostActivity.this, "Title should not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (description.equals("")){
+            Toast.makeText(PostActivity.this, "Description should not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (uploadedImages.size() == 0){
+            Toast.makeText(PostActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (startPrice.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
