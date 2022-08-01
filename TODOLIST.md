@@ -1,8 +1,15 @@
-TODO: Fill in the name for each row;
-Add todo list for anything I missed
+# TODO: Fill in the name for each row;
+# Add todo list for anything I missed
+
+
+## 3 status:   Update the status on time in order to avoid couple of people in the same task
+empty: task is not assigned
+name only: task is assigned but not started
+name + "in process"
+name + "finished"
+
+
 UI optimization
-
-
 PostActivity: Add pictures - Yitong (finsihed)
 Searched menu list: Display search result with title and pic rather than id (Yitong) (in process)
 Item Page: UI optimization (constant text should be defined in xml rather than activity) - Domi
