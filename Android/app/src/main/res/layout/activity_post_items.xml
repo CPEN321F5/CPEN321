@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -267,9 +267,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
+                    android:layout_marginStart="14dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -312,7 +312,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="18dp"
                     android:padding="4dp"
                     android:text="hr"
                     android:textColor="@color/colo_money"

@@ -72,39 +72,33 @@ import java.util.Map;
 
 
 public class PostActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
-    String title;
-    String description;
-    String startPrice;
-    String deposit;
-    String stepPrice;
-    String timeLast;
-    String postTime;
-    String timeExpire;
-    String category;
-
-    List<String> uploadedImages = new ArrayList<>();
-    List<Bitmap> uploadedBitmaps = new ArrayList<>();
-
-    public static double lat;
-    public static double lon;
-
     private final String TAG = "PostActivity";
 
-    private TextView showLocation;
-    private Spinner dropdownCategory;
-    LocationManager locationManager;
-
-    JSONObject jsonObject = new JSONObject();
-
-
-    private View imageButton;
-    private View cameraButton;
-
-    private Uri imageUri;
-
+    private String title;
+    private String description;
+    private String startPrice;
+    private String deposit;
+    private String stepPrice;
+    private String timeLast;
+    private String postTime;
+    private String timeExpire;
+    private String category;
     private ImageView img0, img1, img2;
     private boolean img0Enabled, img1Enabled, img2Enabled;
     private ImageView hintButton;
+    private TextView showLocation;
+    private Spinner dropdownCategory;
+    private View imageButton;
+    private View cameraButton;
+
+
+    private List<String> uploadedImages = new ArrayList<>();
+    private List<Bitmap> uploadedBitmaps = new ArrayList<>();
+    public static double lat;
+    public static double lon;
+    private LocationManager locationManager;
+    private Uri imageUri;
+    private JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,19 +108,16 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         img0 = findViewById(R.id.post_item_img0);
         img1 = findViewById(R.id.post_item_img1);
         img2 = findViewById(R.id.post_item_img2);
-        //*********
+
 
         Spinner dropdownCategory = findViewById(R.id.post_category_spinner);
         String[] items = getResources().getStringArray(R.array.categories);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdownCategory.setAdapter(adapter);
         dropdownCategory.setOnItemSelectedListener(this);
-        //*********
+
 
         showLocation = findViewById(R.id.show_location);
-
-
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -138,7 +129,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, this);
 
 
         Button postButton = findViewById(R.id.post_post);
@@ -153,7 +144,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 stepPrice = ((EditText)findViewById(R.id.post_step_price)).getText().toString().trim();
                 timeLast = ((EditText)findViewById(R.id.post_time_last)).getText().toString().trim();
                 postTime = getTime();
-
 
 
                 Log.d(TAG, "title = " + title);
