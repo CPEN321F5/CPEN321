@@ -3,6 +3,7 @@ package com.cpen321.f5;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -55,14 +57,14 @@ public class ChatlistsActivity extends AppCompatActivity {
 
         //private JSONArray chatListJson = new JSONArray();
         RecyclerView chatList = findViewById(R.id.chatLists);
-        ImageView homeBtn = findViewById(R.id.home_chat_button);
-        ImageView profileBtn = findViewById(R.id.profile_chat_button);
+        TextView homeBtn = findViewById(R.id.home_chat_button);
+        TextView profileBtn = findViewById(R.id.profile_chat_button);
 
         chatListAdapter = new ChatListAdapter(getLayoutInflater(), myID);
         chatList.setAdapter(chatListAdapter);
         new ItemTouchHelper(itemTouchCallback).attachToRecyclerView(chatList);
         chatList.setLayoutManager(new LinearLayoutManager(this));
-
+//        chatList.setLayoutManager(new GridLayoutManager(this,2));  //!!!!!!!!!!!
 
             for(int i = 0; i <= JsonConversationList.length() - 1; i++){
                 try {

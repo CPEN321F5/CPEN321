@@ -72,9 +72,6 @@
             android:value="true" />
 
         <activity
-            android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainUI"
             android:exported="true" />
         <activity

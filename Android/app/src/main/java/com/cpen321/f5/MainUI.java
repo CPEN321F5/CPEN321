@@ -3,12 +3,16 @@ package com.cpen321.f5;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,36 +27,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainUI extends AppCompatActivity {
-    private Button searchButton;
-    private Button postButton;
-    private Button checkoutButton;
-    private Button profileButton;
-    private Button chatButton;
-    private Button logoutButton;
-    private Button categoryButton;
-    private Button walletButton;
-    private ImageButton IB1;
-    private ImageButton IB2;
-    private ImageButton IB3;
-    private ImageButton IB4;
-    private ImageButton IB5;
-    private ImageButton IB6;
-
     private GoogleSignInClient mGoogleSignInClient;
-
+    String searchKey;
+    RequestQueue requestQueueForSearch;
+    private static List<String> itemIDList;
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Button logoutButton;
-        Button profileButton;
-
-        ImageButton IB1;
-        ImageButton IB2;
-        ImageButton IB3;
-        ImageButton IB4;
-        ImageButton IB5;
-        ImageButton IB6;
+        View logoutButton;
+        View profileButton;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
@@ -68,7 +57,7 @@ public class MainUI extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        categoryButton = findViewById(R.id.main_ui_more);
+        View categoryButton = findViewById(R.id.main_ui_more);
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,16 +66,23 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        searchButton = findViewById(R.id.search_button);
+        requestQueueForSearch= Volley.newRequestQueue(this);
+        View searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchItem = new Intent(MainUI.this, SearchActivity.class);
-                startActivity(searchItem);
+                itemIDList = new ArrayList<>();
+                EditText keywordSearch = findViewById(R.id.search_bar);
+                searchKey = keywordSearch.getText().toString().trim();
+                if( validCheck() ){
+                    Log.d("SearchActivity", "search key = " + searchKey);
+                    getdata(searchKey);
+                }
             }
         });
 
-        Button postButton = findViewById(R.id.post_button);
+
+        View postButton = findViewById(R.id.post_button);
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +91,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        Button checkoutButton = findViewById(R.id.checkout_button);
+        View checkoutButton = findViewById(R.id.checkout_button);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +109,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        Button chatButton = findViewById(R.id.chat_button);
+        View chatButton = findViewById(R.id.chat_button);
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,59 +133,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        IB1 = findViewById(R.id.imageButton01);
-        IB1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB1Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB1Activity);
-            }
-        });
 
-        IB2 = findViewById(R.id.imageButton02);
-        IB2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB2Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB2Activity);
-            }
-        });
-
-        IB3 = findViewById(R.id.imageButton03);
-        IB3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB2Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB2Activity);
-            }
-        });
-
-        IB4 = findViewById(R.id.imageButton04);
-        IB4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB4Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB4Activity);
-            }
-        });
-
-        IB5 = findViewById(R.id.imageButton05);
-        IB5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB5Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB5Activity);
-            }
-        });
-
-        IB6 = findViewById(R.id.imageButton06);
-        IB6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent IB6Activity = new Intent(MainUI.this, ItemActivity.class);
-                startActivity(IB6Activity);
-            }
-        });
 
         logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(new View.OnClickListener()
@@ -201,7 +145,7 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        walletButton = findViewById(R.id.post_wallet);
+        View walletButton = findViewById(R.id.post_wallet);
         walletButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,5 +167,54 @@ public class MainUI extends AppCompatActivity {
                         startActivity(logoutActivity);
                     }
                 });
+    }
+
+    //these functions are for old search activity
+    private boolean validCheck(){
+        if (searchKey.equals("")){
+            Toast.makeText(MainUI.this, "Fail, please type in something", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void getdata(String searchKey)
+    {
+        String url = getString(R.string.url_searchResult) + searchKey;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+
+                        itemIDList.add(itemID);
+                        Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
+                    }
+                    Intent ListUI = new Intent(MainUI.this, ItemListActivity.class);
+                    startActivity(ListUI);
+                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(MainUI.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainUI.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueueForSearch.add(jsonArrayRequest);
+    }
+
+    public static List<String> getItemList(){
+        return itemIDList;
     }
 }

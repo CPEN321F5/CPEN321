@@ -33,7 +33,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         int size;
         try{
-            cache = new ArrayList<>(SearchActivity.getItemList());
+            cache = new ArrayList<>(MainUI.getItemList());
             size = cache.size();
             if (size == 0){
                 Toast.makeText(ItemListActivity.this, "No result found",Toast.LENGTH_SHORT).show();

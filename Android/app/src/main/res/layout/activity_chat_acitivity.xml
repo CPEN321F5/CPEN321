@@ -26,12 +26,12 @@
         android:id="@+id/chatRoomName"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/teal_200"
+        android:background="@color/MediumPurple"
+        android:gravity="center_vertical"
         android:padding="10dp"
         android:text="Chat Room"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textSize="20dp"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,7 +66,6 @@
             android:background="@drawable/edittext1_design"
             android:ems="10"
             android:hint="Aa"
-            android:inputType="textPersonName"
             android:padding="10dp"
             android:textSize="16sp"
             android:layout_marginRight="10dp"
@@ -87,24 +86,30 @@
     </LinearLayout>
 
 
-    <ImageView
+    <TextView
         android:id="@+id/home_chatroom_button"
-        android:layout_width="40dp"
-        android:layout_height="36dp"
-        android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:drawableTop="@drawable/ic_baseline_home_24"
+        android:text="Home"
         app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
-        app:layout_constraintTop_toTopOf="@+id/chatRoomName"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/chatRoomName"
+        app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/ic_baseline_home_24" />
 
-    <ImageView
+    <TextView
         android:id="@+id/chatList_chatroom_button"
-        android:layout_width="40dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintRight_toLeftOf="@+id/home_chatroom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:drawableTop="@drawable/ic_chatlist"
+        android:gravity="center"
+        android:text="ChatList"
         app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
+        app:layout_constraintRight_toLeftOf="@+id/home_chatroom_button"
         app:layout_constraintTop_toTopOf="@+id/chatRoomName"
-        app:srcCompat="@drawable/ic_baseline_chat_24" />
+        app:layout_constraintVertical_bias="0.533" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
