@@ -102,6 +102,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Single
         notifyDataSetChanged();
     }
 
+    // need to implement with backend
+    public void deleteList(int position) {
+        coresChats.remove(position);
+        Log.d("TESTChatList", "removing an item");
+        notifyDataSetChanged();
+    }
+
     public static class SingleListHolder extends RecyclerView.ViewHolder{
         TextView userName;
         TextView lastMessage;
