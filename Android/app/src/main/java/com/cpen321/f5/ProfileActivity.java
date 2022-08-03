@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent disputeIntent = new Intent(ProfileActivity.this, DisputeActivity.class);
+                Intent disputeIntent = new Intent(ProfileActivity.this, DisputeMainActivity.class);
                 startActivity(disputeIntent);
             }
         });
