@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,8 +41,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ItemActivity extends AppCompatActivity implements LocationListener {
 
@@ -63,9 +68,11 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     TextView _itemDescription;
     TextView _itemLocation;
     TextView _itemNumber;
+    private ImageView addButton;
+    private ImageView subButton;
+    private TextView newPrice;
 
     String itemName;
-    //String itemPrice;
     String itemCategory;
     String itemDescription;
     String itemLocationLong;
@@ -83,6 +90,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     private double lat_item;
     private double lon_item;
 
+    int tmpPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -111,6 +119,11 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
+
+
+
+
+
 
         View home_button = findViewById(R.id.home_item_button);
         home_button.setOnClickListener(new View.OnClickListener() {
@@ -145,9 +158,13 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
             @Override
             public void onClick(View v)
             {
-                itemID = tmpID;
-                Intent bidIntent = new Intent(ItemActivity.this, BidActivity.class);
-                startActivity(bidIntent);
+
+                //new code
+                if (tmpPrice > Integer.parseInt(itemPrice)){
+                    updPrice();
+                }else{
+                    Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -181,6 +198,31 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     }
                 });
                 queue.add(jsonObjectRequest);
+            }
+        });
+
+        addButton = findViewById(R.id.item_price_up_button);
+        subButton = findViewById(R.id.item_price_down_button);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int priceChange = Integer.parseInt(stepPrice);
+                tmpPrice += priceChange;
+                newPrice.setText(Integer.toString(tmpPrice));
+            }
+        });
+
+        subButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int priceChange = Integer.parseInt(stepPrice);
+                tmpPrice -= priceChange;
+                if (tmpPrice < Integer.parseInt(itemPrice)){
+                    tmpPrice = Integer.parseInt(itemPrice);
+                }
+                Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
+                newPrice.setText(Integer.toString(tmpPrice));
             }
         });
     }
@@ -230,6 +272,10 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
 
                     _itemPrice = findViewById(R.id.item_price_caption);
                     _itemPrice.setText("$ " + itemPrice);
+                    newPrice = findViewById(R.id.upcoming_price);
+                    newPrice.setText(itemPrice);
+                    tmpPrice = Integer.parseInt(itemPrice);
+
 
                     _itemCategory = findViewById(R.id.item_category_caption);
                     _itemCategory.setText(itemCategory);
@@ -369,6 +415,44 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         });
         requestQueueForSearch.add(jsonArrayRequest);
     }
+
+    private void updPrice() {
+        RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
+        String url = getString(R.string.url_item_put);
+
+        StringRequest postRequest = new StringRequest(Request.Method.PUT, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(ItemActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ItemActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("ItemID", itemNumber);
+                params.put("currentPrice", Integer.toString(tmpPrice));
+                params.put("currentPriceHolder", MainActivity.idOfUser);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
 
     public static List<String> getItemList(){
         return itemIDList;
