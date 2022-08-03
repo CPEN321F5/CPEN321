@@ -1,15 +1,26 @@
 package com.cpen321.f5;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.AutoResolveHelper;
@@ -17,7 +28,9 @@ import com.google.android.gms.wallet.PaymentData;
 
 import com.cpen321.f5.viewmodel.CheckoutViewModel;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +48,22 @@ public class CheckoutActivity extends AppCompatActivity {
     private CheckoutViewModel model;
 
     private View googlePayButton;
+    private final static String TAG = "CheckoutActivity";
 
+    //new added code ***
+
+    RequestQueue requestQueue;
+
+
+    private Button loadButton;
+    private EditText addedFundText;
+    private TextView balance;
+    private int balanceAmount = 0;
+    private int addedFund = 0;
+
+    String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
+    String POSTPROFILEURL = "http://20.106.78.177:8081/user/updateprofile/";
+    //**************
     /**
      * Initialize the Google Pay API on creation of the activity
      *
@@ -44,10 +72,28 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //new added code*********
+        setContentView(R.layout.activity_checkout);
+        requestQueue = Volley.newRequestQueue(this);
+        balance = findViewById(R.id.checkout_wallet_balance);
+        addedFundText = findViewById(R.id.checkout_wallet_amount_to_load);
+        GetBalance();
+
+
+
+
         initializeUi();
 
         model = new ViewModelProvider(this).get(CheckoutViewModel.class);
         model.canUseGooglePay.observe(this, this::setGooglePayAvailable);
+
+
+
+
+
+
+
     }
 
     private void initializeUi() {
@@ -58,7 +104,20 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // The Google Pay button is a layout file – take the root view
         googlePayButton = layoutBinding.googlePayButton.getRoot();
-        googlePayButton.setOnClickListener(this::requestPayment);
+        googlePayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validCheck()){
+                    Toast.makeText(CheckoutActivity.this, "add fund is not set yet",Toast.LENGTH_SHORT).show();
+                } else{
+                    addedFund = Integer.parseInt(addedFundText.getText().toString().trim());
+
+
+                    requestPayment(v);
+                }
+            }
+        });
+        //googlePayButton.setOnClickListener(this::requestPayment);
     }
 
     /**
@@ -84,8 +143,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // The price provided to the API should include taxes and shipping.
         // This price is not displayed to the user.
-        long dummyPriceCents = 100;
-        long shippingCostCents = 900;
+        long dummyPriceCents = addedFund;
+        long shippingCostCents = 0;
         long totalPriceCents = dummyPriceCents + shippingCostCents;
         final Task<PaymentData> task = model.getLoadPaymentDataTask(totalPriceCents);
 
@@ -160,10 +219,17 @@ public class CheckoutActivity extends AppCompatActivity {
 
             // Logging token string.
             Log.d("Google Pay token: ", token);
+            Log.d(TAG, "PAY SUCCESS");
+
+            ReloadBalance();
+
+
+
 
         } catch (JSONException e) {
             Log.e("CheckoutActivity", "The selected garment cannot be parsed from the list of elements");
             //throw new RuntimeException("The selected garment cannot be parsed from the list of elements");
+            Log.d(TAG, "PAY FAIL");
         }
     }
 
@@ -184,5 +250,90 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
         Log.e("loadPaymentData failed", errorString);
+    }
+
+
+    //***new added code*******
+    private void GetBalance ()
+    {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFILEURL, null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, response.toString());
+                balance = findViewById(R.id.checkout_wallet_balance);
+                try
+                {
+                    balanceAmount = Integer.parseInt(response.getString("balance"));
+                    balance.setText(Integer.toString(balanceAmount));
+                    Log.d(TAG, "balanceAmount = " + balanceAmount);
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(CheckoutActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(CheckoutActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void ReloadBalance ()
+    {
+        RequestQueue queue = Volley.newRequestQueue(CheckoutActivity.this);
+        StringRequest postRequest = new StringRequest(Request.Method.PUT, POSTPROFILEURL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(CheckoutActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(CheckoutActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                int newBalance = balanceAmount + addedFund;
+
+                params.put("UserID", MainActivity.idOfUser);
+                params.put("balance", Integer.toString(newBalance));
+                return params;
+            }
+        };
+        balance = findViewById(R.id.checkout_wallet_balance);
+        addedFundText = findViewById(R.id.checkout_wallet_amount_to_load);
+        Log.d(TAG, "new balanceAmount = " + Integer.toString(balanceAmount + addedFund));
+        balance.setText(Integer.toString(balanceAmount + addedFund));
+        addedFundText.setText("");
+        Toast.makeText(CheckoutActivity.this, "fund is added successfully",Toast.LENGTH_SHORT).show();
+        queue.add(postRequest);
+    }
+
+    private boolean validCheck(){
+        addedFundText = findViewById(R.id.checkout_wallet_amount_to_load);
+        if (addedFundText.getText().toString().equals("")){
+            return false;
+        }
+        return true;
     }
 }

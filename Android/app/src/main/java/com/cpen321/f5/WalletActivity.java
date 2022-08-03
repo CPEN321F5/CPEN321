@@ -1,8 +1,12 @@
 package com.cpen321.f5;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cpen321.f5.util.PaymentsUtil;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wallet.IsReadyToPayRequest;
+import com.google.android.gms.wallet.PaymentData;
+import com.google.android.gms.wallet.PaymentDataRequest;
+import com.google.android.gms.wallet.PaymentsClient;
 
 import org.json.JSONObject;
 
@@ -38,6 +48,8 @@ public class WalletActivity extends AppCompatActivity {
 
     String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
     String POSTPROFILEURL = "http://20.106.78.177:8081/user/updateprofile/";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

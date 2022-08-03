@@ -152,7 +152,11 @@ public class MainUI extends AppCompatActivity {
         walletButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent walletActivity = new Intent(MainUI.this, WalletActivity.class);
+//                Intent walletActivity = new Intent(MainUI.this, WalletActivity.class);
+//                startActivity(walletActivity);
+
+                //new code
+                Intent walletActivity = new Intent(MainUI.this, CheckoutActivity.class);
                 startActivity(walletActivity);
             }
         });
