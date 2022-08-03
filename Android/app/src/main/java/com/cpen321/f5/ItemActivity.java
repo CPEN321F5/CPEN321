@@ -598,4 +598,12 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         return itemIDList;
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainUI.class));
+        finish();
+    }
+
 }
