@@ -76,6 +76,7 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
                         public void onClick(View v) {
                             Intent intent = new Intent(v.getContext(), MyItemActivity.class);
                             intent.putExtra("myitemID", itemID);
+                            Log.d("TESTItemListAdapter", itemID);
                             v.getContext().startActivity(intent);
                         }
                     });
