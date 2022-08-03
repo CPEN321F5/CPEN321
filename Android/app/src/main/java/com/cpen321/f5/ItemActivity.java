@@ -83,6 +83,11 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     private ImageView subButton;
     private TextView newPrice;
 
+    TextView _ownerName;
+    TextView _highestPriceHolderName;
+    String ownerName;
+    String highestPriceHolderName;
+
     String itemName;
     String itemCategory;
     String itemDescription;
@@ -105,7 +110,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     public static String itemID;
     String tmpID;
 
-    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/";;
+    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/";
+    String GETPROFURL = "http://20.106.78.177:8081/user/getprofile/";
 
     LocationManager locationManager;
     private double lat;
@@ -147,11 +153,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
-
-
-
-
-
 
         View home_button = findViewById(R.id.home_item_button);
         home_button.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +251,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                 {
                     itemName = response.getString("name");
                     itemPrice = response.getString("currentPrice");
-                    itemCategory = response.getString("name");
+                    itemCategory = response.getString("catagory");
                     itemLocationLong = response.getString("location_lon");
                     itemLocationLat = response.getString("location_lat");
                     itemNumber = response.getString("ItemID");
@@ -327,7 +328,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
 
                     _itemCategory = findViewById(R.id.item_category_caption);
-                    _itemCategory.setText(itemCategory);
+                    _itemCategory.setText("Category: " + itemCategory);
 
 //                    _itemLocation = findViewById(R.id.item_location_caption);
 //                    _itemLocation.setText("Distance to you: " + Integer.toString(distance) + " km");
@@ -338,6 +339,90 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
 
+                    if (highestPriceHolder.equals(""))
+                    {
+                        _highestPriceHolderName = findViewById(R.id.highest_name);
+                        _highestPriceHolderName.setText("Price Holder: N/A");
+                    }
+
+                    else
+                    {
+                        GETHIGHEST(highestPriceHolder);
+                    }
+
+                    GETOWNER(sellerID);
+
+                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(ItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(ItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void GETOWNER (String ID)
+    {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFURL+ ID + "/", null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    ownerName = response.getString("FirstName") + " " + response.getString("LastName");
+
+                    _ownerName = findViewById(R.id.owner_name);
+                    _ownerName.setText("Owner: " + ownerName);
+
+                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(ItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(ItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void GETHIGHEST (String ID)
+    {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFURL+ ID + "/", null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    highestPriceHolderName = response.getString("FirstName") + " " + response.getString("LastName");
+
+                    _highestPriceHolderName = findViewById(R.id.highest_name);
+                    _highestPriceHolderName.setText("Price Holder: " + highestPriceHolderName);
 
                     Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
@@ -480,6 +565,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     @Override
                     public void onResponse(String response)
                     {
+                        _itemPrice.setText("$ " + tmpPrice);
                         Toast.makeText(ItemActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
                     }
                 },
