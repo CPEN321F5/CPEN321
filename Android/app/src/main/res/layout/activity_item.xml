@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ItemActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +13,30 @@
         android:background="@color/MediumPurple"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" >
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:dotsColor="@color/black"
+        app:dotsSize="15dp"
+        app:dotsSpacing="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager"
+        app:progressMode="true"
+        app:selectedDotColor="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,29 +80,20 @@
         </LinearLayout>
     </LinearLayout>
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="408dp"
+        android:layout_height="372dp"
+        app:layout_constraintBottom_toTopOf="@+id/bid_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dots_indicator"
         app:layout_constraintTop_toBottomOf="@id/l1"
         app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/item_image_caption"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/item_image_placeholder"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/item_name_caption"
@@ -89,7 +105,7 @@
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_image_caption" />
+                app:layout_constraintTop_toBottomOf="parent" />
 
             <TextView
                 android:id="@+id/item_price_caption"
@@ -146,7 +162,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_id_caption" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </ScrollView>
 
@@ -214,6 +230,7 @@
             />
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
