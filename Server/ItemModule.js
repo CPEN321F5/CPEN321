@@ -26,7 +26,7 @@ Item_module.prototype.getItemByBuyer = function(buyer_id){
             resolve([])
         })
     }
-    var query = {buyerID : buyer_id}
+    var query = {currentPriceHolder : buyer_id}
     return this.item_db.getItemByCondition(query)
 }
     
@@ -47,7 +47,10 @@ Item_module.prototype.getItemByCatagory = function(Catagory){
             resolve([])
         })
     }
-    var query = {catagory : Catagory}
+    var query = {$and : [
+        {catagory : Catagory},
+        {expired : "false"}
+    ]}
     return this.item_db.getItemByCondition(query)
 }
 

@@ -105,7 +105,7 @@ var item_module = new Item_Module()
 //setup routine for updating expired item
 setInterval(() => {
     item_module.updateExpireStatus()
-}, 5000)
+}, 60000)
 
 //posting an item
 app.post("/item/postitem/", (req,res) => {
