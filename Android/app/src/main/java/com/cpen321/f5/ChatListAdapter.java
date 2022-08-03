@@ -63,27 +63,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Single
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(v.getContext());
                 Intent intent = new Intent(v.getContext(), ChatAcitivity.class);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, holder.chatGet_url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            response.put("myID", myID);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("TEST1", response.toString());
-                        intent.putExtra("conversations", response.toString());
-                        v.getContext().startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("TEST1", error.getMessage());
-                    }
-                });
-                queue.add(jsonObjectRequest);
+                intent.putExtra("GetOrPost", "GET");
+                intent.putExtra("conversations", holder.chatGet_url);
+                v.getContext().startActivity(intent);
             }
         });
 

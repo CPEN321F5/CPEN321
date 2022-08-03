@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,38 +26,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.SingleItemHolder> {
-
-    private LayoutInflater itemListInflate;
-    private JSONArray itemLists= new JSONArray();
+public class MainUIAdapter extends RecyclerView.Adapter<MainUIAdapter.SingleItemHolder>{
+    private LayoutInflater recommendItemListInflate;
+    private JSONArray recommend_itemLists= new JSONArray();
     RequestQueue requestQueueForItem;
-    String item_get_url = "http://20.106.78.177:8081/item/getbyid/";
+    String recommend_item_get_url = "http://20.106.78.177:8081/item/getbyid/";
 
 
-    public ItemListAdapter(LayoutInflater itemListInflate){
-
-        this.itemListInflate = itemListInflate;
-
+    public MainUIAdapter(LayoutInflater recommendItemListInflate){
+        this.recommendItemListInflate = recommendItemListInflate;
     }
 
     @NonNull
     @Override
-    public SingleItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = itemListInflate.inflate(R.layout.item_list_layout, parent,false);
-        return new ItemListAdapter.SingleItemHolder(view);
+
+    public MainUIAdapter.SingleItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = recommendItemListInflate.inflate(R.layout.single_item_recommend_layout, parent,false);
+        return new MainUIAdapter.SingleItemHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SingleItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MainUIAdapter.SingleItemHolder holder, int position) {
         String itemID = "1";
         try {
-            itemID = itemLists.get(position).toString();
+            itemID = recommend_itemLists.get(position).toString();
             Log.d("ItemListAdapter1", itemID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        requestQueueForItem = Volley.newRequestQueue(this.itemListInflate.getContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, item_get_url+itemID+"/", null, new Response.Listener<JSONObject>()
+        requestQueueForItem = Volley.newRequestQueue(this.recommendItemListInflate.getContext());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, recommend_item_get_url+itemID+"/", null, new Response.Listener<JSONObject>()
         {
             @SuppressLint("SetTextI18n")
             @Override
@@ -71,7 +68,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
-                    holder.item_username.setText(response.getString("sellerID"));
                     holder.item_image.setImageBitmap(bitmap);
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
@@ -85,7 +81,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                 }
                 catch (Exception w)
                 {
-                    Log.d("TESTItemListAdapter", item_get_url);
+                    Log.d("TESTItemListAdapter", recommend_item_get_url);
                 }
             }
         }, new Response.ErrorListener()
@@ -101,28 +97,25 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
 
     @Override
     public int getItemCount() {
-        return itemLists.length();
+        return recommend_itemLists.length();
     }
 
     public void addList (String single_itemID) {
-        itemLists.put(single_itemID);
+        recommend_itemLists.put(single_itemID);
         Log.d("TEST", "Adding an item");
         notifyDataSetChanged();
     }
-
 
     public static class SingleItemHolder extends RecyclerView.ViewHolder{
         ImageView item_image;
         TextView item_name;
         TextView item_price;
-        TextView item_username;
 
         public SingleItemHolder(@NonNull View itemView) {
             super(itemView);
-            item_image = itemView.findViewById(R.id.item_image);
-            item_name = itemView.findViewById(R.id.item_name);
-            item_price = itemView.findViewById(R.id.item_price);
-            item_username = itemView.findViewById(R.id.item_username);
+            item_image = itemView.findViewById(R.id.recommend_item_image);
+            item_name = itemView.findViewById(R.id.recommend_item_name);
+            item_price = itemView.findViewById(R.id.recommend_item_price);
         }
     }
 

@@ -2,6 +2,9 @@ package com.cpen321.f5;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -153,6 +156,24 @@ public class MainUI extends AppCompatActivity {
                 startActivity(walletActivity);
             }
         });
+
+        viewRecommendation();
+    }
+
+
+
+    private void viewRecommendation() {
+        //use to test
+        String[] IDs = new String[2];
+        IDs[0] = "1659492974531";
+        IDs[1] = "1659493108645";
+        RecyclerView recommend_item_recyclerview = findViewById(R.id.recommend_itemList);
+        MainUIAdapter recommendAdapter = new MainUIAdapter(getLayoutInflater());
+        recommend_item_recyclerview.setAdapter(recommendAdapter);
+        recommend_item_recyclerview.setLayoutManager(new GridLayoutManager(this,2));
+        for(int i = 0; i <= IDs.length - 1; i++){
+            recommendAdapter.addList(IDs[i]);
+        }
     }
 
     private void signOut()

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -68,46 +69,39 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     private String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
 
     private String TAG = "ChatActivity";
-
+    private String wholeConversationUri;
+    private String wholeConversation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_acitivity);
 
-        String wholeConversation = getIntent().getStringExtra("conversations");
-
-
-
-
-        //get items from JSON
-        if( wholeConversation != null){
-            try {
-                JsonConversation = new JSONObject(wholeConversation);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                JsonConversation = new JSONObject();
+        wholeConversationUri = getIntent().getStringExtra("conversations");
+        String call_method = getIntent().getStringExtra("GetOrPost");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        int getMethod = Objects.equals(call_method, "GET") ? com.android.volley.Request.Method.GET : com.android.volley.Request.Method.POST;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(getMethod, wholeConversationUri, null, new com.android.volley.Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    response.put("myID", "1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("TESTChat", response.toString());
+                wholeConversation = response.toString();
+                getItemFromJson(wholeConversation);
+                new SocketListener().run();
             }
-
-            try {
-                userID1 = JsonConversation.getString("user1");
-                //String userID2 = JsonConversation.getString("user2");
-                user1name = JsonConversation.getString("user1name");
-                user2name = JsonConversation.getString("user2name");
-                messagesJson = JsonConversation.getJSONArray("messages");
-                conversationID = JsonConversation.getString("conversationID");
-                myID = JsonConversation.getString("myID");
-            } catch (JSONException e) {
-                e.printStackTrace();
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("TESTChat", error.getMessage());
             }
+        });
+        queue.add(jsonObjectRequest);
 
-            Log.d(TAG, "Creating Chat Activity");
-            Log.d(TAG, JsonConversation.toString());
-        }
 
-        //create socket
-        new SocketListener().run();
-
-        //initView(); //use to test without server
     }
 
     //call when client successfully connect to the server
@@ -369,6 +363,31 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    private void getItemFromJson(String wholeConversation){
+        //get items from JSON
+        if( wholeConversation!= null){
+            try {
+                JsonConversation = new JSONObject(wholeConversation);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                JsonConversation = new JSONObject();
+            }
+
+            try {
+                userID1 = JsonConversation.getString("user1");
+                user1name = JsonConversation.getString("user1name");
+                user2name = JsonConversation.getString("user2name");
+                messagesJson = JsonConversation.getJSONArray("messages");
+                conversationID = JsonConversation.getString("conversationID");
+                myID = JsonConversation.getString("myID");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d(TAG, "Creating Chat Activity");
+            Log.d(TAG, JsonConversation.toString());
         }
     }
 

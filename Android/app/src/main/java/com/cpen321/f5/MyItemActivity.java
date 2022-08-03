@@ -42,7 +42,7 @@ public class MyItemActivity extends AppCompatActivity
     String itemLocation;
     String itemNumber;
 
-    String itemID = MyItemListActivity.MyItemID;
+    String itemID;
 
     String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
     String REMOVEITEMURL = "http://20.106.78.177:8081/item/removeitem/" + itemID;
@@ -53,6 +53,7 @@ public class MyItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_item);
 
+        itemID = getIntent().getStringExtra("myitemID");
         requestQueue = Volley.newRequestQueue(this);
 
         Log.d(TAG, GETITEMURL);
