@@ -76,7 +76,7 @@ public class MainUI extends AppCompatActivity {
                 searchKey = keywordSearch.getText().toString().trim();
                 if( validCheck() ){
                     Log.d("SearchActivity", "search key = " + searchKey);
-                    getdata(searchKey);
+                    getDataForItemList(searchKey);
                 }
             }
         });
@@ -178,7 +178,7 @@ public class MainUI extends AppCompatActivity {
         return true;
     }
 
-    private void getdata(String searchKey)
+    private void getDataForItemList(String searchKey)
     {
         String url = getString(R.string.url_searchResult) + searchKey;
 

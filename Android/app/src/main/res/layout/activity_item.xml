@@ -5,7 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ItemActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/l1"
+        android:background="@color/MediumPurple"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp">
+            <TextView
+                android:id="@+id/home_item_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:drawableTop="@drawable/ic_baseline_home_24"
+                android:text="home" />
+            <EditText
+                android:id="@+id/search_item_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/LightGray"
+                android:drawableLeft="@drawable/ic_search"
+                android:gravity="left|center_vertical"
+                android:hint="Type keywords to search"
+                android:padding="5dp"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/search_item_button"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/purple_700"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:text="search"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -13,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/l1"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="Name"
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -49,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="$99999"
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="Sample"
                 android:textColor="#000000"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="1289808m"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_category_caption" />
 
@@ -83,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="12567788"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_location_caption" />
 
@@ -93,33 +141,47 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_marginTop="10dp"
-                android:text=""
+                android:text="/////////////////////////////////////////
+                ///////////////////////////////////////////////////////"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_id_caption" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <Button
-        android:id="@+id/bid_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="BID FOR ITEM"
-        android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/contact_seller_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="CONTACT SELLER"
-        android:textColor="#FFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bid_button"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/contact_seller_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="CONTACT SELLER"
+            android:padding="15dp"
+            android:gravity="center"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:background="@color/purple_200"
+            />
+
+        <TextView
+            android:id="@+id/bid_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:text="BID FOR ITEM"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@color/PaleVioletRed"
+            />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

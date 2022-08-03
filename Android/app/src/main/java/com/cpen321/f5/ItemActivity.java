@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +27,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +51,10 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     public static String expireTime;
     public static String sellerID;
 
+    private static List<String> itemIDList;
+    String searchKey;
+
+    RequestQueue requestQueueForSearch;
     RequestQueue requestQueue;
 
     TextView _itemName;
@@ -72,7 +80,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     LocationManager locationManager;
     private double lat;
     private double lon;
-
     private double lat_item;
     private double lon_item;
 
@@ -83,8 +90,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        Button contactsellerButton;
-        Button bidButton;
+        View contact_seller_Button;
+        View bidButton;
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -104,6 +111,29 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         Log.d(TAG, GETITEMURL);
         GETITEM();
 
+        View home_button = findViewById(R.id.home_item_button);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemActivity.this, MainUI.class);
+                startActivity(intent);
+            }
+        });
+        View search_button = findViewById(R.id.search_item_button);
+        requestQueueForSearch = Volley.newRequestQueue(this);
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                EditText search_bar = findViewById(R.id.search_item_bar);
+                searchKey = search_bar.getText().toString().trim();
+                if( validCheck() ){
+                    Log.d("SearchActivity", "search key = " + searchKey);
+                    getDataForItemList(searchKey);
+                }
+            }
+        });
+
         String chat_init_url = "http://20.106.78.177:8081/chat/initconversation/";
         String myID = MainActivity.idOfUser;
 
@@ -120,8 +150,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
-        contactsellerButton = findViewById(R.id.contact_seller_button);
-        contactsellerButton.setOnClickListener(new View.OnClickListener() {
+        contact_seller_Button = findViewById(R.id.contact_seller_button);
+        contact_seller_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //init userid2 string here to wait for GETITEM response
@@ -290,6 +320,56 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(@NonNull List<Location> locations) {
         LocationListener.super.onLocationChanged(locations);
+    }
+
+
+    //these functions are for old search activity
+    private boolean validCheck(){
+        if (searchKey.equals("")){
+            Toast.makeText(ItemActivity.this, "Fail, please type in something", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void getDataForItemList(String searchKey)
+    {
+        String url = getString(R.string.url_searchResult) + searchKey;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+
+                        itemIDList.add(itemID);
+                        Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
+                    }
+                    Intent ListUI = new Intent(ItemActivity.this, ItemListActivity.class);
+                    startActivity(ListUI);
+                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(ItemActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueueForSearch.add(jsonArrayRequest);
+    }
+
+    public static List<String> getItemList(){
+        return itemIDList;
     }
 
 }
