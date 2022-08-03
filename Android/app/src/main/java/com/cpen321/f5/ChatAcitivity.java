@@ -75,6 +75,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_acitivity);
+        myID = MainActivity.idOfUser;
 
         wholeConversationUri = getIntent().getStringExtra("conversations");
         String call_method = getIntent().getStringExtra("GetOrPost");
@@ -84,7 +85,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    response.put("myID", "1");
+                    response.put("myID", myID);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

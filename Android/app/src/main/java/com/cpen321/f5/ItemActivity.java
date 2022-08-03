@@ -158,29 +158,11 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                 //init userid2 string here to wait for GETITEM response
                 String userID2 = ItemActivity.sellerID;
                 String chat_url = chat_init_url + myID + "/" + userID2;
-
-                RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
-                Intent intent = new Intent(ItemActivity.this, ChatAcitivity.class);
-                Log.d("CHAT", "starting chat with url" + chat_url);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, chat_url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            response.put("myID", myID);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("CHAT", response.toString());
-                        intent.putExtra("conversations", response.toString());
-                        startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("TEST1", error.getMessage());
-                    }
-                });
-                queue.add(jsonObjectRequest);
+                
+                Intent intent = new Intent(v.getContext(), ChatAcitivity.class);
+                intent.putExtra("GetOrPost", "POST");
+                intent.putExtra("conversations", chat_url);
+                v.getContext().startActivity(intent);
             }
         });
     }
