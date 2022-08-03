@@ -4,22 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_dispute.xml" value="0.20923913043478262" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_item.xml" value="0.21829710144927536" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_list.xml" value="0.21829710144927536" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_main.xml" value="0.21822916666666667" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_response.xml" value="0.20923913043478262" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_admin_search.xml" value="0.21829710144927536" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_bid.xml" value="0.22916666666666666" />
+        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_bid.xml" value="0.2598958333333333" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_dispute.xml" value="0.31875" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_item.xml" value="0.25" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_dispute_check.xml" value="0.20923913043478262" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_item.xml" value="0.1" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_item_list.xml" value="0.18854166666666666" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_items_list.xml" value="0.2078125" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_listview.xml" value="0.21829710144927536" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_main_ui.xml" value="0.25" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_my_item.xml" value="0.21829710144927536" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_my_item_list.xml" value="0.20923913043478262" />
         <entry key="..\:/Daijun Wang/CPEN321/Android/app/src/main/res/layout/activity_post.xml" value="0.20677083333333332" />
@@ -39,26 +29,33 @@
         <entry key="..\:/Git/CPEN321F5/Android/app/src/main/res/layout/item_receive_image.xml" value="0.1" />
         <entry key="..\:/Git/CPEN321F5/Android/app/src/main/res/layout/single_chat_layout.xml" value="0.1" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/drawable/ic_search.xml" value="0.4605" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_admin_main.xml" value="0.5755208333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_bid.xml" value="0.353125" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_category.xml" value="0.31145833333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_item.xml" value="0.30364583333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_item_list.xml" value="0.3804347826086957" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_items_list.xml" value="0.5755208333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_listview.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_main.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_main_ui.xml" value="0.3875" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_my_item.xml" value="0.31145833333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_post.xml" value="0.2515625" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_post_items.xml" value="0.25" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_profile.xml" value="0.5755208333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_search.xml" value="0.465625" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_searchable.xml" value="0.3875" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/activity_wallet.xml" value="0.30833333333333335" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/buy_with_googlepay_button.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/layout/content_scrolling.xml" value="0.5755208333333334" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/menu/menu.xml" value="0.46458333333333335" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321/Android/app/src/main/res/menu/menu_item_list.xml" value="0.5755208333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_bid.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_chat_acitivity.xml" value="0.328125" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_item.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_main_ui.xml" value="0.2947916666666667" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_post.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_post_items.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/thoma/Desktop/CPEN321_F5/Android/app/src/main/res/layout/activity_search.xml" value="0.25677083333333334" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.111" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/drawable/ic_chatlist.xml" value="0.198" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_bid.xml" value="0.18070652173913043" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_item.xml" value="0.18070652173913043" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_main_ui.xml" value="0.18070652173913043" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_my_item.xml" value="0.18070652173913043" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_my_item_list.xml" value="0.18070652173913043" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_post.xml" value="0.328125" />
-        <entry key="..\:/Users/thoma/Desktop/CPEN321_F5_8.2/Android/app/src/main/res/layout/activity_post_items.xml" value="0.328125" />
       </map>
     </option>
   </component>

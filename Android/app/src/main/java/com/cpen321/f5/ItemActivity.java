@@ -115,6 +115,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
     int tmpPrice;
 
+    TextView bidButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -124,9 +126,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         //viewAdapterItem = new ViewAdapterItem(this);
 
         Button contactsellerButton;
-        Button bidButton;
+
         View contact_seller_Button;
-        View bidButton;
 
         tmpID = getIntent().getStringExtra("itemID");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -185,7 +186,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v)
             {
-
                 //new code
                 if (tmpPrice > Integer.parseInt(itemPrice)){
                     updPrice();
@@ -229,8 +229,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                 tmpPrice -= priceChange;
                 if (tmpPrice < Integer.parseInt(itemPrice)){
                     tmpPrice = Integer.parseInt(itemPrice);
+                    Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                 newPrice.setText(Integer.toString(tmpPrice));
             }
         });
@@ -422,6 +422,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     {
         byte[] bytes = Base64.decode(img, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
 
     //these functions are for old search activity
     private boolean validCheck(){
