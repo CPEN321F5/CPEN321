@@ -157,6 +157,39 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
+        LinearLayout clothing_category = findViewById(R.id.clothes_button);
+        clothing_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForCategory("Clothing");
+            }
+        });
+        LinearLayout books_category = findViewById(R.id.book_button);
+        books_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForCategory("Books");
+            }
+        });
+        LinearLayout electronics_category = findViewById(R.id.electronis_button);
+        electronics_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForCategory("Electronics");
+            }
+        });
+        LinearLayout furniture_category = findViewById(R.id.furniture_button);
+        furniture_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForCategory("Furniture");
+            }
+        });
+
         viewRecommendation();
     }
 
@@ -236,6 +269,42 @@ public class MainUI extends AppCompatActivity {
         requestQueueForSearch.add(jsonArrayRequest);
     }
 
+    private void getDataForCategory(String searchKey)
+    {
+        String url = getString(R.string.url_item_get_by_categories) + searchKey;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+
+                        itemIDList.add(itemID);
+                        //Log.d(TAG, "ATTRIBUTE = " + itemIDList.get(0));
+                    }
+                    Intent ListUI = new Intent(MainUI.this, ItemListActivity.class);
+                    ListUI.putExtra("search_interface","1");
+                    startActivity(ListUI);
+                    //Log.d("MainUIcategory",itemIDList.get(0));
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(MainUI.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainUI.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueueForSearch.add(jsonArrayRequest);
+    }
     public static List<String> getItemList(){
         return itemIDList;
     }

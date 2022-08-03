@@ -119,6 +119,9 @@
         <item>Cameras</item>
         <item>Clothing</item>
         <item>Computers</item>
+        <item>Electronics</item>
+        <item>Furniture</item>>
+        <item>Makeup</item>
         <item>Tools</item>
         <item>Other</item>
     </string-array>
