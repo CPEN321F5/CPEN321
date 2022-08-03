@@ -65,7 +65,6 @@ public class ChatlistsActivity extends AppCompatActivity {
         chatList.setAdapter(chatListAdapter);
         new ItemTouchHelper(itemTouchCallback).attachToRecyclerView(chatList);
         chatList.setLayoutManager(new LinearLayoutManager(this));
-//        chatList.setLayoutManager(new GridLayoutManager(this,2));  //!!!!!!!!!!!
 
             for(int i = 0; i <= JsonConversationList.length() - 1; i++){
                 try {
@@ -114,7 +113,6 @@ public class ChatlistsActivity extends AppCompatActivity {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             startActivity(profileIntent);
         });
-
     }
 
     ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

@@ -70,6 +70,7 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_image.setImageBitmap(bitmap);
+                    holder.item_status.setText(response.getString(""));
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
@@ -110,12 +111,14 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
         ImageView item_image;
         TextView item_name;
         TextView item_price;
+        TextView item_status;
 
         public SingleItemHolder(@NonNull View itemView) {
             super(itemView);
             item_image = itemView.findViewById(R.id.item_image);
             item_name = itemView.findViewById(R.id.item_name);
             item_price = itemView.findViewById(R.id.item_price);
+            item_status = itemView.findViewById(R.id.item_status);
         }
     }
 
