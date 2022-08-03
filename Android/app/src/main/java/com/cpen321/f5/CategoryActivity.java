@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +52,55 @@ public class CategoryActivity extends AppCompatActivity {
                 itemIDList = new ArrayList<>();
                 category = categories[position];
 
-                getdata(category);
+                getDataForItemList(category);
 //                Intent tmp = new Intent(ItemListActivity.this, ItemActivity.class);
 //                startActivity(tmp);
             }
         });
+
+        TextView chatList_button = findViewById(R.id.chat_category_button);
+        String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
+        chatList_button.setOnClickListener(v ->{
+            String chatList_url = chatList_init_url + MainActivity.idOfUser;
+            RequestQueue queue = Volley.newRequestQueue(v.getContext());
+            Intent intent = new Intent(this, ChatlistsActivity.class);
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    Log.d("TEST1", response.toString());
+                    intent.putExtra("conversationsList", response.toString());
+                    intent.putExtra("myID", MainActivity.idOfUser);
+                    startActivity(intent);
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("TEST1", chatList_url);
+                }
+            });
+            queue.add(jsonArrayRequest);
+        });
+        TextView profile_button = findViewById(R.id.profile_category_button);
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        TextView Home_button = findViewById(R.id.home_category_button);
+        Home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryActivity.this, WalletActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
-    private void getdata(String searchKey)
+    private void getDataForItemList(String searchKey)
     {
         String url = getString(R.string.url_item_get_by_categories) + searchKey;
 

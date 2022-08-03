@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -89,6 +90,7 @@ public class ChatlistsActivity extends AppCompatActivity {
                         initView();
                         Log.d("TESTChatList", response.toString());
                         chatListRefresher.setRefreshing(false);
+                        Toast.makeText(ChatlistsActivity.this,"Refreshing completed", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -127,6 +129,7 @@ public class ChatlistsActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getBindingAdapterPosition();
             chatListAdapter.deleteList(position);
+            Toast.makeText(ChatlistsActivity.this,"This chat is deleted...", Toast.LENGTH_SHORT).show();
         }
 
         @Override

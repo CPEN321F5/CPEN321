@@ -193,9 +193,10 @@ public class MainUI extends AppCompatActivity {
                         String itemID = jsonObject.getString("ItemID");
 
                         itemIDList.add(itemID);
-                        Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
+                        //Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
                     }
                     Intent ListUI = new Intent(MainUI.this, ItemListActivity.class);
+                    ListUI.putExtra("search_interface","1");
                     startActivity(ListUI);
                     //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
                 }

@@ -73,9 +73,9 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     String itemNumber;
 
     public static String itemID;
-    String tmpID = ItemListActivity.ItemID;
+    String tmpID;
 
-    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + tmpID + "/";;
+    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/";;
 
     LocationManager locationManager;
     private double lat;
@@ -93,6 +93,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
         View contact_seller_Button;
         View bidButton;
 
+        tmpID = getIntent().getStringExtra("itemID");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -186,7 +187,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
 
     private void GETITEM ()
     {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETITEMURL, null, new Response.Listener<JSONObject>()
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETITEMURL+ tmpID + "/", null, new Response.Listener<JSONObject>()
         {
             @SuppressLint("SetTextI18n")
             @Override
@@ -350,6 +351,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                         Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
                     }
                     Intent ListUI = new Intent(ItemActivity.this, ItemListActivity.class);
+                    ListUI.putExtra("search_interface","3");
                     startActivity(ListUI);
                     //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
                 }
