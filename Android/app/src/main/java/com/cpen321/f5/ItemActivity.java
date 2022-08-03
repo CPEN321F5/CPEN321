@@ -4,21 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +45,8 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 
-public class ItemActivity extends AppCompatActivity implements LocationListener {
-
+public class ItemActivity extends AppCompatActivity implements LocationListener
+{
     private static final String TAG = "ItemActivity";
 
     public static String stepPrice;
@@ -46,6 +54,10 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     public static String highestPriceHolder;
     public static String expireTime;
     public static String sellerID;
+
+    ViewAdapterItem viewAdapterItem;
+    DotsIndicator dotsIndicator;
+    ViewPager viewPager;
 
     RequestQueue requestQueue;
 
@@ -63,6 +75,18 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     String itemLocationLong;
     String itemLocationLat;
     String itemNumber;
+
+    String img0;
+    String img1;
+    String img2;
+
+    public static Bitmap bitmap0;
+    public static Bitmap bitmap1;
+    public static Bitmap bitmap2;
+
+    public static Drawable drawable0;
+    public static Drawable drawable1;
+    public static Drawable drawable2;
 
     public static String itemID;
     String tmpID = ItemListActivity.ItemID;
@@ -82,6 +106,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+
+        //viewAdapterItem = new ViewAdapterItem(this);
 
         Button contactsellerButton;
         Button bidButton;
@@ -178,6 +204,46 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
                     stepPrice = response.getString("stepPrice");
                     expireTime = response.getString("timeExpire");
 //                            "1320105600";
+
+                    img0 = response.getString("image_0");
+                    img1 = response.getString("image_1");
+                    img2 = response.getString("image_2");
+
+                    Log.d(TAG, "Base 64: " + img0);
+
+                    bitmap0 = base64ToBitmap(img0);
+                    drawable0 = new BitmapDrawable(getResources(), bitmap0);
+
+                    if (img1.equals(""))
+                    {
+                        bitmap1 = base64ToBitmap(img0);
+                        drawable1 = new BitmapDrawable(getResources(), bitmap1);
+                    }
+
+                    else
+                    {
+                        bitmap1 = base64ToBitmap(img1);
+                        drawable1 = new BitmapDrawable(getResources(), bitmap1);
+                    }
+
+                    if (img2.equals(""))
+                    {
+                        bitmap2 = base64ToBitmap(img0);
+                        drawable2 = new BitmapDrawable(getResources(), bitmap2);
+                    }
+
+                    else
+                    {
+                        bitmap2 = base64ToBitmap(img2);
+                        drawable2 = new BitmapDrawable(getResources(), bitmap2);
+                    }
+
+                    viewAdapterItem = new ViewAdapterItem(ItemActivity.this);
+                    viewPager = findViewById(R.id.view_pager);
+                    dotsIndicator = findViewById(R.id.dots_indicator);
+
+                    viewPager.setAdapter(viewAdapterItem);
+                    dotsIndicator.setViewPager(viewPager);
 
                     lon_item = Double.parseDouble(itemLocationLong);
                     lat_item = Double.parseDouble(itemLocationLat);
@@ -290,6 +356,12 @@ public class ItemActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(@NonNull List<Location> locations) {
         LocationListener.super.onLocationChanged(locations);
+    }
+
+    private Bitmap base64ToBitmap (String img)
+    {
+        byte[] bytes = Base64.decode(img, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
 }
