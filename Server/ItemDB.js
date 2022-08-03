@@ -108,7 +108,10 @@ Database.prototype.searchItem = function(key_word){
     console.log("[ItemDB] searching for item with keyword " + key_word)
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            const query = {$text : { $search : key_word.toString()}}
+            const query = {$and: [
+                {$text : { $search : key_word.toString()}},
+                {expired : "false"}
+            ]}
             //const filter = {timeExpire : { $gt : Date.now() }}
             //TODO add expire
 
@@ -154,6 +157,44 @@ Database.prototype.removeItem = function(itemID){
                 return true
             }else{
                 console.log("[ItemDB] failed to delete item, item did not exist")
+                return false
+            }
+        })
+    )
+}
+
+
+Database.prototype.chargeUser = function(userID, charge_amount){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[ItemDB] charging user " + userID + " with an amount of " + charge_amount)
+            //getting the user's current balance
+            db.collection("Profile").findOne({ UserID: userID.toString() }).then(profile =>{
+                var balance = parseInt(profile.balance, 10)
+                console.log("[ItemDB] user current balance : " + balance)
+                balance -= parseInt(charge_amount, 10)
+
+                var update = {
+                    UserID : userID,
+                    balance : balance.toString()
+                }
+                
+                //configuring the parameter for update
+                const filter = { UserID: userID.toString() }
+                const profile_update = { $set: update }
+                const options = { upsert: false };
+
+                console.log(profile_update)
+                var result = db.collection("Profile").updateOne(filter, profile_update, options)
+                resolve(result);
+            })
+        }).then(result =>{
+            console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
+            if (result.modifiedCount >= 1){
+                console.log("[ItemDB] successfully charged the user")
+                return true
+            }else{
+                console.log("[ItemDB] failed to charged the user")
                 return false
             }
         })

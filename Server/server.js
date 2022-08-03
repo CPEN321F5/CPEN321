@@ -102,6 +102,11 @@ app.get("/user/getprofile/:user_id", (req,res) => {
 const Item_Module = require("./ItemModule")
 var item_module = new Item_Module()
 
+//setup routine for updating expired item
+setInterval(() => {
+    item_module.updateExpireStatus()
+}, 5000)
+
 //posting an item
 app.post("/item/postitem/", (req,res) => {
     console.log("[Server] posting an item")

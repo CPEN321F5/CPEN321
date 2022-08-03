@@ -1,3 +1,4 @@
+const e = require('express')
 const Item_Database = require('./ItemDB.js')
 
 function Item_module(){
@@ -80,12 +81,65 @@ Item_module.prototype.removeItem = function(itemID){
     return this.item_db.removeItem(itemID)
 }
 
+//routine for checking item expire time and updating process
+Item_module.prototype.updateExpireStatus = function(){
+    var query = {$and:[
+                    {$expr: { $lte: [ { $toDouble: "$timeExpire" }, Date.now()/1000 ] } },
+                    {expired : "false"}
+                    ]  }
+
+    return this.item_db.getItemByCondition(query).then(expired_items => {
+        expired_items.forEach(element => {
+            console.log(element)
+            if(Object.prototype.hasOwnProperty.call(element, "currentPriceHolder") && element.currentPriceHolder != "no one bid yet"){
+                //item has been bought charge the buyer
+                this.item_db.chargeUser(element.currentPriceHolder, element.currentPrice).then(success => {
+                    if(success){
+                        //payment success
+                        update = {
+                            ItemID : element.ItemID,
+                            status : "sold",
+                            expired : "true"
+                        }
+                        this.item_db.updateItem(update)
+                    }
+                    else{
+                        //payment error
+                        update = {
+                            ItemID : element.ItemID,
+                            status : "payment_pending",
+                            expired : "true"
+                        }
+                        this.item_db.updateItem(update)
+                    }
+                })
+
+            }
+            else{
+                //item expired with no bidder
+                update = {
+                    ItemID : element.ItemID,
+                    status : "expired",
+                    expired : "true"
+                }
+                this.item_db.updateItem(update)
+            }
+        });
+    })
+}
+
 module.exports = Item_module
+
+
 
 //Testing codes
 
 
 // var im = new Item_module()
+// count = 1
+// setInterval(() => {
+//     im.updateExpireStatus()
+// }, 5000)
 // var Item1 = {
 //     "name" : "table and desk",
 //     "Buyer" : "222",
