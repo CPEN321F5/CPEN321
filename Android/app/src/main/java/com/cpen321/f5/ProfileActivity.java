@@ -291,7 +291,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean validCheck()
     {
-        if (email.equals("") || phone.equals(""))
+        if (email.equals("") && phone.equals(""))
         {
             Toast.makeText(ProfileActivity.this, "Email Or Phone Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;
