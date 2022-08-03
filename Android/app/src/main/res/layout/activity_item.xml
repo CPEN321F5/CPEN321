@@ -103,59 +103,87 @@
 
                 <TextView
                     android:id="@+id/item_name_caption"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="Name"
+                    android:text=""
                     android:textColor="#000000"
-                    android:textSize="24sp"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent" />
-
-                <TextView
-                    android:id="@+id/item_price_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="$99999"
-                    android:textColor="#000000"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_name_caption" />
-
-                <TextView
-                    android:id="@+id/item_category_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Sample"
-                    android:textColor="#000000"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_price_caption" />
-
-                <TextView
-                    android:id="@+id/item_location_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="1289808m"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_category_caption" />
+                    app:layout_constraintTop_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/item_id_caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="12567788"
+                    android:layout_marginTop="0dp"
+                    android:textColor="#000000"
+                    android:text=""
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_location_caption" />
+                    app:layout_constraintTop_toBottomOf="@+id/item_name_caption"/>
+
+                <TextView
+                    android:id="@+id/owner_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="0dp"
+                    android:textColor="#000000"
+                    android:text=""
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_id_caption"/>
+
+                <TextView
+                    android:id="@+id/highest_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="0dp"
+                    android:textColor="#000000"
+                    android:text=""
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/owner_name"/>
+
+                <TextView
+                    android:id="@+id/item_price_caption"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="270dp"
+                    android:layout_marginTop="-70dp"
+                    android:text=""
+                    android:textColor="#2B712E"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/item_name_caption"/>
+
+                <TextView
+                    android:id="@+id/item_category_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_price_caption"/>
+
+                <TextView
+                    android:id="@+id/item_location_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_category_caption"/>
 
                 <TextView
                     android:id="@+id/item_description_caption"
@@ -163,10 +191,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="/////////////////////////////////////////
-                ///////////////////////////////////////////////////////"
+                    android:text=""
+                    android:textColor="#000000"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/item_id_caption" />
+                    app:layout_constraintTop_toBottomOf="@+id/item_location_caption"/>
 
             </LinearLayout>
 
