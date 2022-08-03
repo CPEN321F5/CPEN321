@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,7 +37,6 @@ public class DisputeActivity extends AppCompatActivity
 
     RequestQueue requestQueue;
 
-
     EditText _orderItemID;
     EditText _reason;
     EditText _refund;
@@ -41,8 +47,20 @@ public class DisputeActivity extends AppCompatActivity
     String refund;
     String admin;
 
+    TextView _buyerName;
+    TextView _sellerName;
+    TextView _itemName;
+    Bitmap _itemBitmap;
+    Drawable _itemDrawable;
+    ImageView _disputeImage;
+
+    String itemBuyerName;
+    String itemSellerName;
+
     public static String adminConclusion;
     public static String ifDisputed;
+
+    String GETPROFURL = "http://20.106.78.177:8081/user/getprofile/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +72,17 @@ public class DisputeActivity extends AppCompatActivity
         Button submitButton;
 
         requestQueue = Volley.newRequestQueue(this);
+
+        _itemName = findViewById(R.id.item_name);
+        _itemName.setText(DisputeMainActivity.itemName);
+
+        GETDISPUTEBUYER(DisputeMainActivity.buyerName);
+        GETDISPUTESELLER(DisputeMainActivity.sellerName);
+
+        _itemBitmap = base64ToBitmap(DisputeMainActivity.itemImage);
+        _itemDrawable = new BitmapDrawable(getResources(), _itemBitmap);
+        _disputeImage = findViewById(R.id.dispute_image);
+        _disputeImage.setImageDrawable(_itemDrawable);
 
         submitButton = findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener()
@@ -243,5 +272,83 @@ public class DisputeActivity extends AppCompatActivity
         });
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void GETDISPUTEBUYER (String ID)
+    {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFURL+ ID + "/", null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    itemBuyerName = response.getString("FirstName") + " " + response.getString("LastName");
+
+                    _buyerName = findViewById(R.id.buyer_caption);
+                    _buyerName.setText(itemBuyerName);
+
+                    Toast.makeText(DisputeActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(DisputeActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(DisputeActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void GETDISPUTESELLER (String ID)
+    {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFURL+ ID + "/", null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    itemSellerName = response.getString("FirstName") + " " + response.getString("LastName");
+
+                    _sellerName = findViewById(R.id.seller_caption);
+                    _sellerName.setText(itemSellerName);
+
+                    Toast.makeText(DisputeActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(DisputeActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(DisputeActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private Bitmap base64ToBitmap (String img)
+    {
+        byte[] bytes = Base64.decode(img, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

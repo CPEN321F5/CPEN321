@@ -339,10 +339,10 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     _itemDescription = findViewById(R.id.item_description_caption);
                     _itemDescription.setText(itemDescription);
 
-                    if (highestPriceHolder.equals(""))
+                    if (highestPriceHolder.equals("no one bid yet"))
                     {
                         _highestPriceHolderName = findViewById(R.id.highest_name);
-                        _highestPriceHolderName.setText("Price Holder: N/A");
+                        _highestPriceHolderName.setText("Price Holder: No Bidders");
                     }
 
                     else
