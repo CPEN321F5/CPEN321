@@ -40,6 +40,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -304,13 +305,40 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                    if(result.getResultCode() == RESULT_OK){
+
+                        //Decode image size
+                        BitmapFactory.Options o = new BitmapFactory.Options();
+                        o.inJustDecodeBounds = true;
                         try{
                             InputStream Is = getContentResolver().openInputStream(imageUri);
-                            Bitmap image = BitmapFactory.decodeStream(Is);
-                            sendImage(image);
+                            BitmapFactory.decodeStream(Is, null, o);
+                            Is.close();
                         }catch (FileNotFoundException error){
+                            Toast.makeText(ChatAcitivity.this, "error", Toast.LENGTH_SHORT).show();
                             error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        int IMAGE_MAX_SIZE = 700;
+                        int scale = 1;
+                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+                        }
+
+                        //Decode with inSampleSize
+                        BitmapFactory.Options o2 = new BitmapFactory.Options();
+                        o2.inSampleSize = scale;
+
+                        try {
+                            InputStream Is2 = getContentResolver().openInputStream(imageUri);
+                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
+                            Is2.close();
+                            sendImage(image);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -321,14 +349,38 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
                 @Override
                 public void onActivityResult(ActivityResult result){
                     if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                        //Decode image size
+                        BitmapFactory.Options o = new BitmapFactory.Options();
+                        o.inJustDecodeBounds = true;
                         try{
                             InputStream Is = getContentResolver().openInputStream(result.getData().getData());
-                            Bitmap image = BitmapFactory.decodeStream(Is);
-                            Toast.makeText(ChatAcitivity.this, "work", Toast.LENGTH_SHORT).show();
-                            sendImage(image);
+                            BitmapFactory.decodeStream(Is, null, o);
+                            Is.close();
                         }catch (FileNotFoundException error){
                             Toast.makeText(ChatAcitivity.this, "error", Toast.LENGTH_SHORT).show();
                             error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        int IMAGE_MAX_SIZE = 700;
+                        int scale = 1;
+                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+                        }
+
+                        //Decode with inSampleSize
+                        BitmapFactory.Options o2 = new BitmapFactory.Options();
+                        o2.inSampleSize = scale;
+
+                        try {
+                            InputStream Is2 = getContentResolver().openInputStream(result.getData().getData());
+                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
+                            Is2.close();
+                            sendImage(image);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -338,6 +390,8 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
         ByteArrayOutputStream Os = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG,50, Os);
         String b64String = Base64.encodeToString(Os.toByteArray(), Base64.DEFAULT);
+
+        Log.d("imageCompression", "size of b64string:" + b64String.length());
 
         JSONObject jsonObject = new JSONObject();
         try{
