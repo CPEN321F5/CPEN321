@@ -39,10 +39,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -79,8 +77,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     TextView _itemDescription;
     TextView _itemLocation;
     TextView _itemNumber;
-    private ImageView addButton;
-    private ImageView subButton;
     private TextView newPrice;
 
     TextView _ownerName;
@@ -128,10 +124,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-
-        //viewAdapterItem = new ViewAdapterItem(this);
-
-        Button contactsellerButton;
 
         View contact_seller_Button;
 
@@ -219,8 +211,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
             }
         });
 
-        addButton = findViewById(R.id.item_price_up_button);
-        subButton = findViewById(R.id.item_price_down_button);
+        ImageView addButton = findViewById(R.id.item_price_up_button);
+        ImageView subButton = findViewById(R.id.item_price_down_button);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
