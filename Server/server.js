@@ -333,6 +333,20 @@ app.get("/chat/getconversation/:conversationID", (req, res) =>{
     }
 })
 
+app.delete("/chat/removeconversation/:conversationID", (req,res) => {
+    console.log("[Server] request for removing conversation")
+    conversation_id = req.params.conversationID
+    if(!conversation_id){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid delete, need to have ConversationID")
+    }
+    else{
+        chat_module.deleteConversation(conversation_id).then(result => {
+            res.sendStatus(200)
+        })
+    }
+})
+
 
 ////////////////////////////////////////////////////Recommendation/////////////////////////////////
 const recommendationModule = require("./recommendation")

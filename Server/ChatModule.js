@@ -169,6 +169,16 @@ Chat_module.prototype.addMessage = function(message){
     }
 }
 
+//remove conversation
+Chat_module.prototype.deleteConversation = function(conversationID){
+    if(conversationID == null){
+        return new Promise((resolve, reject) => {
+            resolve(false)
+        })
+    }
+    return this.chat_db.removeConversation(conversationID)
+}
+
 module.exports = Chat_module
 
 

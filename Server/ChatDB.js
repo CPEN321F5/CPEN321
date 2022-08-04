@@ -40,6 +40,27 @@ ChatDB.prototype.initConversation = function(conversation){
 	)
 }
 
+//remove existing conversation
+ChatDB.prototype.removeConversation = function(conversationID){
+	return this.connected.then(
+		db => new Promise((resolve, reject) => {
+			console.log("[ChatDB] deleting conversation with id " + conversationID)
+            var query = {conversationID : conversationID}
+            var result = db.collection(db_coll).deleteOne(query)
+            resolve(result)
+		}).then(result =>{
+            console.log("[ChatDB] deleted " + result.deletedCount + "Conversation")
+            if (result.deletedCount >= 1){
+                console.log("[ChatDB] successfully delete Conversation")
+                return true
+            }else{
+                console.log("[ChatDB] failed to delete Conversation, Conversation did not exist")
+                return false
+            }
+        })
+	)
+}
+
 //get an conversation object
 ChatDB.prototype.getConversation = function(conversationID){
 	return this.connected.then(
