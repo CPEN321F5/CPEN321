@@ -70,7 +70,7 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_image.setImageBitmap(bitmap);
-                    holder.item_status.setText(response.getString(""));
+                    holder.item_status.setText(response.getString("status"));
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {

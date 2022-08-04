@@ -302,6 +302,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 params.put("postTime", postTime);
                 params.put("timeLast", timeLast);
                 params.put("timeExpire", timeExpire);
+                params.put("status", "active");
 
                 params.put("currentPriceHolder", "no one bid yet");
                 params.put("currentPrice", startPrice);

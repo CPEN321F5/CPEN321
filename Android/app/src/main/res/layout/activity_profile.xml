@@ -14,7 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="#FFC107"
+            android:background="@color/purple_700"
             android:padding="20dp">
 
             <ImageView
@@ -57,8 +57,8 @@
                 android:id="@+id/dispute_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FILE DISPUTE"
-                android:layout_marginStart="235dp">
+                android:layout_marginStart="235dp"
+                android:text="FILE DISPUTE">
 
             </Button>
 
@@ -75,7 +75,7 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFC107"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -106,7 +106,7 @@
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
                         android:text="Items Bidding Almost Win"
-                        android:textSize="10dp" />
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
 
@@ -118,7 +118,7 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFC107"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -160,7 +160,7 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFC107"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
