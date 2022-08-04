@@ -325,6 +325,24 @@ app.get("/chat/getconversation/:conversationID", (req, res) =>{
 })
 
 
+////////////////////////////////////////////////////Recommendation/////////////////////////////////
+const recommendationModule = require("./recommendation")
+const rm = new recommendationModule()
+
+//requesting for a list of conversation involved with a userID
+app.get("/recommand/getrecommendation/:userID", (req, res) =>{
+    console.log("[Server] request for list of recommendation for" + req.params.userID)
+    if(!req.params.userID){
+        //invalid request
+        res.status(400).send("invalid request: user id not specified")
+    }
+    else{
+        rm.getRecommendItems(req.params.userID).then(recommend_list => {
+            res.send(recommend_list)
+        })
+    }
+})
+
 
 
 app.get("/", (req,res) =>{

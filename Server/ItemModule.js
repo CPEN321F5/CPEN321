@@ -1,4 +1,3 @@
-const e = require('express')
 const Item_Database = require('./ItemDB.js')
 
 function Item_module(){
@@ -22,7 +21,9 @@ Item_module.prototype.getItemByID = function(itemId){
 
 Item_module.prototype.getItemByID_history = function(itemId, userID){
     return this.item_db.getItemById(itemId).then(item => {
-        this.item_db.saveHistory(userID, item)
+        if(item != null && Object.prototype.hasOwnProperty.call(item, "ItemID") && Object.prototype.hasOwnProperty.call(item, "catagory")){
+            this.item_db.saveHistory(userID, item)
+        }
         return item
     })
 }
