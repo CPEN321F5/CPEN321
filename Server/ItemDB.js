@@ -234,7 +234,7 @@ Database.prototype.matchItems = async function(size, catagory){
 
             var items = []
             db.collection("Items").aggregate([
-                {$match: {catagory: catagory}}, // filter the results
+                {$match: {$and:[{catagory: catagory}, {expired : "false"}]}}, // filter the results
                 {$sample: {size: size}} // You want to get 5 docs
             ]).forEach(item => {
                 items.push(item)

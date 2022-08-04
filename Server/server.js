@@ -145,15 +145,24 @@ app.get("/item/getbyid/:item_id", (req, res) => {
         //update invalid, need to have itemID
         res.status(400).send("invalid get, need to have itemID")
     }
-    else if(Object.prototype.hasOwnProperty.call(req.body, "UserID")){
-        //UserID included, saving item into user's history
-        console.log("[Server] saving item history to UserID " + req.body.UserID)
-        item_module.getItemByID_history(req.params.item_id, req.body.UserID).then(item => {
+    else{
+        item_module.getItemByID(req.params.item_id).then(item => {
             res.send(item)
         })
     }
+})
+
+//getting an item by id with history
+app.get("/item/getbyid_history/:item_id/:user_id", (req, res) => {
+    console.log("[Server] getting an item with id with history " + req.params.item_id)
+    if(!req.params.item_id || !req.params.user_id){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid get, need to have itemID and UserID")
+    }
     else{
-        item_module.getItemByID(req.params.item_id).then(item => {
+        //UserID included, saving item into user's history
+        console.log("[Server] saving item history to UserID " + req.params.user_id)
+        item_module.getItemByID_history(req.params.item_id, req.params.user_id).then(item => {
             res.send(item)
         })
     }

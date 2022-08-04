@@ -40,9 +40,12 @@ import com.android.volley.toolbox.Volley;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -105,7 +108,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     public static String itemID;
     String tmpID;
 
-    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/";
+    String GETITEMURL = "http://20.106.78.177:8081/item/getbyid_history/";
     String GETPROFURL = "http://20.106.78.177:8081/user/getprofile/";
 
     LocationManager locationManager;
@@ -238,7 +241,9 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
     private void GETITEM ()
     {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETITEMURL+ tmpID + "/", null, new Response.Listener<JSONObject>()
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                GETITEMURL+ tmpID + "/" + MainActivity.idOfUser + "/", null,
+                new Response.Listener<JSONObject>()
         {
             @SuppressLint("SetTextI18n")
             @Override
