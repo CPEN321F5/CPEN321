@@ -10,14 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,14 +17,12 @@ import org.json.JSONObject;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.SingleListHolder> {
 
     private LayoutInflater chatListInflate;
-    private String myID;
     private JSONArray coresChats= new JSONArray();
     String chat_get_url = "http://20.106.78.177:8081/chat/getconversation/";
 
-    public ChatListAdapter(LayoutInflater chatListInflate, String myID){
+    public ChatListAdapter(LayoutInflater chatListInflate){
 
         this.chatListInflate = chatListInflate;
-        this.myID = myID;
 
     }
 

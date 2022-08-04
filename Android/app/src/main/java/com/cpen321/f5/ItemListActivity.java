@@ -65,6 +65,12 @@ public class ItemListActivity extends AppCompatActivity {
             }else if(Objects.equals(check_activity, "3")){
                 cache = new ArrayList<>(ItemActivity.getItemList());
                 Log.d("check3",check_activity);
+            }else if(Objects.equals(check_activity, "5")) {
+                cache = new ArrayList<>(ProfileActivity.getItemList());
+                Log.d("check5purchased", check_activity);
+            }else if(Objects.equals(check_activity, "6")) {
+                cache = new ArrayList<>(ProfileActivity.getItemList());
+                Log.d("check6biddingHighest", check_activity);
             }else{
                 cache = new ArrayList<>(MainUI.getItemList());
                 Log.d("check4",check_activity);

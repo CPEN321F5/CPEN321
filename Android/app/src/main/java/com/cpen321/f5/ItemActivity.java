@@ -120,7 +120,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     private double lon_item;
 
     int tmpPrice;
-
+    int balanceAmount;
     TextView bidButton;
 
     @Override
@@ -150,6 +150,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
 
         requestQueue = Volley.newRequestQueue(this);
+        retrieveBalance();
+
 
         Log.d(TAG, GETITEMURL);
         GETITEM();
@@ -188,8 +190,14 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
             public void onClick(View v)
             {
                 //new code
+                int balance = getBalance();
                 if (tmpPrice > Integer.parseInt(itemPrice)){
-                    updPrice();
+                    if (tmpPrice <= balance){
+                        updPrice();
+                    }else{
+                        Toast.makeText(ItemActivity.this, "load your balance first", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "66balance of wallet = " + balance);
+                    }
                 }else{
                     Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                 }
@@ -593,6 +601,43 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         queue.add(postRequest);
     }
 
+    private void retrieveBalance()
+    {
+        String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFILEURL, null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, response.toString());
+
+                try
+                {
+                    balanceAmount = Integer.parseInt(response.getString("balance"));
+                    Log.d(TAG, "balanceAmount = " + balanceAmount);
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(ItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(ItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private int getBalance(){
+        return balanceAmount;
+    }
 
     public static List<String> getItemList(){
         return itemIDList;
@@ -605,5 +650,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         startActivity(new Intent(this, MainUI.class));
         finish();
     }
+
+
+
 
 }

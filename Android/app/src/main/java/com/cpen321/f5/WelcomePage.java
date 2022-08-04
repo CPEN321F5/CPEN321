@@ -27,6 +27,6 @@ public class WelcomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
 
-        handler.sendEmptyMessageDelayed(0,2000);
+        handler.sendEmptyMessageDelayed(0,2500);
     }
 }
