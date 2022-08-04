@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <Button
+            android:id="@+id/edit_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+
+        <Button
+            android:id="@+id/edit_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            android:text="Edit"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Title"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray"
+            android:textSize="40sp" />
+
+        <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@null"
+            android:gravity="start|top"
+            android:hint="Description"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/edit_item_img0"
+            android:layout_width="48dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="5dp" />
+
+        <ImageView
+            android:id="@+id/edit_item_img1"
+            android:layout_marginStart="5dp"
+            android:layout_width="48dp"
+            android:layout_height="55dp" />
+        <ImageView
+            android:id="@+id/edit_item_img2"
+            android:layout_marginStart="5dp"
+            android:layout_width="48dp"
+            android:layout_height="55dp" />
+        <ImageView
+            android:id="@+id/edit_item_img3"
+            android:layout_marginStart="5dp"
+            android:layout_width="48dp"
+            android:layout_height="55dp" />
+
+        <ImageView
+            android:id="@+id/edit_hint"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_baseline_error_24"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <ImageView
+            android:id="@+id/image_add_button"
+            android:layout_width="48dp"
+            android:layout_height="55dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/image1" />
+
+        <ImageView
+            android:id="@+id/edit_camera_button"
+            android:layout_width="48dp"
+            android:layout_height="55dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+
+            app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@null"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+
+                android:padding="5dp"
+                android:text="Start Price"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:padding="5dp"
+                android:text="$ "
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/edit_start_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:inputType="number"
+                android:padding="5dp"
+                android:text="0"
+                android:textColor="@color/colo_money"
+                android:textColorHint="@color/gray"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/color_link" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:text="Deposit"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:padding="5dp"
+                android:text="$ "
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/edit_deposit"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@null"
+                android:text="0"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/color_link" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:text="Current price"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:padding="5dp"
+                android:text="$ "
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/edit_current_price"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@null"
+                android:text="0"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/color_link" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+
+                android:padding="5dp"
+                android:text="Time remian:"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:padding="4dp"
+                android:text="hr"
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/edit_time_remian"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@null"
+                android:text="0"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/color_link" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+
+                android:padding="5dp"
+                android:text="Categories"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/edit_category_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/edit_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:text="location: ">
+        </TextView>
+
+        <TextView
+            android:id="@+id/edit_show_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="loading ...">
+        </TextView>
+
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

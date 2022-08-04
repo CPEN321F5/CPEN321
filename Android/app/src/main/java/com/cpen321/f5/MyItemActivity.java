@@ -32,7 +32,7 @@ public class MyItemActivity extends AppCompatActivity
 
     TextView removeButton;
     TextView homeButton;
-
+    TextView editButton;
     RequestQueue requestQueue;
 
     ViewAdapterMyItem viewAdapterItem;
@@ -72,7 +72,6 @@ public class MyItemActivity extends AppCompatActivity
     public static Drawable drawable2;
 
     String itemID;
-    String tmpID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -97,6 +96,16 @@ public class MyItemActivity extends AppCompatActivity
 
                 Intent removeIntent = new Intent(MyItemActivity.this, MainUI.class);
                 startActivity(removeIntent);
+            }
+        });
+
+        editButton = findViewById(R.id.edit_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(MyItemActivity.this, EditActivity.class);
+                editIntent.putExtra("itemID",itemID);
+                startActivity(editIntent);
             }
         });
 

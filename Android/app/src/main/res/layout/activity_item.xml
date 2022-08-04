@@ -58,6 +58,7 @@
                 android:baselineAligned="false"
                 android:gravity="center"
                 android:text="search"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/white"/>
         </LinearLayout>
 

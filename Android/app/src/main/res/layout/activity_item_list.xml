@@ -20,7 +20,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginRight="10dp"
                 android:paddingTop="10dp">
                 <TextView
                     android:id="@+id/home_itemList_button"
@@ -53,6 +52,7 @@
                     android:baselineAligned="false"
                     android:gravity="center"
                     android:text="search"
+                    android:layout_marginRight="10dp"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
