@@ -1,6 +1,7 @@
 package com.cpen321.f5;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,13 +17,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -59,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     String zip;
 
     TextView name;
+    private static List<String> itemIDList;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -66,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
 
         Button itemsButton;
         Button postButton;
@@ -160,6 +167,24 @@ public class ProfileActivity extends AppCompatActivity {
                 {
                     UPDATEUSERPROFILE();
                 }
+            }
+        });
+
+        CardView highestBiddingButton = findViewById(R.id.profile_item_purchased);
+        highestBiddingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForHighestBid(MainActivity.idOfUser);
+            }
+        });
+
+        CardView itemPurchasedButton = findViewById(R.id.profile_item_bid_highest);
+        itemPurchasedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                getDataForPurchased(MainActivity.idOfUser);
             }
         });
     }
@@ -322,5 +347,85 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void getDataForHighestBid(String buyerID)
+    {
+        String url = "http://20.106.78.177:8081/item/getbycond/buyer/" + buyerID;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+
+                        itemIDList.add(itemID);
+                        //Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
+                    }
+                    Intent ListUI = new Intent(ProfileActivity.this, ItemListActivity.class);
+                    ListUI.putExtra("search_interface","6");
+                    startActivity(ListUI);
+                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(ProfileActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ProfileActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    private void getDataForPurchased(String buyerID)
+    {
+        String url = "http://20.106.78.177:8081/item/getbycond/buyer/" + buyerID;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+
+                        itemIDList.add(itemID);
+                        //Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
+                    }
+                    Log.d(TAG, "Error1");
+                    Intent ListUI = new Intent(ProfileActivity.this, ItemListActivity.class);
+                    ListUI.putExtra("search_interface","5");
+                    startActivity(ListUI);
+                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception w)
+                {
+                    Log.d(TAG, "Error0");
+                    Toast.makeText(ProfileActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ProfileActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public static List<String> getItemList(){
+        return itemIDList;
     }
 }
