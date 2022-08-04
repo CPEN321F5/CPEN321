@@ -1,6 +1,7 @@
 package com.cpen321.f5;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -58,6 +61,7 @@ public class ChatlistsActivity extends AppCompatActivity {
         RecyclerView chatList = findViewById(R.id.chatLists);
         TextView homeBtn = findViewById(R.id.home_chat_button);
         TextView profileBtn = findViewById(R.id.profile_chat_button);
+        TextView hintBtn = findViewById(R.id.hint_chat_button);
 
         chatListAdapter = new ChatListAdapter(getLayoutInflater());
         chatList.setAdapter(chatListAdapter);
@@ -101,7 +105,6 @@ public class ChatlistsActivity extends AppCompatActivity {
         });
 
 
-        //Btns to do list
         homeBtn.setOnClickListener(v ->{
             Intent intent = new Intent(this, MainUI.class);
             startActivity(intent);
@@ -111,6 +114,23 @@ public class ChatlistsActivity extends AppCompatActivity {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             startActivity(profileIntent);
         });
+
+        hintBtn.setOnClickListener(v ->{
+            showAlertDialog("Swipe the single chat left to delete\n\n"
+                    + "Swipe the list down to refresh");
+        });
+    }
+
+    private void showAlertDialog(String s) {
+        AlertDialog dialog = new AlertDialog.Builder(ChatlistsActivity.this)
+                .setMessage(s)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
     ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

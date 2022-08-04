@@ -184,6 +184,9 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
                 return true;
             }
         });
+        
+        //set remaining time here
+        //edit_remain_time.setText();
     }
 
     private void setButton() {
