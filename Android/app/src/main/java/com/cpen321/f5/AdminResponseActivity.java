@@ -7,6 +7,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,13 +38,13 @@ public class AdminResponseActivity extends AppCompatActivity
     String POSTRESPONSEURL = "http://20.106.78.177:8081/item/updateitem/";
 
     EditText _adminResponse;
-    EditText _adminNeeded;
     TextView _disputeReason;
+    TextView _refundNeeded;
 
     String adminResponse;
     String disputeReason;
     String adminNeeded;
-
+    String refundNeeded;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -57,6 +60,20 @@ public class AdminResponseActivity extends AppCompatActivity
         Log.d(TAG, GETRESPONSEURL);
         GETRESPSONSE();
 
+        AutoCompleteTextView dropdownAdmin = findViewById(R.id.admin_spinner);
+        String[] itemsAdmin = getResources().getStringArray(R.array.trueFalseAdmin);
+        ArrayAdapter<String> adapterAdmin = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsAdmin);
+        dropdownAdmin.setAdapter(adapterAdmin);
+        dropdownAdmin.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                adminNeeded = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "ADMIN NEEDED = " + adminNeeded);
+            }
+        });
+
         updateButton = findViewById(R.id.update_button);
         updateButton.setOnClickListener(new View.OnClickListener()
         {
@@ -65,10 +82,7 @@ public class AdminResponseActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 _adminResponse = findViewById(R.id.response_caption);
-                _adminNeeded = findViewById(R.id.admin_caption);
-
                 adminResponse = _adminResponse.getText().toString();
-                adminNeeded = _adminNeeded.getText().toString();
 
                 Log.d(TAG, "RESPONSE = " + adminResponse);
                 Log.d(TAG, "ADMIN NEEDED = " + adminNeeded);
@@ -96,15 +110,16 @@ public class AdminResponseActivity extends AppCompatActivity
                     adminResponse = response.getString("adminResponse");
                     disputeReason = response.getString("refundDescription");
                     adminNeeded = response.getString("needAdmin");
+                    refundNeeded = response.getString("refund");
 
                     _adminResponse = findViewById(R.id.response_caption);
                     _adminResponse.setText(adminResponse);
 
-                    _adminNeeded = findViewById(R.id.admin_caption);
-                    _adminNeeded.setText(adminNeeded);
-
                     _disputeReason = findViewById(R.id.reason_caption);
                     _disputeReason.setText("Reason For Dispute: " + disputeReason);
+
+                    _refundNeeded = findViewById(R.id.refund_caption);
+                    _refundNeeded.setText("Refund Required: " + refundNeeded);
 
                     Toast.makeText(AdminResponseActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }

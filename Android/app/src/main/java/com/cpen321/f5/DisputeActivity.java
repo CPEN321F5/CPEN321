@@ -12,9 +12,13 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,13 +43,11 @@ public class DisputeActivity extends AppCompatActivity
 
     EditText _orderItemID;
     EditText _reason;
-    EditText _refund;
-    EditText _admin;
 
     String orderItemID;
     String reason;
-    String refund;
-    String admin;
+    String refund = "";
+    String admin = "";
 
     TextView _buyerName;
     TextView _sellerName;
@@ -71,6 +73,34 @@ public class DisputeActivity extends AppCompatActivity
         Button checkButton;
         Button submitButton;
 
+        AutoCompleteTextView dropdown1 = findViewById(R.id.tf_spinner_1);
+        String[] items1 = getResources().getStringArray(R.array.trueFalse);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
+        dropdown1.setAdapter(adapter1);
+        dropdown1.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                refund = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "REFUND = " + refund);
+            }
+        });
+
+        AutoCompleteTextView dropdown2 = findViewById(R.id.tf_spinner_2);
+        String[] items2 = getResources().getStringArray(R.array.trueFalse);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
+        dropdown2.setAdapter(adapter2);
+        dropdown2.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                admin = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "ADMIN = " + admin);
+            }
+        });
+
         requestQueue = Volley.newRequestQueue(this);
 
         _itemName = findViewById(R.id.item_name);
@@ -91,17 +121,9 @@ public class DisputeActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                _orderItemID = findViewById(R.id.order_caption);
                 _reason = findViewById(R.id.reason_caption);
-                _refund = findViewById(R.id.refund_caption);
-                _admin = findViewById(R.id.admin_caption);
-
-                orderItemID = _orderItemID.getText().toString();
                 reason = _reason.getText().toString();
-                refund = _refund.getText().toString();
-                admin = _admin.getText().toString();
 
-                Log.d(TAG, "ID = " + orderItemID);
                 Log.d(TAG, "REASON = " + reason);
                 Log.d(TAG, "REFUND = " + refund);
                 Log.d(TAG, "ADMIN = " + admin);
@@ -117,18 +139,10 @@ public class DisputeActivity extends AppCompatActivity
         checkButton = findViewById(R.id.check_button);
         checkButton.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
-                _orderItemID = findViewById(R.id.order_caption);
-                orderItemID = _orderItemID.getText().toString();
-                Log.d(TAG, "ID = " + orderItemID);
-
-                if (validCheck1())
-                {
-                    GETDISPUTEADMIN();
-                }
+                GETDISPUTEADMIN();
             }
         });
     }
@@ -164,10 +178,11 @@ public class DisputeActivity extends AppCompatActivity
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("ItemID", orderItemID);
+                params.put("ItemID", DisputeMainActivity.orderItemID);
                 params.put("refundDescription", reason);
                 params.put("refund", refund);
                 params.put("needAdmin", admin);
+                params.put("adminResponse", "Waiting For Admin To Resolve Dispute!");
 
                 return params;
             }
@@ -177,12 +192,6 @@ public class DisputeActivity extends AppCompatActivity
 
     private boolean validCheck()
     {
-        if (orderItemID.equals(""))
-        {
-            Toast.makeText(DisputeActivity.this, "ID Cannot Be Empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         if (reason.equals(""))
         {
             Toast.makeText(DisputeActivity.this, "Reason Cannot Be Empty", Toast.LENGTH_SHORT).show();
@@ -201,35 +210,12 @@ public class DisputeActivity extends AppCompatActivity
             return false;
         }
 
-        if (!refund.equals("false") && !refund.equals("true"))
-        {
-            Toast.makeText(DisputeActivity.this, "Must Enter ture or false for Refund Needed", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (!admin.equals("false") && !admin.equals("true"))
-        {
-            Toast.makeText(DisputeActivity.this, "Must Enter ture or false for Admin Needed", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean validCheck1()
-    {
-        if (orderItemID.equals(""))
-        {
-            Toast.makeText(DisputeActivity.this, "ID Cannot Be Empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         return true;
     }
 
     private void GETDISPUTEADMIN ()
     {
-        String GETDISPUTEADMINURL = "http://20.106.78.177:8081/item/getbyid/" + orderItemID + "/";
+        String GETDISPUTEADMINURL = "http://20.106.78.177:8081/item/getbyid/" + DisputeMainActivity.orderItemID + "/";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETDISPUTEADMINURL, null, new Response.Listener<JSONObject>()
         {
