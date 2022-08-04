@@ -81,7 +81,7 @@ public class MyItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_item);
 
-        itemID = getIntent().getStringExtra("myitemID");
+        itemID = getIntent().getStringExtra("myItemID");
         Log.d("TAG", itemID);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -206,7 +206,7 @@ public class MyItemActivity extends AppCompatActivity
 
                     GETOWNER(sellerID);
 
-                    Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
@@ -278,7 +278,7 @@ public class MyItemActivity extends AppCompatActivity
                     _ownerName = findViewById(R.id.owner_name);
                     _ownerName.setText("Owner: " + ownerName);
 
-                    Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
@@ -316,7 +316,7 @@ public class MyItemActivity extends AppCompatActivity
                     _highestPriceHolderName = findViewById(R.id.highest_name);
                     _highestPriceHolderName.setText("Price Holder: " + highestPriceHolderName);
 
-                    Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {

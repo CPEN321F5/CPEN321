@@ -66,6 +66,7 @@ public class MainUIAdapter extends RecyclerView.Adapter<MainUIAdapter.SingleItem
                 try
                 {   String itemID = response.getString("ItemID");
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
+                    String getSellerID = response.getString("sellerID");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_image.setImageBitmap(bitmap);
@@ -73,9 +74,14 @@ public class MainUIAdapter extends RecyclerView.Adapter<MainUIAdapter.SingleItem
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(v.getContext(), ItemActivity.class);
+                            Intent my_intent = new Intent(v.getContext(), MyItemActivity.class);
                             intent.putExtra("itemID", itemID);
-                            Log.d("ItemListAdapter2", itemID);
-                            v.getContext().startActivity(intent);
+                            my_intent.putExtra("myItemID", itemID);
+                            if(getSellerID.equals(MainActivity.idOfUser)){
+                                v.getContext().startActivity(my_intent);
+                            }else{
+                                v.getContext().startActivity(intent);
+                            };
                         }
                     });
                 }

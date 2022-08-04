@@ -69,17 +69,24 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                 try
                 {   String itemID = response.getString("ItemID");
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
+                    String getSellerID = response.getString("sellerID");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
-                    holder.item_username.setText(response.getString("sellerID"));
+                    holder.item_username.setText(getSellerID); //change later
                     holder.item_image.setImageBitmap(bitmap);
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(v.getContext(), ItemActivity.class);
+                            Intent my_intent = new Intent(v.getContext(), MyItemActivity.class);
                             intent.putExtra("itemID", itemID);
+                            my_intent.putExtra("myItemID", itemID);
                             Log.d("ItemListAdapter2", itemID);
-                            v.getContext().startActivity(intent);
+                            if(getSellerID.equals(MainActivity.idOfUser)){
+                                v.getContext().startActivity(my_intent);
+                            }else{
+                                v.getContext().startActivity(intent);
+                            }
                         }
                     });
                 }
@@ -130,4 +137,5 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
         byte[] bytes = Base64.decode(image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
+
 }

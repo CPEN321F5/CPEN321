@@ -352,7 +352,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
                     GETOWNER(sellerID);
 
-                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
@@ -388,7 +388,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     _ownerName = findViewById(R.id.owner_name);
                     _ownerName.setText("Owner: " + ownerName);
 
-                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
@@ -424,7 +424,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     _highestPriceHolderName = findViewById(R.id.highest_name);
                     _highestPriceHolderName.setText("Price Holder: " + highestPriceHolderName);
 
-                    Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(ItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {
