@@ -43,10 +43,10 @@ public class WalletActivity extends AppCompatActivity {
     private Button loadButton;
     private EditText addedFundText;
     private TextView balance;
-    private int balanceAmount = 0;
+    private static int balanceAmount;
     private int addedFund = 0;
 
-    String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
+    static String GETPROFILEURL = "http://20.106.78.177:8081/user/getprofile/" + MainActivity.idOfUser + "/";
     String POSTPROFILEURL = "http://20.106.78.177:8081/user/updateprofile/";
 
 
@@ -81,7 +81,7 @@ public class WalletActivity extends AppCompatActivity {
     }
 
 
-    private void GetBalance ()
+    private void GetBalance()
     {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETPROFILEURL, null, new Response.Listener<JSONObject>()
@@ -157,4 +157,9 @@ public class WalletActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
+
+
+
 }
