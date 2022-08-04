@@ -65,19 +65,16 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
     private String user2name;
     private JSONArray messagesJson;
     private String conversationID;
-
     private String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
-
     private String TAG = "ChatActivity";
-    private String wholeConversationUri;
-    private String wholeConversation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_acitivity);
         myID = MainActivity.idOfUser;
 
-        wholeConversationUri = getIntent().getStringExtra("conversations");
+        String wholeConversationUri = getIntent().getStringExtra("conversations");
         String call_method = getIntent().getStringExtra("GetOrPost");
         RequestQueue queue = Volley.newRequestQueue(this);
         int getMethod = Objects.equals(call_method, "GET") ? com.android.volley.Request.Method.GET : com.android.volley.Request.Method.POST;
@@ -90,7 +87,7 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
                     e.printStackTrace();
                 }
                 Log.d("TESTChat", response.toString());
-                wholeConversation = response.toString();
+                String wholeConversation = response.toString();
                 getItemFromJson(wholeConversation);
                 new SocketListener().run();
             }

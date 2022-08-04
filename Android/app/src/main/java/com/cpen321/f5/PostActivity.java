@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.Camera;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,7 +28,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -51,13 +49,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -83,11 +79,13 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     private String postTime;
     private String timeExpire;
     private String category;
-    private ImageView img0, img1, img2;
-    private boolean img0Enabled, img1Enabled, img2Enabled;
-    private ImageView hintButton;
+    private ImageView img0;
+    private ImageView img1;
+    private ImageView img2;
+    private boolean img0Enabled;
+    private boolean img1Enabled;
+    private boolean img2Enabled;
     private TextView showLocation;
-    private Spinner dropdownCategory;
     private View imageButton;
     private View cameraButton;
 
@@ -96,9 +94,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     private List<Bitmap> uploadedBitmaps = new ArrayList<>();
     public static double lat;
     public static double lon;
-    private LocationManager locationManager;
     private Uri imageUri;
-    private JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,16 +105,14 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         img1 = findViewById(R.id.post_item_img1);
         img2 = findViewById(R.id.post_item_img2);
 
-
         Spinner dropdownCategory = findViewById(R.id.post_category_spinner);
         String[] items = getResources().getStringArray(R.array.categories);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdownCategory.setAdapter(adapter);
         dropdownCategory.setOnItemSelectedListener(this);
 
-
         showLocation = findViewById(R.id.show_location);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -132,6 +126,11 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, this);
 
 
+        setButton();
+    }
+
+    private void setButton() {
+
         Button postButton = findViewById(R.id.post_post);
         postButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -144,7 +143,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 stepPrice = ((EditText)findViewById(R.id.post_step_price)).getText().toString().trim();
                 timeLast = ((EditText)findViewById(R.id.post_time_last)).getText().toString().trim();
                 postTime = getTime();
-
 
                 Log.d(TAG, "title = " + title);
                 Log.d(TAG, "description = " + description);
@@ -226,8 +224,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                     uploadedBitmaps.remove(0);
                     uploadedImages.remove(0);
                     refreshImg();
-                }else{
-
                 }
                 return true;
             }
@@ -240,8 +236,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                     uploadedBitmaps.remove(1);
                     uploadedImages.remove(1);
                     refreshImg();
-                }else{
-
                 }
                 return true;
             }
@@ -254,20 +248,18 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                     uploadedBitmaps.remove(2);
                     uploadedImages.remove(2);
                     refreshImg();
-                }else{
-
                 }
                 return true;
             }
         });
 
 
-        hintButton = findViewById(R.id.post_hint);
+        ImageView hintButton = findViewById(R.id.post_hint);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAlertDialog("Long click the image to remove it\n\n"
-                + "Image capacity is three");
+                        + "Image capacity is three");
             }
         });
     }
@@ -351,28 +343,22 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if (deposit.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if (stepPrice.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Step Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
         if (timeLast.equals("")){
             Toast.makeText(PostActivity.this, "Fail, the post last hour is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         if (Integer.parseInt(timeLast) > 168){
             Toast.makeText(PostActivity.this, "Fail, the post should last less than 7 days", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         return true;
     }
 
@@ -381,7 +367,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         Date date = new Date();
         return formatter.format(date);
     }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -521,7 +506,8 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 cameraButton.setVisibility(View.INVISIBLE);
                 break;
             default:
-                ;
+                Log.d(TAG, "invalid image");
+                break;
         }
     }
 

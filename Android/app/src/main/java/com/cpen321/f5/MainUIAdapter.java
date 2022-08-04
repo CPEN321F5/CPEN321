@@ -81,7 +81,7 @@ public class MainUIAdapter extends RecyclerView.Adapter<MainUIAdapter.SingleItem
                                 v.getContext().startActivity(my_intent);
                             }else{
                                 v.getContext().startActivity(intent);
-                            };
+                            }
                         }
                     });
                 }

@@ -3,7 +3,6 @@ package com.cpen321.f5;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +59,7 @@ public class ChatlistsActivity extends AppCompatActivity {
         TextView homeBtn = findViewById(R.id.home_chat_button);
         TextView profileBtn = findViewById(R.id.profile_chat_button);
 
-        chatListAdapter = new ChatListAdapter(getLayoutInflater(), myID);
+        chatListAdapter = new ChatListAdapter(getLayoutInflater());
         chatList.setAdapter(chatListAdapter);
         new ItemTouchHelper(itemTouchCallback).attachToRecyclerView(chatList);
         chatList.setLayoutManager(new LinearLayoutManager(this));
