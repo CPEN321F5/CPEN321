@@ -1,12 +1,8 @@
 package com.cpen321.f5;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.cpen321.f5.util.PaymentsUtil;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.IsReadyToPayRequest;
-import com.google.android.gms.wallet.PaymentData;
-import com.google.android.gms.wallet.PaymentDataRequest;
-import com.google.android.gms.wallet.PaymentsClient;
 
 import org.json.JSONObject;
 
@@ -40,7 +30,6 @@ public class WalletActivity extends AppCompatActivity {
 
     final static String TAG = "WalletActivity";
 
-    private Button loadButton;
     private EditText addedFundText;
     private TextView balance;
     private static int balanceAmount;
@@ -60,7 +49,7 @@ public class WalletActivity extends AppCompatActivity {
 
         balance = findViewById(R.id.wallet_balance);
         addedFundText = findViewById(R.id.wallet_amount_to_load);
-        loadButton = findViewById(R.id.load_wallet_button);
+        Button loadButton = findViewById(R.id.load_wallet_button);
 
 
         loadButton.setOnClickListener(new View.OnClickListener() {
@@ -152,10 +141,7 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private boolean validCheck(){
-        if (addedFundText.equals("")){
-            return false;
-        }
-        return true;
+        return (!addedFundText.equals(""))&&(addedFundText.equals("0"));
     }
 
 

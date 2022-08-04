@@ -71,7 +71,7 @@ public class MyItemListActivity extends AppCompatActivity
             String chatList_url = chatList_init_url + MainActivity.idOfUser;
             RequestQueue queue = Volley.newRequestQueue(v.getContext());
             Intent intent = new Intent(this, ChatlistsActivity.class);
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     Log.d("TEST1", response.toString());
