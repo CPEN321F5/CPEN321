@@ -32,7 +32,6 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
     RequestQueue requestQueueForItem;
     String item_get_url = "http://20.106.78.177:8081/item/getbyid/";
 
-
     public MyItemListAdapter(LayoutInflater MyItemListInflate){
 
         this.MyItemListInflate = MyItemListInflate;
@@ -67,16 +66,17 @@ public class MyItemListAdapter extends RecyclerView.Adapter<MyItemListAdapter.Si
                 try
                 {   String itemID = response.getString("ItemID");
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
+                    String status = response.getString("status");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_image.setImageBitmap(bitmap);
-                    holder.item_status.setText(response.getString("status"));
+                    holder.item_status.setText(status);
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(v.getContext(), MyItemActivity.class);
                             intent.putExtra("myItemID", itemID);
-                            Log.d("TESTItemListAdapter", itemID);
+                            intent.putExtra("status", status);
                             v.getContext().startActivity(intent);
                         }
                     });

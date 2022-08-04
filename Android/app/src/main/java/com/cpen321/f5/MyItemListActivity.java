@@ -74,7 +74,6 @@ public class MyItemListActivity extends AppCompatActivity
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    Log.d("TEST1", response.toString());
                     intent.putExtra("conversationsList", response.toString());
                     intent.putExtra("myID", MainActivity.idOfUser);
                     startActivity(intent);
