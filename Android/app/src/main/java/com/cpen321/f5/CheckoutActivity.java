@@ -54,8 +54,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
     RequestQueue requestQueue;
 
-
-    private Button loadButton;
     private EditText addedFundText;
     private TextView balance;
     private int balanceAmount = 0;
@@ -87,12 +85,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(CheckoutViewModel.class);
         model.canUseGooglePay.observe(this, this::setGooglePayAvailable);
-
-
-
-
-
-
 
     }
 
@@ -331,9 +323,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private boolean validCheck(){
         addedFundText = findViewById(R.id.checkout_wallet_amount_to_load);
-        if (addedFundText.getText().toString().equals("")){
-            return false;
-        }
-        return true;
+        return (!addedFundText.getText().toString().equals("")) && (!addedFundText.getText().toString().equals("0"));
     }
 }

@@ -10,10 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +22,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,7 +31,6 @@ import java.util.Objects;
 
 public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
-    ListView listView;
     String[] IDsArray;
     List<String> cache;
 
@@ -43,8 +38,6 @@ public class ItemListActivity extends AppCompatActivity {
     private static List<String> itemIDList;
     String searchKey;
     RequestQueue requestQueueForSearch;
-
-    private ItemListAdapter itemListAdapter;
 
     private final String TAG = "ItemListActivity";
 
@@ -54,7 +47,7 @@ public class ItemListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
         TextView search_hint = findViewById(R.id.search_hint);
         int size;
-        String check_activity = getIntent().getStringExtra("search_interface");;
+        String check_activity = getIntent().getStringExtra("search_interface");
         try{
             if(Objects.equals(check_activity, "1")){
                 cache = new ArrayList<>(MainUI.getItemList());
@@ -156,7 +149,7 @@ public class ItemListActivity extends AppCompatActivity {
             String chatList_url = chatList_init_url + MainActivity.idOfUser;
             RequestQueue queue = Volley.newRequestQueue(v.getContext());
             Intent intent = new Intent(this, ChatlistsActivity.class);
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     Log.d("TEST1", response.toString());
@@ -164,7 +157,7 @@ public class ItemListActivity extends AppCompatActivity {
                     intent.putExtra("myID", MainActivity.idOfUser);
                     startActivity(intent);
                 }
-            }, new com.android.volley.Response.ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("TEST1", chatList_url);
@@ -193,7 +186,7 @@ public class ItemListActivity extends AppCompatActivity {
     private void viewItems() {
 
         RecyclerView item_recyclerview = findViewById(R.id.item_recyclerview);
-        itemListAdapter = new ItemListAdapter(getLayoutInflater());
+        ItemListAdapter itemListAdapter = new ItemListAdapter(getLayoutInflater());
         item_recyclerview.setAdapter(itemListAdapter);
         item_recyclerview.setLayoutManager(new LinearLayoutManager(this));
         for(int i = 0; i <= IDsArray.length - 1; i++){

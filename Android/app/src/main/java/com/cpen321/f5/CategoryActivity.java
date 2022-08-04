@@ -21,8 +21,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +30,6 @@ public class CategoryActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     String[] categories;
 
-    private String category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +47,7 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemIDList = new ArrayList<>();
-                category = categories[position];
+                String category = categories[position];
 
                 getDataForItemList(category);
 //                Intent tmp = new Intent(ItemListActivity.this, ItemActivity.class);
@@ -64,7 +61,7 @@ public class CategoryActivity extends AppCompatActivity {
             String chatList_url = chatList_init_url + MainActivity.idOfUser;
             RequestQueue queue = Volley.newRequestQueue(v.getContext());
             Intent intent = new Intent(this, ChatlistsActivity.class);
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     Log.d("TEST1", response.toString());
@@ -72,7 +69,7 @@ public class CategoryActivity extends AppCompatActivity {
                     intent.putExtra("myID", MainActivity.idOfUser);
                     startActivity(intent);
                 }
-            }, new com.android.volley.Response.ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("TEST1", chatList_url);
