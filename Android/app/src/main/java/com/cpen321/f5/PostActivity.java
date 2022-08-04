@@ -49,8 +49,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -152,7 +150,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 Log.d(TAG, "how lone = " + timeLast);
                 Log.d(TAG, "post time = " + postTime);
                 Log.d(TAG, "catagory = " + category);
-                if (validCheck()){
+                if (validCheck() && validCheck2()){
                     long currentTime = Instant.now().toEpochMilli() / 1000;
                     long expireTime = currentTime + Integer.parseInt(timeLast) * 3600;
                     timeExpire = Long.toString(expireTime);
@@ -343,6 +341,10 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
+
+    private boolean validCheck2(){
         if (deposit.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
             return false;
@@ -361,6 +363,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         }
         return true;
     }
+
 
     private String getTime(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
