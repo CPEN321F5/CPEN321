@@ -14,7 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="#FFC107"
+            android:background="@color/purple_700"
             android:padding="20dp">
 
             <ImageView
@@ -56,7 +56,7 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFC107"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -98,7 +98,7 @@
                 android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#FFC107"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -159,31 +159,37 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Refund Required (true/false)">
 
-                <EditText
-                    android:id="@+id/refund_caption"
+                <AutoCompleteTextView
+                    android:id="@+id/tf_spinner_1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="65dp"
                     android:drawableStart="@drawable/refund"
+                    android:paddingStart="15dp"
+                    android:inputType="none"
                     android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Admin Needed (true/false)">
 
-                <EditText
-                    android:id="@+id/admin_caption"
+                <AutoCompleteTextView
+                    android:id="@+id/tf_spinner_2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="65dp"
                     android:drawableStart="@drawable/admin"
+                    android:paddingStart="15dp"
+                    android:inputType="none"
                     android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -201,7 +207,7 @@
                 android:id="@+id/check_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CHECK PROGRESS (ONLY ENTER ITEM ID)"
+                android:text="CHECK PROGRESS"
                 app:layout_constraintTop_toBottomOf="@id/submit_button">
 
             </Button>
