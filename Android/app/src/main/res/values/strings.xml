@@ -19,6 +19,8 @@
     <string name="url_post">http://20.106.78.177:8081/item/postitem/</string>
     <string name="url_item_put">http://20.106.78.177:8081/item/updateitem/</string>
     <string name="title_activity_item_list">ItemListActivity</string>
+    <string name="url_item_get_by_categories">http://20.106.78.177:8081/item/getbycond/catagory/</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -110,4 +112,17 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="categories">
+        <item>Books</item>
+        <item>Cameras</item>
+        <item>Clothing</item>
+        <item>Computers</item>
+        <item>Electronics</item>
+        <item>Furniture</item>>
+        <item>Makeup</item>
+        <item>Tools</item>
+        <item>Other</item>
+    </string-array>
 </resources>

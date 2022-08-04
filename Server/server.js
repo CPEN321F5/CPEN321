@@ -102,6 +102,11 @@ app.get("/user/getprofile/:user_id", (req,res) => {
 const Item_Module = require("./ItemModule")
 var item_module = new Item_Module()
 
+//setup routine for updating expired item
+setInterval(() => {
+    item_module.updateExpireStatus()
+}, 60000)
+
 //posting an item
 app.post("/item/postitem/", (req,res) => {
     console.log("[Server] posting an item")
@@ -145,6 +150,13 @@ app.get("/item/getbyid/:item_id", (req, res) => {
     if(!req.params.item_id){
         //update invalid, need to have itemID
         res.status(400).send("invalid get, need to have itemID")
+    }
+    else if(Object.prototype.hasOwnProperty.call(req.body, "UserID")){
+        //UserID included, saving item into user's history
+        console.log("[Server] saving item history to UserID " + req.body.UserID)
+        item_module.getItemByID_history(req.params.item_id, req.body.UserID).then(item => {
+            res.send(item)
+        })
     }
     else{
         item_module.getItemByID(req.params.item_id).then(item => {

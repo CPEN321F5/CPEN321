@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent disputeIntent = new Intent(ProfileActivity.this, DisputeActivity.class);
+                Intent disputeIntent = new Intent(ProfileActivity.this, DisputeMainActivity.class);
                 startActivity(disputeIntent);
             }
         });
@@ -291,7 +291,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean validCheck()
     {
-        if (email.equals("") || phone.equals(""))
+        if (email.equals("") && phone.equals(""))
         {
             Toast.makeText(ProfileActivity.this, "Email Or Phone Cannot Be Empty", Toast.LENGTH_SHORT).show();
             return false;

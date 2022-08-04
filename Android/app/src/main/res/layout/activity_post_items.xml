@@ -71,7 +71,7 @@
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray"
-                android:textSize="16sp" />
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/post_description"
@@ -87,41 +87,60 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@null"
-            android:orientation="vertical"
-            android:padding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="0.0">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:padding="10dp"
-                android:text="img0" />
+            <ImageView
+                android:id="@+id/post_item_img0"
+                android:layout_width="48dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="5dp" />
+
+            <ImageView
+                android:id="@+id/post_item_img1"
+                android:layout_marginStart="5dp"
+                android:layout_width="48dp"
+                android:layout_height="55dp" />
+            <ImageView
+                android:id="@+id/post_item_img2"
+                android:layout_marginStart="5dp"
+                android:layout_width="48dp"
+                android:layout_height="55dp" />
+            <ImageView
+                android:id="@+id/post_item_img3"
+                android:layout_marginStart="5dp"
+                android:layout_width="48dp"
+                android:layout_height="55dp" />
+
+            <ImageView
+                android:id="@+id/post_hint"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_baseline_error_24"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/image_add_button"
+                android:layout_width="48dp"
+                android:layout_height="55dp"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/image1" />
+
+            <ImageView
+                android:id="@+id/post_camera_button"
+                android:layout_width="48dp"
+                android:layout_height="55dp"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+
+                app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="From:" />
-
-            <TextView
-                android:id="@+id/post_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="waiting" />
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -159,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -205,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -248,9 +267,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
+                    android:layout_marginStart="14dp"
                     android:padding="5dp"
-                    android:text="$"
+                    android:text="$ "
                     android:textColor="@color/colo_money"
                     android:textSize="16sp" />
 
@@ -293,7 +312,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="18dp"
                     android:padding="4dp"
                     android:text="hr"
                     android:textColor="@color/colo_money"
@@ -306,7 +325,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:background="@null"
-                    android:hint="less 168"
+                    android:hint="less than 7 days or 168 hours"
                     android:text=""
                     android:textColorHint="@color/gray"
                     android:textColor="@color/colo_money"
@@ -319,28 +338,49 @@
                 android:layout_height="2px"
                 android:background="@color/color_link" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+
+                    android:padding="5dp"
+                    android:text="Categories"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/post_category_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="location:">
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:text="location: ">
             </TextView>
 
             <TextView
                 android:id="@+id/show_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="uninitialized">
+                android:text="loading ...">
             </TextView>
 
-            <Button
-                android:id="@+id/refresh_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Refresh location"
-                android:layout_gravity="center" />
+
+
 
         </LinearLayout>
     </LinearLayout>

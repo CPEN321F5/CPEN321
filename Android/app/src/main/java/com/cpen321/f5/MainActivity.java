@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     public static String nameOfUser;
     public static String idOfUser;
+    public static String emailOfUser;
 
     SharedPreferences sharedpreferences;
     public static String MYPREFERENCES = "MyPrefs";
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity
 
             nameOfUser = account.getDisplayName();
             idOfUser = account.getId();
+            emailOfUser = account.getEmail();
 
             String URL = "http://20.106.78.177:8081/user/signin/";
             URL = URL + idOfUser + "/";
@@ -162,11 +164,11 @@ public class MainActivity extends AppCompatActivity
             //admin email: cpen321f5ad@gmail.com
             //password: 321f5admin
 
-            if (Objects.equals(account.getEmail(), "cpen321f5ad@gmail.com"))
-            {
-                Intent adminIntent = new Intent(MainActivity.this, AdminMain.class);
-                startActivity(adminIntent);
-            }
+//            if (Objects.equals(account.getEmail(), "cpen321f5ad@gmail.com"))
+//            {
+//                Intent adminIntent = new Intent(MainActivity.this, AdminMain.class);
+//                startActivity(adminIntent);
+//            }
         }
     }
 
@@ -183,8 +185,16 @@ public class MainActivity extends AppCompatActivity
 
                     //allow login for varified user
                     {
-                        Intent userIntent = new Intent(MainActivity.this, MainUI.class);
-                        startActivity(userIntent);
+                        if (Objects.equals(emailOfUser, "cpen321f5ad@gmail.com"))
+                        {
+                            Intent adminIntent = new Intent(MainActivity.this, AdminMain.class);
+                            startActivity(adminIntent);
+                        }
+                        else
+                        {
+                            Intent userIntent = new Intent(MainActivity.this, MainUI.class);
+                            startActivity(userIntent);
+                        }
                     }
                 }
             },

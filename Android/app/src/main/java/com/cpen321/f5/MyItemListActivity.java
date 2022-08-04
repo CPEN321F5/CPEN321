@@ -1,6 +1,8 @@
 package com.cpen321.f5;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -53,6 +57,58 @@ public class MyItemListActivity extends AppCompatActivity
 
         GETMYITEMS(searchKey);
 
+        viewButtons();
+
+    }
+
+    private void viewButtons() {
+        TextView home_button = findViewById(R.id.home_myItemList_button);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyItemListActivity.this, MainUI.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView chatList_button = findViewById(R.id.chatList_myItemList_button);
+        String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
+        chatList_button.setOnClickListener(v ->{
+            String chatList_url = chatList_init_url + MainActivity.idOfUser;
+            RequestQueue queue = Volley.newRequestQueue(v.getContext());
+            Intent intent = new Intent(this, ChatlistsActivity.class);
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, chatList_url, null, new com.android.volley.Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    Log.d("TEST1", response.toString());
+                    intent.putExtra("conversationsList", response.toString());
+                    intent.putExtra("myID", MainActivity.idOfUser);
+                    startActivity(intent);
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("TEST1", chatList_url);
+                }
+            });
+            queue.add(jsonArrayRequest);
+        });
+        TextView profile_button = findViewById(R.id.profile_myItemList_button);
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyItemListActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        TextView post_button = findViewById(R.id.post_myItemList_button);
+        post_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyItemListActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void GETMYITEMS(String searchKey)
@@ -115,20 +171,28 @@ public class MyItemListActivity extends AppCompatActivity
             Log.d(TAG, i + " => " + IDsArray[i]);
         }
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, IDsArray);
+//        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, IDsArray);
+//
+//        ListView listView = findViewById(R.id.item_list);
+//        listView.setAdapter(adapter);
 
-        ListView listView = findViewById(R.id.item_list);
-        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+//        {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+//            {
+//                MyItemID = IDsArray[position];
+//                Intent tmp = new Intent(MyItemListActivity.this, MyItemActivity.class);
+//                startActivity(tmp);
+//            }
+//        });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                MyItemID = IDsArray[position];
-                Intent tmp = new Intent(MyItemListActivity.this, MyItemActivity.class);
-                startActivity(tmp);
-            }
-        });
+        RecyclerView item_recyclerview = findViewById(R.id.myitem_recyclerview);
+        MyItemListAdapter myItemListAdapter = new MyItemListAdapter(getLayoutInflater());
+        item_recyclerview.setAdapter(myItemListAdapter);
+        item_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        for(int i = 0; i <= IDsArray.length - 1; i++){
+            myItemListAdapter.addList(IDsArray[i]);
+        }
     }
 }

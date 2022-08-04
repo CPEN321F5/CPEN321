@@ -108,7 +108,10 @@ Database.prototype.searchItem = function(key_word){
     console.log("[ItemDB] searching for item with keyword " + key_word)
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            const query = {$text : { $search : key_word.toString()}}
+            const query = {$and: [
+                {$text : { $search : key_word.toString()}},
+                {expired : "false"}
+            ]}
             //const filter = {timeExpire : { $gt : Date.now() }}
             //TODO add expire
 
@@ -158,6 +161,87 @@ Database.prototype.removeItem = function(itemID){
             }
         })
     )
+}
+
+
+Database.prototype.chargeUser = function(userID, charge_amount){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[ItemDB] charging user " + userID + " with an amount of " + charge_amount)
+            //getting the user's current balance
+            db.collection("Profile").findOne({ UserID: userID.toString() }).then(profile =>{
+                var balance = parseInt(profile.balance, 10)
+                console.log("[ItemDB] user current balance : " + balance)
+                balance -= parseInt(charge_amount, 10)
+
+                var update = {
+                    UserID : userID,
+                    balance : balance.toString()
+                }
+                
+                //configuring the parameter for update
+                const filter = { UserID: userID.toString() }
+                const profile_update = { $set: update }
+                const options = { upsert: false };
+
+                console.log(profile_update)
+                var result = db.collection("Profile").updateOne(filter, profile_update, options)
+                resolve(result);
+            })
+        }).then(result =>{
+            console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
+            if (result.modifiedCount >= 1){
+                console.log("[ItemDB] successfully charged the user")
+                return true
+            }else{
+                console.log("[ItemDB] failed to charged the user")
+                return false
+            }
+        })
+    )
+}
+
+//save an item into the user's history
+Database.prototype.saveHistory = function(userID, item){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[ItemDB] saving history of " + item.ItemID + " to user " + userID)
+            const filter = { UserID: userID.toString() }
+            const profile_update = { $push: { category_history : item.catagory, itemid_history : item.ItemID} }
+            const options = { upsert: false };
+
+            console.log(profile_update)
+            var result = db.collection("Profile").updateOne(filter, profile_update, options)
+            resolve(result);
+        }).then(result =>{
+            console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
+            if (result.modifiedCount >= 1){
+                console.log("[ItemDB] successfully saved history")
+                return true
+            }else{
+                console.log("[ItemDB] failed to save history")
+                return false
+            }
+        })
+    )
+}
+
+//interface with the user collection to get the display username of a user
+Database.prototype.getUserName = function(UserID){
+	return this.connected.then(
+		db => new Promise((resolve, reject) => {
+			console.log("[ItemDB] getting user name of " + UserID)
+			var query = {UserID}
+            db.collection("Profile").findOne(query).then(user_profile =>{
+				if(user_profile != null && Object.prototype.hasOwnProperty.call(user_profile, "FirstName")){
+					resolve(user_profile.FirstName)
+				}
+				else{
+					resolve("NoName")
+				}
+			})	
+		})
+	)
 }
 
 

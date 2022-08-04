@@ -21,6 +21,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DisputeMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WalletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminResponseActivity"
             android:exported="false" />
         <activity
@@ -66,9 +75,6 @@
             android:value="true" />
 
         <activity
-            android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainUI"
             android:exported="true" />
         <activity
@@ -88,7 +94,10 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false" />
+        <activity
+                android:name=".WelcomePage"
+                android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -105,7 +114,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

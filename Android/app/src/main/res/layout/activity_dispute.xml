@@ -18,7 +18,7 @@
             android:padding="20dp">
 
             <ImageView
-                android:id="@+id/profile_image"
+                android:id="@+id/dispute_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
@@ -34,13 +34,14 @@
                 android:textSize="40sp"/>
 
             <TextView
+                android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/profile_image"
+                android:layout_toEndOf="@+id/dispute_image"
                 android:includeFontPadding="false"
-                android:text="Item Name Placeholder"
+                android:text=""
                 android:textSize="20sp"/>
 
         </RelativeLayout>
@@ -79,13 +80,13 @@
                         android:textSize="20sp"/>
 
                     <TextView
-                        android:id="@+id/items_purchased_caption"
+                        android:id="@+id/buyer_caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/items_purchased_label"
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
-                        android:text="Buyer Placeholder"
+                        android:text=""
                         android:textSize="20sp"/>
 
                 </RelativeLayout>
@@ -121,13 +122,13 @@
                         android:textSize="20sp"/>
 
                     <TextView
-                        android:id="@+id/items_sold_caption"
+                        android:id="@+id/seller_caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/items_sold_label"
                         android:layout_centerHorizontal="true"
                         android:includeFontPadding="false"
-                        android:text="Seller Placeholder"
+                        android:text=""
                         android:textSize="20sp"/>
 
                 </RelativeLayout>
@@ -141,21 +142,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="Order/Item ID">
-
-                <EditText
-                    android:id="@+id/order_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/dispute"
-                    android:drawablePadding="10dp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

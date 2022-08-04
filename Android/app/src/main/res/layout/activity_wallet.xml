@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".WalletActivity">
+
+
+    <TextView
+        android:id="@+id/wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="wallet balance: "
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:layout_gravity="center|top"/>
+
+    <TextView
+        android:id="@+id/wallet_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/colo_red"
+        android:textSize="50dp"
+        android:layout_gravity="center|top"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+
+            android:padding="5dp"
+            android:text="add fund"
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="5dp"
+            android:text="$"
+            android:textColor="@color/colo_money"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/wallet_amount_to_load"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="0"
+            android:inputType="number"
+            android:padding="5dp"
+            android:text=""
+            android:textColor="@color/colo_money"
+            android:textColorHint="@color/gray"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/load_wallet_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:text="Load" />
+
+</LinearLayout>

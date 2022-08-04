@@ -16,55 +16,22 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chatRoomName"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_receive_text" />
 
-    <EditText
-        android:id="@+id/editMessage"
-        android:layout_width="186dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/edittext1_design"
-        android:ems="10"
-        android:hint="Aa"
-        android:inputType="textPersonName"
-        android:padding="10dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/Send_button"
-        android:layout_width="58dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="16dp"
-        android:background="#121212"
-        android:padding="10dp"
-        android:text="Send"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.717"
-        app:layout_constraintStart_toEndOf="@+id/editMessage"
-        app:layout_constraintTop_toTopOf="@+id/editMessage" />
-
     <TextView
         android:id="@+id/chatRoomName"
-        android:layout_width="408dp"
-        android:layout_height="61dp"
-        android:background="@color/teal_200"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/MediumPurple"
+        android:gravity="center_vertical"
         android:padding="10dp"
         android:text="Chat Room"
-        android:textColor="#000000"
-        android:textSize="20dp"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -72,56 +39,77 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/image_button"
-        android:layout_width="48dp"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editMessage"
-        app:layout_constraintEnd_toStartOf="@+id/editMessage"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editMessage"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/image1" />
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ImageView
+            android:id="@+id/image_button"
+            android:layout_width="55dp"
+            android:layout_height="45dp"
+            app:srcCompat="@drawable/image1" />
 
-    <ImageView
-        android:id="@+id/camera_button"
-        android:layout_width="48dp"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editMessage"
-        app:layout_constraintEnd_toStartOf="@+id/image_button"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editMessage"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
+        <ImageView
+            android:id="@+id/camera_button"
+            android:layout_width="55dp"
+            android:layout_height="45dp"
+            app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
-    <ImageView
+        <EditText
+            android:id="@+id/editMessage"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="53dp"
+            android:background="@drawable/edittext1_design"
+            android:ems="10"
+            android:hint="Aa"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/Send_button"
+            android:layout_width="58dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/black"
+            android:padding="10dp"
+            android:text="Send"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+
+
+    <TextView
         android:id="@+id/home_chatroom_button"
-        android:layout_width="63dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:drawableTop="@drawable/ic_baseline_home_24"
+        android:text="Home"
         app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="@+id/chatRoomName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/chatRoomName"
+        app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/ic_baseline_home_24" />
 
-    <ImageView
+    <TextView
         android:id="@+id/chatList_chatroom_button"
-        android:layout_width="52dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="92dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:drawableTop="@drawable/ic_chatlist"
+        android:gravity="center"
+        android:text="ChatList"
         app:layout_constraintBottom_toBottomOf="@+id/chatRoomName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.898"
-        app:layout_constraintStart_toStartOf="@+id/chatRoomName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_baseline_chat_24" />
+        app:layout_constraintRight_toLeftOf="@+id/home_chatroom_button"
+        app:layout_constraintTop_toTopOf="@+id/chatRoomName"
+        app:layout_constraintVertical_bias="0.533" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
