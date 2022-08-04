@@ -20,6 +20,13 @@ Item_module.prototype.getItemByID = function(itemId){
     return this.item_db.getItemById(itemId)
 }
 
+Item_module.prototype.getItemByID_history = function(itemId, userID){
+    return this.item_db.getItemById(itemId).then(item => {
+        this.item_db.saveHistory(userID, item)
+        return item
+    })
+}
+
 Item_module.prototype.getItemByBuyer = function(buyer_id){
     if(buyer_id == null){
         return new Promise((resolve, reject) => {
