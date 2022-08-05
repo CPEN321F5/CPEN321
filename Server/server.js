@@ -155,6 +155,21 @@ app.put("/item/bidItem/", (req, res) => {
     }
 })
 
+//complete the sale for an item(give seller the money)
+app.put("/item/completesale/:itemID", (req, res) => {
+    console.log("[Server] bidding an item")
+    var itemID = req.params.itemID
+    if(itemID == null){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid request, need to have ItemID")
+    }
+    else{
+        item_module.compleateSale(itemID).then(result => {
+            res.send(result)
+        })
+    }
+})
+
 //getting an item by id
 app.get("/item/getbyid/:item_id", (req, res) => {
     console.log("[Server] getting an item with id " + req.params.item_id)

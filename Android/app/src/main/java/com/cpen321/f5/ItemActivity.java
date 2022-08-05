@@ -184,7 +184,8 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         ImageView subButton = findViewById(R.id.item_price_down_button);
 
         bidButton = findViewById(R.id.bid_button);
-        if(item_status == null || !(item_status.equals("sold"))){
+        if(item_status == null || item_status.equals("active")){
+            //item is currently active
             bidButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -204,7 +205,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     }
                 }
             });
-        }else{
+        }else if(item_status.equals("sold")){
             addButton.setVisibility(View.INVISIBLE);
             subButton.setVisibility(View.INVISIBLE);
             findViewById(R.id.upcoming_price).setVisibility(View.INVISIBLE);
@@ -216,10 +217,16 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                 public void onClick(View v)
                 {
                     //add Api later
-                    Toast.makeText(ItemActivity.this, "Enjoy your item!", Toast.LENGTH_LONG).show();
+                    CONFIRMITEM(tmpID);
                     bidButton.setVisibility(View.INVISIBLE);
                 }
             });
+        }else{
+            //transaction is already complete
+            addButton.setVisibility(View.INVISIBLE);
+            subButton.setVisibility(View.INVISIBLE);
+            findViewById(R.id.upcoming_price).setVisibility(View.INVISIBLE);
+            bidButton.setVisibility(View.INVISIBLE);
         }
 
 
@@ -260,6 +267,32 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                 newPrice.setText(Integer.toString(tmpPrice));
             }
         });
+    }
+
+    private void CONFIRMITEM(String ItemID){
+        RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
+        String url = getString(R.string.url_item_confirm);
+
+        StringRequest completeRequest = new StringRequest(Request.Method.PUT, url + ItemID + '/',
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        _itemPrice.setText("$ " + tmpPrice);
+                        Toast.makeText(ItemActivity.this, "Enjoy your item!", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ItemActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        queue.add(completeRequest);
     }
 
     private void GETITEM ()
