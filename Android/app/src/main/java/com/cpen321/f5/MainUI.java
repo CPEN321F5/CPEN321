@@ -39,12 +39,16 @@ public class MainUI extends AppCompatActivity {
     String searchKey;
     RequestQueue requestQueueForSearch;
     private static List<String> itemIDList;
+    private final String TAG = "MainUI";
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
+
+        TextView topBarText = findViewById(R.id.main_ui_top_bar);
+        topBarText.setText(getTimeFromAndroid() + ", " + MainActivity.nameOfUser.split(" ")[0]);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -108,12 +112,9 @@ public class MainUI extends AppCompatActivity {
         //url strings for chat list activity
         String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
         String myID = MainActivity.idOfUser;
-        String myName = MainActivity.nameOfUser;
         String chatList_url = chatList_init_url + myID;
         requestQueueForSearch= Volley.newRequestQueue(this);
 
-        TextView topBarText = findViewById(R.id.main_ui_top_bar);
-        topBarText.setText(getTimeFromAndroid() + ", " + myName.split(" ")[0]);
 
         View searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -200,13 +201,21 @@ public class MainUI extends AppCompatActivity {
         int hours = dt.getHours();
         int min = dt.getMinutes();
 
-        if(hours>=1 || hours<=12){
+        if(hours>=1 && hours<=12){
+            Log.d(TAG, "time" + hours + " " + min);
+            Log.d(TAG, "1");
             return "Good Morning";
-        }else if(hours>=12 || hours<=16){
+        }else if(hours>=12 && hours<=16){
+            Log.d(TAG, "time" + hours + " " + min);
+            Log.d(TAG, "2");
             return "Good Afternoon";
-        }else if(hours>=16 || hours<=21){
+        }else if(hours>=16 && hours<=21){
+            Log.d(TAG, "time" + hours + " " + min);
+            Log.d(TAG, "3");
             return "Good Evening";
         }else {
+            Log.d(TAG, "time" + hours + " " + min);
+            Log.d(TAG, "4");
             return "Good Night";
         }
     }
