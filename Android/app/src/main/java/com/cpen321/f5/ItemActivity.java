@@ -633,7 +633,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     public void onResponse(String response)
                     {
                         _itemPrice.setText("$ " + tmpPrice);
-                        Toast.makeText(ItemActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ItemActivity.this, "We bid yay!", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()

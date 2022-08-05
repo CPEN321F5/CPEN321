@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainUI extends AppCompatActivity {
@@ -106,8 +108,13 @@ public class MainUI extends AppCompatActivity {
         //url strings for chat list activity
         String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
         String myID = MainActivity.idOfUser;
+        String myName = MainActivity.nameOfUser;
         String chatList_url = chatList_init_url + myID;
         requestQueueForSearch= Volley.newRequestQueue(this);
+
+        TextView topBarText = findViewById(R.id.main_ui_top_bar);
+        topBarText.setText(getTimeFromAndroid() + ", " + myName.split(" ")[0]);
+
         View searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,14 +139,6 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        View checkoutButton = findViewById(R.id.checkout_button);
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent checkoutActivity = new Intent(MainUI.this, CheckoutActivity.class);
-                startActivity(checkoutActivity);
-            }
-        });
 
         View profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +195,21 @@ public class MainUI extends AppCompatActivity {
         });
     }
 
+    private String getTimeFromAndroid() {
+        Date dt = new Date();
+        int hours = dt.getHours();
+        int min = dt.getMinutes();
+
+        if(hours>=1 || hours<=12){
+            return "Good Morning";
+        }else if(hours>=12 || hours<=16){
+            return "Good Afternoon";
+        }else if(hours>=16 || hours<=21){
+            return "Good Evening";
+        }else {
+            return "Good Night";
+        }
+    }
 
     private void viewRecommendation() {
         //use to test

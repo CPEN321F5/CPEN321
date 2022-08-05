@@ -325,7 +325,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:background="@null"
-                    android:hint="less than 7 days or 168 hours"
+                    android:hint="at least 1 hour\nat most 168 hours"
                     android:text=""
                     android:textColorHint="@color/gray"
                     android:textColor="@color/colo_money"

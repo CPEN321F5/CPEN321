@@ -272,7 +272,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Toast.makeText(PostActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostActivity.this, "We posted yay!", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()
@@ -329,16 +329,13 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         if (title.equals("")){
             Toast.makeText(PostActivity.this, "Title should not be empty", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (description.equals("")){
+        }else if (description.equals("")){
             Toast.makeText(PostActivity.this, "Description should not be empty", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (uploadedImages.size() == 0){
+        }else if (uploadedImages.size() == 0){
             Toast.makeText(PostActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (startPrice.equals("")){
+        }else if (startPrice.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -349,17 +346,20 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         if (deposit.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (stepPrice.equals("")){
+        }else if (stepPrice.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Step Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (timeLast.equals("")){
+        }else if (stepPrice.equals("0")){
+            Toast.makeText(PostActivity.this, "Fail, Step Price should be at least 1", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (timeLast.equals("")){
             Toast.makeText(PostActivity.this, "Fail, the post last hour is not set yet", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        if (Integer.parseInt(timeLast) > 168){
+        }else if (Integer.parseInt(timeLast) > 168){
             Toast.makeText(PostActivity.this, "Fail, the post should last less than 7 days", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (timeLast.equals("1")){
+            Toast.makeText(PostActivity.this, "Fail, the post should last at least one hour", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

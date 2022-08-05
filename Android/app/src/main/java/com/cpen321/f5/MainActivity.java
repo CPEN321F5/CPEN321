@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         checkLocationPermissions();
         Log.d(TAG, "Trying to request location permissions");
-        Toast.makeText(MainActivity.this, "Trying to request location permissions", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Trying to request location permissions", Toast.LENGTH_SHORT).show();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity
     private void checkLocationPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(MainActivity.this, "We have these permissions yay!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, "We have these permissions yay!", Toast.LENGTH_SHORT).show();
             return;
         }else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)

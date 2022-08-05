@@ -122,8 +122,10 @@
         <item>Computers</item>
         <item>Electronics</item>
         <item>Furniture</item>>
+        <item>Pets</item>
         <item>Makeup</item>
         <item>Tools</item>
+        <item>Tutors</item>
         <item>Other</item>
     </string-array>
 

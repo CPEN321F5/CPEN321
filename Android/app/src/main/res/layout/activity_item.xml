@@ -225,13 +225,13 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="CONTACT\n"
+                android:text="CONTACT"
                 android:padding="15dp"
                 android:gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:textStyle="bold"
-                android:drawableBottom="@drawable/ic_baseline_chat_24"
-                android:background="@color/purple_200"/>
+                android:drawableBottom="@drawable/ic_baseline_chat_24" />
+
 
             <ImageView
                 android:id="@+id/item_price_down_button"
@@ -268,11 +268,10 @@
                 android:padding="15dp"
                 android:layout_height="wrap_content"
                 android:drawableBottom="@drawable/ic_baseline_done_all_24"
-                android:text="BID\n"
-                android:textColor="#FFF"
+                android:text="BID"
+                android:textColor="#000"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:background="@color/PaleVioletRed"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 

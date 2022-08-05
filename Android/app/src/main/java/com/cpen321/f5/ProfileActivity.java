@@ -325,7 +325,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
-                        Toast.makeText(ProfileActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "Profile changes successfully yay!", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()

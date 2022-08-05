@@ -113,7 +113,7 @@ public class WalletActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
-                        Toast.makeText(WalletActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(WalletActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()
