@@ -32,7 +32,7 @@ public class MyItemActivity extends AppCompatActivity
 
     TextView removeButton;
     TextView homeButton;
-
+    TextView editButton;
     RequestQueue requestQueue;
 
     ViewAdapterMyItem viewAdapterItem;
@@ -72,8 +72,7 @@ public class MyItemActivity extends AppCompatActivity
     public static Drawable drawable2;
 
     String itemID;
-    String tmpID;
-
+    String status;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -81,6 +80,7 @@ public class MyItemActivity extends AppCompatActivity
         setContentView(R.layout.activity_my_item);
 
         itemID = getIntent().getStringExtra("myItemID");
+        status = getIntent().getStringExtra("status");
         Log.d("TAG", itemID);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -97,6 +97,20 @@ public class MyItemActivity extends AppCompatActivity
 
                 Intent removeIntent = new Intent(MyItemActivity.this, MainUI.class);
                 startActivity(removeIntent);
+            }
+        });
+
+        editButton = findViewById(R.id.edit_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(MyItemActivity.this, EditActivity.class);
+                editIntent.putExtra("itemID",itemID);
+                if(status.equals("active")){
+                    startActivity(editIntent);
+                }else{
+                    editButton.setText("Edit Button is No Longer Available");
+                }
             }
         });
 
@@ -205,7 +219,6 @@ public class MyItemActivity extends AppCompatActivity
 
                     GETOWNER(sellerID);
 
-                    //Toast.makeText(MyItemActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
                 }
                 catch (Exception w)
                 {

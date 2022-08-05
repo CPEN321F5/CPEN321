@@ -28,7 +28,7 @@ public class DisputeMainActivity extends AppCompatActivity
 
     Button fetchButton;
 
-    String orderItemID;
+    public static String orderItemID;
     TextView _orderItemID;
 
     public static String buyerName;

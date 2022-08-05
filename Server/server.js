@@ -151,15 +151,24 @@ app.get("/item/getbyid/:item_id", (req, res) => {
         //update invalid, need to have itemID
         res.status(400).send("invalid get, need to have itemID")
     }
-    else if(Object.prototype.hasOwnProperty.call(req.body, "UserID")){
-        //UserID included, saving item into user's history
-        console.log("[Server] saving item history to UserID " + req.body.UserID)
-        item_module.getItemByID_history(req.params.item_id, req.body.UserID).then(item => {
+    else{
+        item_module.getItemByID(req.params.item_id).then(item => {
             res.send(item)
         })
     }
+})
+
+//getting an item by id with history
+app.get("/item/getbyid_history/:item_id/:user_id", (req, res) => {
+    console.log("[Server] getting an item with id with history " + req.params.item_id)
+    if(!req.params.item_id || !req.params.user_id){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid get, need to have itemID and UserID")
+    }
     else{
-        item_module.getItemByID(req.params.item_id).then(item => {
+        //UserID included, saving item into user's history
+        console.log("[Server] saving item history to UserID " + req.params.user_id)
+        item_module.getItemByID_history(req.params.item_id, req.params.user_id).then(item => {
             res.send(item)
         })
     }
@@ -347,9 +356,48 @@ app.get("/chat/getconversation/:conversationID", (req, res) =>{
     }
 })
 
-// app.get("/img", (req,res) =>{
-//     res.sendFile("/home/CPEN321F5/F5/img1.png");
-// })
+app.delete("/chat/removeconversation/:conversationID", (req,res) => {
+    console.log("[Server] request for removing conversation")
+    conversation_id = req.params.conversationID
+    if(!conversation_id){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid delete, need to have ConversationID")
+    }
+    else{
+        chat_module.deleteConversation(conversation_id).then(result => {
+            res.sendStatus(200)
+        })
+    }
+})
+
+
+////////////////////////////////////////////////////Recommendation/////////////////////////////////
+const recommendationModule = require("./recommendation")
+const rm = new recommendationModule()
+
+//requesting for a list of conversation involved with a userID
+app.get("/recommand/getrecommendation/:userID", (req, res) =>{
+    console.log("[Server] request for list of recommendation for" + req.params.userID)
+    if(!req.params.userID){
+        //invalid request
+        res.status(400).send("invalid request: user id not specified")
+    }
+    else{
+        rm.getRecommendItems(req.params.userID).then(recommend_list => {
+            res.send(recommend_list)
+        })
+    }
+})
+
+
+
+app.get("/", (req,res) =>{
+    res.send("DATA")
+})
+
+app.get("/img", (req,res) =>{
+    res.sendFile("/home/CPEN321F5/F5/img1.png");
+})
 
 
 

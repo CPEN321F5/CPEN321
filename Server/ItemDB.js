@@ -226,6 +226,27 @@ Database.prototype.saveHistory = function(userID, item){
     )
 }
 
+//sample a number of items within a match condition
+Database.prototype.matchItems = async function(size, catagory){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+            console.log("[ItemDB] finding " + size + " items with catagory" + catagory)
+
+            var items = []
+            db.collection("Items").aggregate([
+                {$match: {$and:[{catagory: catagory}, {expired : "false"}]}}, // filter the results
+                {$sample: {size: size}} // You want to get 5 docs
+            ]).forEach(item => {
+                items.push(item)
+            }).then(a => {
+                resolve(items)
+            })
+            
+        })
+    )
+}
+
+
 //interface with the user collection to get the display username of a user
 Database.prototype.getUserName = function(UserID){
 	return this.connected.then(

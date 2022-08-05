@@ -32,6 +32,7 @@ import java.util.Objects;
 public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
     String[] IDsArray;
+    String[] IDsArray_recommendation;
     List<String> cache;
 
     //parameters for searching button
@@ -89,31 +90,11 @@ public class ItemListActivity extends AppCompatActivity {
         }
 
 
+            IDsArray = new String[size];
+            for (int i = 0; i < size; i++){
+                IDsArray[i] = cache.get(i);
+            }
 
-        Log.d(TAG, "size = " + size);
-        //Log.d(TAG, "attribute = " + cache.get(0));
-
-
-        IDsArray = new String[size];
-
-        for (int i = 0; i < size; i++){
-            IDsArray[i] = cache.get(i);
-            Log.d(TAG, i + " => " + IDsArray[i]);
-        }
-
-//        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, IDsArray);
-//
-//        ListView listView = (ListView) findViewById(R.id.item_list);
-//        listView.setAdapter(adapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ItemID = IDsArray[position];
-//                Intent tmp = new Intent(ItemListActivity.this, ItemActivity.class);
-//                startActivity(tmp);
-//            }
-//        });
         viewButtons();
         viewItems();
 
@@ -191,6 +172,34 @@ public class ItemListActivity extends AppCompatActivity {
         item_recyclerview.setLayoutManager(new LinearLayoutManager(this));
         for(int i = 0; i <= IDsArray.length - 1; i++){
             itemListAdapter.addList(IDsArray[i]);
+        }
+        if(IDsArray.length == 0){
+            RequestQueue queue = Volley.newRequestQueue(ItemListActivity.this);
+            String getRecommendation_url = "http://20.106.78.177:8081/recommand/getrecommendation/";
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getRecommendation_url + MainActivity.idOfUser, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    JSONArray jsonArray = response;
+                    try {
+                        for(int i=0;i<jsonArray.length();i++)
+                        {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            String itemID = jsonObject.getString("ItemID");
+                            itemListAdapter.addList(itemID);
+                        }
+                    }
+                    catch (Exception w)
+                    {
+                        Toast.makeText(ItemListActivity.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("RECOMMEND", getRecommendation_url + MainActivity.idOfUser);
+                }
+            });
+            queue.add(jsonArrayRequest);
         }
     }
 

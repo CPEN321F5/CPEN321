@@ -71,7 +71,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                     String getSellerID = response.getString("sellerID");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
-                    holder.item_username.setText(getSellerID); //change later
+                    holder.item_username.setText(response.getString("seller_name")); //change later
                     holder.item_image.setImageBitmap(bitmap);
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override

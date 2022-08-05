@@ -40,16 +40,9 @@ public class MainUI extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        View logoutButton;
-        View profileButton;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
-        //initial commit
-        //url strings for chat list activity
-        String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
-        String myID = MainActivity.idOfUser;
-        String chatList_url = chatList_init_url + myID;
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -57,104 +50,19 @@ public class MainUI extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        setButton();
+        setCategories();
+        viewRecommendation();
+    }
+
+    private void setCategories() {
+
         View categoryButton = findViewById(R.id.main_ui_more);
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent categoryList = new Intent(MainUI.this, CategoryActivity.class);
                 startActivity(categoryList);
-            }
-        });
-
-        requestQueueForSearch= Volley.newRequestQueue(this);
-        View searchButton = findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemIDList = new ArrayList<>();
-                EditText keywordSearch = findViewById(R.id.search_bar);
-                searchKey = keywordSearch.getText().toString().trim();
-                if( validCheck() ){
-                    Log.d("SearchActivity", "search key = " + searchKey);
-                    getDataForItemList(searchKey);
-                }
-            }
-        });
-
-
-        View postButton = findViewById(R.id.post_button);
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent postItem = new Intent(MainUI.this, PostActivity.class);
-                startActivity(postItem);
-            }
-        });
-
-        View checkoutButton = findViewById(R.id.checkout_button);
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent checkoutActivity = new Intent(MainUI.this, CheckoutActivity.class);
-                startActivity(checkoutActivity);
-            }
-        });
-
-        profileButton = findViewById(R.id.profile_button);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent profileActivity = new Intent(MainUI.this, ProfileActivity.class);
-                startActivity(profileActivity);
-            }
-        });
-
-        View chatButton = findViewById(R.id.chat_button);
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(MainUI.this);
-                Intent intent = new Intent(MainUI.this, ChatlistsActivity.class);
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d("TEST1", response.toString());
-                        intent.putExtra("conversationsList", response.toString());
-                        intent.putExtra("myID", myID);
-                        startActivity(intent);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("CHAT", chatList_url);
-                    }
-                });
-                queue.add(jsonArrayRequest);
-            }
-        });
-
-
-
-        logoutButton = findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                signOut();
-            }
-        });
-
-        View walletButton = findViewById(R.id.post_wallet);
-        walletButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent walletActivity = new Intent(MainUI.this, WalletActivity.class);
-//                startActivity(walletActivity);
-
-                //new code
-                Intent walletActivity = new Intent(MainUI.this, CheckoutActivity.class);
-                startActivity(walletActivity);
             }
         });
 
@@ -191,23 +99,137 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-        viewRecommendation();
     }
 
+    private void setButton() {
+        //initial commit
+        //url strings for chat list activity
+        String chatList_init_url = "http://20.106.78.177:8081/chat/getconversationlist/";
+        String myID = MainActivity.idOfUser;
+        String chatList_url = chatList_init_url + myID;
+        requestQueueForSearch= Volley.newRequestQueue(this);
+        View searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIDList = new ArrayList<>();
+                EditText keywordSearch = findViewById(R.id.search_bar);
+                searchKey = keywordSearch.getText().toString().trim();
+                if( validCheck() ){
+                    Log.d("SearchActivity", "search key = " + searchKey);
+                    getDataForItemList(searchKey);
+                }
+            }
+        });
+
+
+        View postButton = findViewById(R.id.post_button);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent postItem = new Intent(MainUI.this, PostActivity.class);
+                startActivity(postItem);
+            }
+        });
+
+        View checkoutButton = findViewById(R.id.checkout_button);
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent checkoutActivity = new Intent(MainUI.this, CheckoutActivity.class);
+                startActivity(checkoutActivity);
+            }
+        });
+
+        View profileButton = findViewById(R.id.profile_button);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileActivity = new Intent(MainUI.this, ProfileActivity.class);
+                startActivity(profileActivity);
+            }
+        });
+
+        View chatButton = findViewById(R.id.chat_button);
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestQueue queue = Volley.newRequestQueue(MainUI.this);
+                Intent intent = new Intent(MainUI.this, ChatlistsActivity.class);
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("TEST1", response.toString());
+                        intent.putExtra("conversationsList", response.toString());
+                        intent.putExtra("myID", myID);
+                        startActivity(intent);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("CHAT", chatList_url);
+                    }
+                });
+                queue.add(jsonArrayRequest);
+            }
+        });
+
+
+
+        View logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                signOut();
+            }
+        });
+
+        View walletButton = findViewById(R.id.post_wallet);
+        walletButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent walletActivity = new Intent(MainUI.this, CheckoutActivity.class);
+                startActivity(walletActivity);
+            }
+        });
+    }
 
 
     private void viewRecommendation() {
         //use to test
         String[] IDs = new String[2];
-        IDs[0] = "1659492974531";
-        IDs[1] = "1659493108645";
         RecyclerView recommend_item_recyclerview = findViewById(R.id.recommend_itemList);
         MainUIAdapter recommendAdapter = new MainUIAdapter(getLayoutInflater());
         recommend_item_recyclerview.setAdapter(recommendAdapter);
         recommend_item_recyclerview.setLayoutManager(new GridLayoutManager(this,2));
-        for(int i = 0; i <= IDs.length - 1; i++){
-            recommendAdapter.addList(IDs[i]);
-        }
+        RequestQueue queue = Volley.newRequestQueue(MainUI.this);
+        String getRecommendation_url = "http://20.106.78.177:8081/recommand/getrecommendation/";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getRecommendation_url + MainActivity.idOfUser, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONArray jsonArray = response;
+                try {
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String itemID = jsonObject.getString("ItemID");
+                        recommendAdapter.addList(itemID);
+                    }
+                }
+                catch (Exception w)
+                {
+                    Toast.makeText(MainUI.this,w.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("RECOMMEND", getRecommendation_url + MainActivity.idOfUser);
+            }
+        });
+        queue.add(jsonArrayRequest);
     }
 
     private void signOut()

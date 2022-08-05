@@ -40,7 +40,7 @@
                 android:id="@+id/home_myItem_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:drawableTop="@drawable/ic_baseline_home_24"
                 android:text="home" />
         </LinearLayout>
@@ -186,11 +186,24 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="REMOVE ITEM\n"
+                android:drawableBottom="@drawable/ic_delete"
                 android:padding="15dp"
                 android:gravity="center"
                 android:textColor="#FFF"
                 android:textStyle="bold"
                 android:background="@color/purple_200"/>
+            <TextView
+                android:id="@+id/edit_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="EDIT ITEM\n"
+                android:drawableBottom="@drawable/ic_edit"
+                android:padding="15dp"
+                android:gravity="center"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:background="@color/PaleVioletRed"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

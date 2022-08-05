@@ -1,6 +1,5 @@
 package com.cpen321.f5;
 
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -14,12 +13,15 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -41,42 +43,38 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
-public class PostActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener {
-    private final String TAG = "PostActivity";
+public class EditActivity extends AppCompatActivity implements LocationListener, AdapterView.OnItemSelectedListener{
+    private final String TAG = "EditActivity";
 
     private String title;
     private String description;
     private String startPrice;
     private String deposit;
-    private String stepPrice;
-    private String timeLast;
-    private String postTime;
-    private String timeExpire;
     private String category;
+    private String current_price;
+    private String status;
     private ImageView img0;
     private ImageView img1;
     private ImageView img2;
@@ -87,29 +85,51 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     private View imageButton;
     private View cameraButton;
 
+    private EditText edit_title;
+    private EditText edit_description;
+    private TextView edit_startPrice;
+    private TextView edit_deposit;
+    private TextView edit_currentPrice;
+    private TextView edit_remain_time;
+
+
 
     private List<String> uploadedImages = new ArrayList<>();
     private List<Bitmap> uploadedBitmaps = new ArrayList<>();
     public static double lat;
     public static double lon;
     private Uri imageUri;
+    private String itemID;
+
+
+    public static Bitmap bitmap0;
+    public static Bitmap bitmap1;
+    public static Bitmap bitmap2;
+
+    public static Drawable drawable0;
+    public static Drawable drawable1;
+    public static Drawable drawable2;
+
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_items);
+        setContentView(R.layout.activity_edit);
+        img0 = findViewById(R.id.edit_item_img0);
+        img1 = findViewById(R.id.edit_item_img1);
+        img2 = findViewById(R.id.edit_item_img2);
 
-        img0 = findViewById(R.id.post_item_img0);
-        img1 = findViewById(R.id.post_item_img1);
-        img2 = findViewById(R.id.post_item_img2);
+        itemID = getIntent().getStringExtra("itemID");
+        requestQueue = Volley.newRequestQueue(this);
 
-        Spinner dropdownCategory = findViewById(R.id.post_category_spinner);
+        Spinner dropdownCategory = findViewById(R.id.edit_category_spinner);
         String[] items = getResources().getStringArray(R.array.categories);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdownCategory.setAdapter(adapter);
         dropdownCategory.setOnItemSelectedListener(this);
 
-        showLocation = findViewById(R.id.show_location);
+        showLocation = findViewById(R.id.edit_show_location);
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -123,98 +143,12 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, this);
 
-
+        GETITEM();
+        setContent();
         setButton();
     }
 
-    private void setButton() {
-
-        Button postButton = findViewById(R.id.post_post);
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                title = ((EditText)findViewById(R.id.post_title)).getText().toString().trim();
-                description = ((EditText)findViewById(R.id.post_description)).getText().toString().trim();
-                startPrice = ((EditText)findViewById(R.id.post_start_price)).getText().toString().trim();
-                deposit = ((EditText)findViewById(R.id.post_deposit)).getText().toString().trim();
-                stepPrice = ((EditText)findViewById(R.id.post_step_price)).getText().toString().trim();
-                timeLast = ((EditText)findViewById(R.id.post_time_last)).getText().toString().trim();
-                postTime = getTime();
-
-                Log.d(TAG, "title = " + title);
-                Log.d(TAG, "description = " + description);
-                Log.d(TAG, "startP = " + startPrice);
-                Log.d(TAG, "stepP = " + stepPrice);
-                Log.d(TAG, "deposit = " + deposit);
-                Log.d(TAG, "how lone = " + timeLast);
-                Log.d(TAG, "post time = " + postTime);
-                Log.d(TAG, "catagory = " + category);
-                if (validCheck() && validCheck2()){
-                    long currentTime = Instant.now().toEpochMilli() / 1000;
-                    long expireTime = currentTime + Integer.parseInt(timeLast) * 3600;
-                    timeExpire = Long.toString(expireTime);
-                    Log.d(TAG, "expire time = " + timeExpire);
-                    postDataToServer();
-                    Intent MainUI = new Intent(PostActivity.this, MainUI.class);
-                    startActivity(MainUI);
-                }
-            }
-        });
-
-        Button cancelButton = findViewById(R.id.post_cancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent MainUI = new Intent(PostActivity.this, MainUI.class);
-                startActivity(MainUI);
-            }
-        });
-
-        imageButton = findViewById(R.id.image_add_button);
-        imageButton.setOnClickListener(v ->{
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            requestForAlbum.launch(intent);
-            Toast.makeText(PostActivity.this, "Trying to open album", Toast.LENGTH_SHORT).show();
-        });
-
-        cameraButton = findViewById(R.id.post_camera_button);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                File photo = new File(getExternalCacheDir(), "output_photo.jpg");
-
-                //if the same photo exist, directly use the existing one
-                try {
-                    if (photo.exists()) {
-                        photo.delete();
-                    }
-                    photo.createNewFile();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //if system version is higher than 7.0, use Uri is unsafe
-                if (Build.VERSION.SDK_INT < 24) {
-                    imageUri = Uri.fromFile(photo);
-                } else {
-                    // use file provider to protect data
-                    imageUri = FileProvider.getUriForFile(PostActivity.this, "com.f5.camera.fileprovider", photo);
-                }
-
-                //open camera
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                //specify the saving path
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                //save photo into output_photo.jpg
-                requestForCamera.launch(intent);
-
-            }
-        });
-
-
+    private void setContent() {
         img0.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -250,9 +184,82 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 return true;
             }
         });
+        
+        //set remaining time here
+        //edit_remain_time.setText();
+    }
+
+    private void setButton() {
+        Button editButton = findViewById(R.id.edit_edit);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                title = ((EditText)findViewById(R.id.edit_title)).getText().toString().trim();
+                description = ((EditText)findViewById(R.id.edit_description)).getText().toString().trim();
 
 
-        ImageView hintButton = findViewById(R.id.post_hint);
+                if (validCheck()){
+                    editDataToServer();
+                    Intent MainUI = new Intent(EditActivity.this, MyItemListActivity.class);
+                    startActivity(MainUI);
+                }
+            }
+        });
+
+        Button cancelButton = findViewById(R.id.edit_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent MainUI = new Intent(EditActivity.this, MyItemListActivity.class);
+                startActivity(MainUI);
+            }
+        });
+
+        imageButton = findViewById(R.id.image_add_button);
+        imageButton.setOnClickListener(v ->{
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            requestForAlbum.launch(intent);
+            Toast.makeText(EditActivity.this, "Trying to open album", Toast.LENGTH_SHORT).show();
+        });
+
+        cameraButton = findViewById(R.id.edit_camera_button);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                File photo = new File(getExternalCacheDir(), "output_photo.jpg");
+
+                //if the same photo exist, directly use the existing one
+                try {
+                    if (photo.exists()) {
+                        photo.delete();
+                    }
+                    photo.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                //if system version is higher than 7.0, use Uri is unsafe
+                if (Build.VERSION.SDK_INT < 24) {
+                    imageUri = Uri.fromFile(photo);
+                } else {
+                    // use file provider to protect data
+                    imageUri = FileProvider.getUriForFile(EditActivity.this, "com.f5.camera.fileprovider", photo);
+                }
+
+                //open camera
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                //specify the saving path
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                //save photo into output_photo.jpg
+                requestForCamera.launch(intent);
+
+            }
+        });
+
+        ImageView hintButton = findViewById(R.id.edit_hint);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,16 +270,20 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     }
 
 
-    private void postDataToServer(){
-        String url = getString(R.string.url_post);
-        RequestQueue queue = Volley.newRequestQueue(PostActivity.this);
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+    private void editDataToServer(){
+        String url = getString(R.string.url_item_put);
+        edit_title = findViewById(R.id.edit_title);
+        title = edit_title.getText().toString().trim();
+        edit_description = findViewById(R.id.edit_description);
+        description = edit_description.getText().toString().trim();
+        RequestQueue queue = Volley.newRequestQueue(EditActivity.this);
+        StringRequest editRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Toast.makeText(PostActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()
@@ -280,7 +291,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Toast.makeText(PostActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -289,88 +300,48 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("sellerID", MainActivity.idOfUser);
+                params.put("ItemID", itemID);
                 params.put("name", title);
                 params.put("description", description);
-
                 params.put("location_lat", Double.toString(lat));
                 params.put("location_lon", Double.toString(lon));
-
-                params.put("startPrice", startPrice);
-                params.put("deposit", deposit);
-                params.put("stepPrice", stepPrice);
-                params.put("postTime", postTime);
-                params.put("timeLast", timeLast);
-                params.put("timeExpire", timeExpire);
-                params.put("status", "active");
-
-                params.put("currentPriceHolder", "no one bid yet");
-                params.put("currentPrice", startPrice);
-                params.put("needAdmin", "false");
-                params.put("refundDescrition", "");
-                params.put("expired", "false");
-                params.put("adminResponse", "Waiting For Admin To Resolve Dispute!");
-
+                params.put("status", status);
                 params.put("image_0", sendImg(0));
                 params.put("image_1", sendImg(1));
                 params.put("image_2", sendImg(2));
 
-
                 params.put("catagory", category);
 
-                Log.d(TAG, "categoryURL = " + "http://20.106.78.177:8081/item/getbycond/catagory/" + category);
                 return params;
             }
         };
-        queue.add(postRequest);
+        queue.add(editRequest);
     }
 
     private boolean validCheck(){
         if (title.equals("")){
-            Toast.makeText(PostActivity.this, "Title should not be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "Title should not be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (description.equals("")){
-            Toast.makeText(PostActivity.this, "Description should not be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "Description should not be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (uploadedImages.size() == 0){
-            Toast.makeText(PostActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startPrice.equals("")){
-            Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
-        return true;
-    }
-
-    private boolean validCheck2(){
         if (deposit.equals("")){
-            Toast.makeText(PostActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (stepPrice.equals("")){
-            Toast.makeText(PostActivity.this, "Fail, Step Price is not set yet", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (timeLast.equals("")){
-            Toast.makeText(PostActivity.this, "Fail, the post last hour is not set yet", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (Integer.parseInt(timeLast) > 168){
-            Toast.makeText(PostActivity.this, "Fail, the post should last less than 7 days", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditActivity.this, "Fail, Deposit is not set yet", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-
-    private String getTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        return formatter.format(date);
-    }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -406,41 +377,20 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 @Override
                 public void onActivityResult(ActivityResult result){
                     if(result.getData() != null && result.getResultCode() == RESULT_OK){
-                        //Decode image size
-                        BitmapFactory.Options o = new BitmapFactory.Options();
-                        o.inJustDecodeBounds = true;
                         try{
                             InputStream Is = getContentResolver().openInputStream(result.getData().getData());
-                            BitmapFactory.decodeStream(Is, null, o);
-                            Is.close();
-                        }catch (FileNotFoundException error){
-                            Toast.makeText(PostActivity.this, "error", Toast.LENGTH_SHORT).show();
-                            error.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            Bitmap image = BitmapFactory.decodeStream(Is);
 
-                        int IMAGE_MAX_SIZE = 700;
-                        int scale = 1;
-                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
-                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-                        }
 
-                        //Decode with inSampleSize
-                        BitmapFactory.Options o2 = new BitmapFactory.Options();
-                        o2.inSampleSize = scale;
 
-                        try {
-                            InputStream Is2 = getContentResolver().openInputStream(result.getData().getData());
-                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
-                            Is2.close();
+                            Toast.makeText(EditActivity.this, "work", Toast.LENGTH_SHORT).show();
                             uploadedImages.add(getImage(image));
                             uploadedBitmaps.add(image);
 
                             refreshImg();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        }catch (FileNotFoundException error){
+                            Toast.makeText(EditActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
                         }
                     }
                 }
@@ -451,41 +401,16 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if(result.getData() != null && result.getResultCode() == RESULT_OK){
-                        //Decode image size
-                        BitmapFactory.Options o = new BitmapFactory.Options();
-                        o.inJustDecodeBounds = true;
                         try{
                             InputStream Is = getContentResolver().openInputStream(imageUri);
-                            BitmapFactory.decodeStream(Is, null, o);
-                            Is.close();
-                        }catch (FileNotFoundException error){
-                            Toast.makeText(PostActivity.this, "error", Toast.LENGTH_SHORT).show();
-                            error.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            Bitmap image = BitmapFactory.decodeStream(Is);
 
-                        int IMAGE_MAX_SIZE = 700;
-                        int scale = 1;
-                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
-                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-                        }
-
-                        //Decode with inSampleSize
-                        BitmapFactory.Options o2 = new BitmapFactory.Options();
-                        o2.inSampleSize = scale;
-
-                        try {
-                            InputStream Is2 = getContentResolver().openInputStream(imageUri);
-                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
-                            Is2.close();
                             uploadedImages.add(getImage(image));
                             uploadedBitmaps.add(image);
 
                             refreshImg();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        }catch (FileNotFoundException error){
+                            error.printStackTrace();
                         }
                     }
                 }
@@ -562,7 +487,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     }
 
     private void showAlertDialog(String s){
-        AlertDialog dialog = new AlertDialog.Builder(PostActivity.this)
+        AlertDialog dialog = new AlertDialog.Builder(EditActivity.this)
                 .setMessage(s)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -581,5 +506,132 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         category = getResources().getStringArray(R.array.categories)[0];
+    }
+
+    private void GETITEM ()
+    {
+        String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
+        Log.d(TAG, GETITEMURL);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETITEMURL, null, new Response.Listener<JSONObject>()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                Log.d(TAG, "attribute = " + response.toString());
+
+                try
+                {
+                    title = response.getString("name");
+                    deposit = response.getString("deposit");
+                    current_price = response.getString("currentPrice");
+                    startPrice = response.getString("startPrice");
+                    description = response.getString("description");
+                    status = response.getString("status");
+
+
+                    String img0_string = response.getString("image_0");
+                    String img1_string = response.getString("image_1");
+                    String img2_string = response.getString("image_2");
+
+                    edit_title = findViewById(R.id.edit_title);
+                    edit_title.setText(title);
+
+                    edit_startPrice = findViewById(R.id.edit_start_price);
+                    edit_startPrice.setText(startPrice);
+
+                    edit_description = findViewById(R.id.edit_description);
+                    edit_description.setText(description);
+
+                    edit_deposit = findViewById(R.id.edit_deposit);
+                    edit_deposit.setText(deposit);
+
+                    edit_currentPrice = findViewById(R.id.edit_current_price);
+                    edit_currentPrice.setText(current_price);
+
+                    bitmap0 = base64ToBitmap(img0_string);
+                    drawable0 = new BitmapDrawable(getResources(), bitmap0);
+                    img0 = findViewById(R.id.edit_item_img0);
+                    img0.setImageBitmap(bitmap0);
+                    uploadedImages.add(getImage(bitmap0));
+                    Log.d("img0Enabled", uploadedImages.get(0));
+                    img0Enabled = true;
+                    if(img0Enabled){
+                        Log.d("img0Enabled", "is 1");
+                    }
+                    uploadedBitmaps.add(bitmap0);
+                    img0.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            if (img0Enabled){
+                                Log.d("img0Enabled", "is 1");
+                                uploadedBitmaps.remove(0);
+                                uploadedImages.remove(0);
+                                refreshImg();
+                            }
+                            return true;
+                        }
+                    });
+                    if(!img1_string.equals("")){
+                        bitmap1 = base64ToBitmap(img1_string);
+                        drawable1 = new BitmapDrawable(getResources(), bitmap1);
+                        img1 = findViewById(R.id.edit_item_img1);
+                        img1.setImageBitmap(bitmap1);
+                        uploadedImages.add(getImage(bitmap1));
+                        uploadedBitmaps.add(bitmap1);
+                        img1.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                if (img0Enabled){
+                                    uploadedBitmaps.remove(1);
+                                    uploadedImages.remove(1);
+                                    refreshImg();
+                                }
+                                return true;
+                            }
+                        });
+                    }
+                    if(!img2_string.equals("")){
+                        bitmap2 = base64ToBitmap(img2_string);
+                        drawable2 = new BitmapDrawable(getResources(), bitmap2);
+                        img2 = findViewById(R.id.edit_item_img2);
+                        img2.setImageBitmap(bitmap2);
+                        uploadedImages.add(getImage(bitmap2));
+                        uploadedBitmaps.add(bitmap2);
+                        img2.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                if (img0Enabled){
+                                    uploadedBitmaps.remove(2);
+                                    uploadedImages.remove(2);
+                                    refreshImg();
+                                }
+                                return true;
+                            }
+                        });
+                    }
+                }
+                catch (Exception w)
+                {
+                    //Toast.makeText(MyItemActivity.this,w.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                //Toast.makeText(MyItemActivity.this,error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private Bitmap base64ToBitmap (String img)
+    {
+        byte[] bytes = Base64.decode(img, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

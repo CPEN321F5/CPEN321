@@ -1,4 +1,3 @@
-const e = require('express')
 const Item_Database = require('./ItemDB.js')
 
 function Item_module(){
@@ -17,13 +16,25 @@ Item_module.prototype.updateItem = function(item){
 }
 
 Item_module.prototype.getItemByID = function(itemId){
-    return this.item_db.getItemById(itemId)
+    return this.item_db.getItemById(itemId).then(item => {
+        if(item != null && Object.prototype.hasOwnProperty.call(item, "ItemID") && Object.prototype.hasOwnProperty.call(item, "sellerID")){
+            return this.item_db.getUserName(item.sellerID).then(seller_name => {
+                item.seller_name = seller_name
+                return item
+            })
+        }
+    })
 }
 
 Item_module.prototype.getItemByID_history = function(itemId, userID){
     return this.item_db.getItemById(itemId).then(item => {
-        this.item_db.saveHistory(userID, item)
-        return item
+        if(item != null && Object.prototype.hasOwnProperty.call(item, "ItemID") && Object.prototype.hasOwnProperty.call(item, "catagory")){
+            this.item_db.saveHistory(userID, item)
+            return this.item_db.getUserName(item.sellerID).then(seller_name => {
+                item.seller_name = seller_name
+                return item
+            })
+        }
     })
 }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_700"
     tools:context=".AdminResponseActivity">
 
     <LinearLayout
@@ -18,18 +19,20 @@
             android:padding="20dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Admin Needed">
+                android:hint="Admin Needed (true/false)">
 
-                <EditText
-                    android:id="@+id/admin_caption"
+                <AutoCompleteTextView
+                    android:id="@+id/admin_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/name"
-                    android:drawablePadding="10dp"
-                    android:text=""/>
+                    android:layout_height="65dp"
+                    android:drawableStart="@drawable/admin"
+                    android:paddingStart="15dp"
+                    android:inputType="none"
+                    android:drawablePadding="10dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +70,18 @@
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/update_button" />
+
+            <TextView
+                android:id="@+id/refund_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reason_caption" />
 
         </LinearLayout>
 

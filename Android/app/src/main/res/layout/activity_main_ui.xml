@@ -236,6 +236,7 @@
             android:id="@+id/recommend_itemList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="62dp"
             tools:listitem="@layout/single_item_recommend_layout" />
     </LinearLayout>
     <LinearLayout
