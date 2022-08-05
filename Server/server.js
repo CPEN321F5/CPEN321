@@ -144,6 +144,23 @@ app.put("/item/updateitem/", (req, res) => {
     }
 })
 
+//Bid an item
+app.put("/item/bidItem/", (req, res) => {
+    console.log("[Server] bidding an item")
+    var item_update = req.body
+    if(item_update == null || !Object.prototype.hasOwnProperty.call(item_update, "ItemID") 
+        || !Object.prototype.hasOwnProperty.call(item_update, "currentPriceHolder") 
+        || !Object.prototype.hasOwnProperty.call(item_update, "currentPrice")){
+        //update invalid, need to have itemID
+        res.status(400).send("invalid update, need to have ItemID, currentPriceHolder and currentPrice")
+    }
+    else{
+        item_module.bidItem(item_update.ItemID, item_update.currentPriceHolder, item_update.currentPrice).then(result => {
+            res.send(result)
+        })
+    }
+})
+
 //getting an item by id
 app.get("/item/getbyid/:item_id", (req, res) => {
     console.log("[Server] getting an item with id " + req.params.item_id)
@@ -190,6 +207,12 @@ app.get("/item/getbycond/:type/:data", (req, res) => {
     else if (req.params.type == "buyer"){
         console.log("[Server] getting items bought by user" + req.params.data)
         item_module.getItemByBuyer(req.params.data).then(items => {
+            res.send(items)
+        })
+    }
+    else if(req.params.type == "bidder"){
+        console.log("[Server] getting items bid by user" + req.params.data)
+        item_module.getItemByBidder(req.params.data).then(items => {
             res.send(items)
         })
     }
