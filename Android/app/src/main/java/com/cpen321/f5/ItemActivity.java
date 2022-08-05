@@ -184,7 +184,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         ImageView subButton = findViewById(R.id.item_price_down_button);
 
         bidButton = findViewById(R.id.bid_button);
-        if(item_status != null && !(item_status.equals("sold"))){
+        if(item_status == null || !(item_status.equals("sold"))){
             bidButton.setOnClickListener(new View.OnClickListener()
             {
 
