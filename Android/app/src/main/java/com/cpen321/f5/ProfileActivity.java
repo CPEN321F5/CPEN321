@@ -92,6 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         CardView itemsButton;
         TextView postButton;
+        TextView walletButton;
         TextView disputeButton;
         Button updateButton;
 
@@ -122,6 +123,15 @@ public class ProfileActivity extends AppCompatActivity {
             {
                 Intent itemsIntent = new Intent(ProfileActivity.this, MyItemListActivity.class);
                 startActivity(itemsIntent);
+            }
+        });
+
+        walletButton = findViewById(R.id.profile_wallet_button);
+        walletButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent walletIntent = new Intent(ProfileActivity.this, CheckoutActivity.class);
+                startActivity(walletIntent);
             }
         });
 
