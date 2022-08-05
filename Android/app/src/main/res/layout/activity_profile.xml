@@ -62,7 +62,7 @@
                     android:id="@+id/profile_dispute_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_baseline_dispute_24"
+                    android:drawableTop="@drawable/dispute"
                     android:text="Dispute" />
             </LinearLayout>
         </LinearLayout>
@@ -153,7 +153,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_baseline_bidding_24"/>
+                        android:src="@drawable/ic_bidding_24"/>
 
                     <TextView
                         android:id="@+id/items_bid_highest_label"
@@ -189,7 +189,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/items_purchased" />
+                        android:src="@drawable/ic_purchased" />
 
                     <TextView
                         android:id="@+id/items_purchased_label"

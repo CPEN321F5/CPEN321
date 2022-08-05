@@ -84,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d(TAG, GETPROFILEURL);
         GETUSERPROFILE();
 
-        postButton = findViewById(R.id.post_button);
+        postButton = findViewById(R.id.profile_post_button);
         postButton.setOnClickListener(new View.OnClickListener()
         {
 
@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        disputeButton = findViewById(R.id.dispute_button);
+        disputeButton = findViewById(R.id.profile_dispute_button);
         disputeButton.setOnClickListener(new View.OnClickListener()
         {
 
