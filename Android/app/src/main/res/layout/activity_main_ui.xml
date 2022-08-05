@@ -277,5 +277,19 @@
                 android:drawableTop="@drawable/ic_baseline_post_add_24"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/checkout_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test CheckOut"
+                android:drawableTop="@drawable/ic_checkout"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

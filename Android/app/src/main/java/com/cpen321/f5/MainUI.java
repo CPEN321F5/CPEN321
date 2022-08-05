@@ -132,7 +132,14 @@ public class MainUI extends AppCompatActivity {
             }
         });
 
-
+        View checkoutButton = findViewById(R.id.checkout_button);
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent checkoutActivity = new Intent(MainUI.this, CheckoutActivity.class);
+                startActivity(checkoutActivity);
+            }
+        });
 
         View profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
