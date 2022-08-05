@@ -11,79 +11,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/MediumPurple"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:paddingLeft="15dp"
-                android:text="Profile"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/profile_post_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_baseline_post_add_24"
-                    android:text="Post Item" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/profile_myitem_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_baseline_account_circle_24"
-                    android:text="My Item" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/profile_dispute_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_baseline_dispute_24"
-                    android:text="Dispute" />
-            </LinearLayout>
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="300dp"
             android:background="@color/purple_700"
-            android:padding="30dp">
+            android:padding="20dp">
 
             <ImageView
                 android:id="@+id/profile_image"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/profile_placeholder" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/profile_placeholder"/>
 
             <TextView
                 android:id="@+id/name"
@@ -94,19 +33,49 @@
                 android:layout_toEndOf="@+id/profile_image"
                 android:includeFontPadding="false"
                 android:text=""
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
+            <TextView
+                android:id="@+id/post_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/purple_500"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/ic_new_post"
+                android:text="POST ITEM">
 
+            </TextView>
 
-
-
+            <TextView
+                android:id="@+id/dispute_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@+id/post_button"
+                android:background="@color/purple_500"
+                android:drawableRight="@drawable/ic_dispute"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="DISPUTE ITEM"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-30dp">
+            android:layout_marginTop="-80dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/profile_item_post"
@@ -147,10 +116,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/profile_item_bid_highest"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/Violet"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -163,19 +132,18 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_baseline_bidding_24"/>
+                        android:src="@drawable/items_purchased" />
 
                     <TextView
                         android:id="@+id/items_bid_highest_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:includeFontPadding="false"
-                        android:text="\n\nBidding"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-
+                        android:layout_below="@+id/imageview1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="Items Currently Bidding"
+                        android:textSize="18dp" />
 
                 </RelativeLayout>
 
@@ -184,10 +152,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/profile_item_purchased"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="125dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/Violet"
+                app:cardBackgroundColor="@color/MediumPurple"
                 app:cardElevation="10dp">
 
                 <RelativeLayout
@@ -206,48 +174,12 @@
                         android:id="@+id/items_purchased_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:includeFontPadding="false"
-                        android:text="\n\nPurchased"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-
-
-                </RelativeLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/Violet"
-                app:cardElevation="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_below="@+id/imageview2"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/items_sold"/>
-
-                    <TextView
-                        android:id="@+id/items_sold_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:includeFontPadding="false"
-                        android:text="\n\nSold"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Items Purchased"
+                        android:textSize="18dp" />
 
                 </RelativeLayout>
 
