@@ -226,6 +226,34 @@ Database.prototype.saveHistory = function(userID, item){
     )
 }
 
+//Bid Item
+Database.prototype.bidItem = function(ItemID, update){
+    return this.connected.then(
+        db => new Promise((resolve, reject) => {
+
+            console.log("[ItemDB] bidding item " + ItemID)
+            const filter = { ItemID: ItemID }
+            const options = { upsert: false };
+
+            console.log(update)
+            var result = db.collection("Items").updateOne(filter, update, options)
+            resolve(result);
+
+        }).then(result =>{
+            console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")
+            if (result.modifiedCount >= 1){
+                console.log("[ItemDB] successfully bid item")
+                return true
+            }else{
+                console.log("[ItemDB] failed to bid item")
+                return false
+            }
+        })
+    )
+}
+
+
+
 //sample a number of items within a match condition
 Database.prototype.matchItems = async function(size, catagory){
     return this.connected.then(

@@ -46,7 +46,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +82,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     TextView _itemDescription;
     TextView _itemLocation;
     TextView _itemNumber;
+    TextView _itemExpiryTime;
     private TextView newPrice;
 
     TextView _ownerName;
@@ -324,6 +328,13 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     _itemName = findViewById(R.id.item_name_caption);
                     _itemName.setText(itemName);
 
+                    Date date = new Date(Long.parseLong(expireTime) * 1000);
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    String formatted = format.format(date);
+
+                    _itemExpiryTime = findViewById(R.id.expire_time);
+                    _itemExpiryTime.setText("Expiry Time : " + formatted);
+
                     _itemPrice = findViewById(R.id.item_price_caption);
                     _itemPrice.setText("$ " + itemPrice);
                     newPrice = findViewById(R.id.upcoming_price);
@@ -561,7 +572,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
     private void updPrice() {
         RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
-        String url = getString(R.string.url_item_put);
+        String url = getString(R.string.url_item_bid);
 
         StringRequest postRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>()

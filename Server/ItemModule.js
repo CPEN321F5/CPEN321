@@ -38,13 +38,34 @@ Item_module.prototype.getItemByID_history = function(itemId, userID){
     })
 }
 
+//Get item by buyer will query items where the user have won the bid(item expired && highest bidder)
 Item_module.prototype.getItemByBuyer = function(buyer_id){
     if(buyer_id == null){
         return new Promise((resolve, reject) => {
             resolve([])
         })
     }
-    var query = {currentPriceHolder : buyer_id}
+    var query = {$and : [
+        {currentPriceHolder : buyer_id},
+        {expired : "true"}
+    ]}
+    return this.item_db.getItemByCondition(query)
+}
+
+//get item by bidder will query items where the bidder current have a bid on, whether or not the bid is the highest bid
+Item_module.prototype.getItemByBidder = function(bidder_id){
+    if(bidder_id == null){
+        return new Promise((resolve, reject) => {
+            resolve([])
+        })
+    }
+    var query = {$and : [
+        {$or : [
+            {bidders : bidder_id},
+            {currentPriceHolder : bidder_id}
+        ]},
+        {expired : "false"}
+    ]}
     return this.item_db.getItemByCondition(query)
 }
     
@@ -149,6 +170,25 @@ Item_module.prototype.updateExpireStatus = function(){
     })
 }
 
+Item_module.prototype.bidItem = function(item_ID, bid_userID, bid_price){
+    console.log("[ItemModule] user " + bid_userID + " is bidding " + item_ID + " with price " + bid_price)
+    if(item_ID != null && bid_userID != null && bid_price != null){
+        update = {
+            $push: { bidders : bid_userID},
+            $set : {
+                currentPrice : bid_price.toString(),
+                currentPriceHolder : bid_userID,
+            }
+        }
+        return this.item_db.bidItem(item_ID, update)
+    }
+    else{
+        return new Promise((resolve,reject) => {
+            resolve(false)
+        })
+    }
+}
+
 module.exports = Item_module
 
 
@@ -157,6 +197,14 @@ module.exports = Item_module
 
 
 // var im = new Item_module()
+
+// im.getItemByBidder("002").then(items => {
+//     console.log(items)
+// })
+
+// im.bidItem("121", "002", "505")
+
+
 // count = 1
 // setInterval(() => {
 //     im.updateExpireStatus()

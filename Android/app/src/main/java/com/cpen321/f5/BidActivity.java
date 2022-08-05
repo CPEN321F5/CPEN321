@@ -98,7 +98,7 @@ public class BidActivity extends AppCompatActivity {
 
     private void updPrice() {
         RequestQueue queue = Volley.newRequestQueue(BidActivity.this);
-        String url = getString(R.string.url_item_put);
+        String url = getString(R.string.url_item_bid);
         currentPrice += addPrice;
         currentPriceHolder = MainActivity.idOfUser;
         StringRequest postRequest = new StringRequest(Request.Method.PUT, url,
