@@ -40,12 +40,9 @@ import com.android.volley.toolbox.Volley;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;

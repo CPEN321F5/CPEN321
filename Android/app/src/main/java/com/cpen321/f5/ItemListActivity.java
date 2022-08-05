@@ -32,7 +32,6 @@ import java.util.Objects;
 public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
     String[] IDsArray;
-    String[] IDsArray_recommendation;
     List<String> cache;
 
     //parameters for searching button
@@ -118,7 +117,6 @@ public class ItemListActivity extends AppCompatActivity {
                 EditText search_itemList_bar = findViewById(R.id.search_itemList_bar);
                 searchKey = search_itemList_bar.getText().toString().trim();
                 if( validCheck() ){
-                    Log.d("SearchActivity", "search key = " + searchKey);
                     getDataForItemList(searchKey);
                 }
             }
@@ -133,7 +131,6 @@ public class ItemListActivity extends AppCompatActivity {
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    Log.d("TEST1", response.toString());
                     intent.putExtra("conversationsList", response.toString());
                     intent.putExtra("myID", MainActivity.idOfUser);
                     startActivity(intent);
@@ -141,7 +138,7 @@ public class ItemListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("TEST1", chatList_url);
+                    Log.d(TAG, chatList_url);
                 }
             });
             queue.add(jsonArrayRequest);
@@ -196,7 +193,7 @@ public class ItemListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("RECOMMEND", getRecommendation_url + MainActivity.idOfUser);
+                    Log.d(TAG, getRecommendation_url + MainActivity.idOfUser);
                 }
             });
             queue.add(jsonArrayRequest);
@@ -227,12 +224,10 @@ public class ItemListActivity extends AppCompatActivity {
                         String itemID = jsonObject.getString("ItemID");
 
                         itemIDList.add(itemID);
-                        //Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
                     }
                     Intent ListUI = new Intent(ItemListActivity.this, ItemListActivity.class);
                     ListUI.putExtra("search_interface","2");
                     startActivity(ListUI);
-                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception w)
                 {
