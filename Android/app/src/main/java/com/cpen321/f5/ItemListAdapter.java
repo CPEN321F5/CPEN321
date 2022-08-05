@@ -69,6 +69,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                 {   String itemID = response.getString("ItemID");
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
                     String getSellerID = response.getString("sellerID");
+                    String item_status = response.getString("status");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_username.setText(response.getString("seller_name")); //change later
@@ -79,6 +80,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                             Intent intent = new Intent(v.getContext(), ItemActivity.class);
                             Intent my_intent = new Intent(v.getContext(), MyItemActivity.class);
                             intent.putExtra("itemID", itemID);
+                            intent.putExtra("status", item_status);
                             my_intent.putExtra("myItemID", itemID);
                             Log.d("ItemListAdapter2", itemID);
                             if(getSellerID.equals(MainActivity.idOfUser)){

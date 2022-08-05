@@ -119,6 +119,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     private double lon;
     private double lat_item;
     private double lon_item;
+    private String item_status;
 
     int tmpPrice;
     int balanceAmount;
@@ -133,6 +134,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         View contact_seller_Button;
 
         tmpID = getIntent().getStringExtra("itemID");
+        item_status = getIntent().getStringExtra("status");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -178,28 +180,49 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
         String chat_init_url = "http://20.106.78.177:8081/chat/initconversation/";
         String myID = MainActivity.idOfUser;
+        ImageView addButton = findViewById(R.id.item_price_up_button);
+        ImageView subButton = findViewById(R.id.item_price_down_button);
 
         bidButton = findViewById(R.id.bid_button);
-        bidButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v)
+        if(item_status != null && !(item_status.equals("sold"))){
+            bidButton.setOnClickListener(new View.OnClickListener()
             {
-                //new code
-                int balance = getBalance();
-                if (tmpPrice > Integer.parseInt(itemPrice)){
-                    if (tmpPrice <= balance){
-                        updPrice();
+
+                @Override
+                public void onClick(View v)
+                {
+                    //new code
+                    int balance = getBalance();
+                    if (tmpPrice > Integer.parseInt(itemPrice)){
+                        if (tmpPrice <= balance){
+                            updPrice();
+                        }else{
+                            Toast.makeText(ItemActivity.this, "load your balance first", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "66balance of wallet = " + balance);
+                        }
                     }else{
-                        Toast.makeText(ItemActivity.this, "load your balance first", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "66balance of wallet = " + balance);
+                        Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }else{
+            addButton.setVisibility(View.INVISIBLE);
+            subButton.setVisibility(View.INVISIBLE);
+            findViewById(R.id.upcoming_price).setVisibility(View.INVISIBLE);
+            bidButton.setText("Item Received");
+            bidButton.setOnClickListener(new View.OnClickListener()
+            {
+
+                @Override
+                public void onClick(View v)
+                {
+                    //add Api later
+                    Toast.makeText(ItemActivity.this, "Enjoy your item!", Toast.LENGTH_LONG).show();
+                    bidButton.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+
 
         contact_seller_Button = findViewById(R.id.contact_seller_button);
         contact_seller_Button.setOnClickListener(new View.OnClickListener() {
@@ -216,8 +239,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
             }
         });
 
-        ImageView addButton = findViewById(R.id.item_price_up_button);
-        ImageView subButton = findViewById(R.id.item_price_down_button);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

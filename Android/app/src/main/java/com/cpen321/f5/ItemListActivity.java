@@ -39,14 +39,14 @@ public class ItemListActivity extends AppCompatActivity {
     String searchKey;
     String check_activity;
     RequestQueue requestQueueForSearch;
-
+    TextView search_hint;
     private final String TAG = "ItemListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        TextView search_hint = findViewById(R.id.search_hint);
+        search_hint = findViewById(R.id.search_hint);
         int size;
         check_activity = getIntent().getStringExtra("search_interface");
         try{
@@ -171,7 +171,10 @@ public class ItemListActivity extends AppCompatActivity {
         for(int i = 0; i <= IDsArray.length - 1; i++){
             itemListAdapter.addList(IDsArray[i]);
         }
-        if(IDsArray.length == 0 && !Objects.equals(check_activity, "5") && !Objects.equals(check_activity, "6")){
+        if(IDsArray.length == 0 && Objects.equals(check_activity, "5") && Objects.equals(check_activity, "6")){
+            search_hint.setText("You do not have any item here");
+        }
+        else if(IDsArray.length == 0 && !Objects.equals(check_activity, "5") && !Objects.equals(check_activity, "6")){
             RequestQueue queue = Volley.newRequestQueue(ItemListActivity.this);
             String getRecommendation_url = "http://20.106.78.177:8081/recommand/getrecommendation/";
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getRecommendation_url + MainActivity.idOfUser, null, new Response.Listener<JSONArray>() {
