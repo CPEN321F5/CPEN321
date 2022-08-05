@@ -72,7 +72,6 @@ public class AdminItemActivity extends AppCompatActivity
     public static Drawable drawable2;
 
     String itemID;
-    String tmpID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,7 +79,7 @@ public class AdminItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_item);
 
-        itemID = getIntent().getStringExtra("myItemID");
+        itemID = getIntent().getStringExtra("itemID");
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -115,7 +114,7 @@ public class AdminItemActivity extends AppCompatActivity
 
     private void GETITEM ()
     {
-        String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + AdminListActivity.adminItemID + "/";
+        String GETITEMURL = "http://20.106.78.177:8081/item/getbyid/" + itemID + "/";
         Log.d(TAG, GETITEMURL);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GETITEMURL, null, new Response.Listener<JSONObject>()
@@ -225,7 +224,7 @@ public class AdminItemActivity extends AppCompatActivity
 
     private void REMOVEITEM()
     {
-        String REMOVEITEMURL = "http://20.106.78.177:8081/item/removeitem/" + AdminListActivity.adminItemID;
+        String REMOVEITEMURL = "http://20.106.78.177:8081/item/removeitem/" + itemID;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, REMOVEITEMURL, null, new Response.Listener<JSONObject>()
         {

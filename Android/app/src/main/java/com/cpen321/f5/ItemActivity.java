@@ -187,7 +187,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         if(item_status == null || !(item_status.equals("sold"))){
             bidButton.setOnClickListener(new View.OnClickListener()
             {
-
                 @Override
                 public void onClick(View v)
                 {
