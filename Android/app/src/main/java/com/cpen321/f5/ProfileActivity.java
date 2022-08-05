@@ -212,7 +212,6 @@ public class ProfileActivity extends AppCompatActivity {
             intent.setType("image/*");
             requestForAlbum.launch(intent);
             Toast.makeText(ProfileActivity.this, "Trying to open album", Toast.LENGTH_SHORT).show();
-            UPDATEUSERPROFILE();
             Log.d(TAG, "NEW IMAGE" + profileImg);
         });
     }
@@ -519,6 +518,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (profileImg.equals("")){
 
         }else{
+            UPDATEUSERPROFILE();
             img.setImageBitmap(base64ToBitmap(profileImg));
         }
     }
