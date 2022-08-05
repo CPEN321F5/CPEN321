@@ -74,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
 
-        Button itemsButton;
-        Button postButton;
-        Button disputeButton;
+        TextView itemsButton;
+        TextView postButton;
+        TextView disputeButton;
         Button updateButton;
 
         requestQueue = Volley.newRequestQueue(this);
