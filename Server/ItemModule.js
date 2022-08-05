@@ -177,7 +177,7 @@ Item_module.prototype.compleateSale = function(itemID){
             return this.item_db.chargeUser(item.sellerID, "-" + item.currentPrice).then(success => {
                 update = {
                     ItemID : item.ItemID,
-                    status : "compleated",
+                    status : "complete",
                 }
                 return this.item_db.updateItem(update)
             })
