@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
 
-        TextView itemsButton;
+        CardView itemsButton;
         TextView postButton;
         TextView disputeButton;
         Button updateButton;
@@ -96,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        itemsButton = findViewById(R.id.items_button);
+        itemsButton = findViewById(R.id.profile_item_post);
         itemsButton.setOnClickListener(new View.OnClickListener()
         {
 
@@ -170,16 +170,16 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        CardView highestBiddingButton = findViewById(R.id.profile_item_purchased);
+        CardView highestBiddingButton = findViewById(R.id.profile_item_bid_highest);
         highestBiddingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemIDList = new ArrayList<>();
-                getDataForHighestBid(MainActivity.idOfUser);
+                getDataForBid(MainActivity.idOfUser);
             }
         });
 
-        CardView itemPurchasedButton = findViewById(R.id.profile_item_bid_highest);
+        CardView itemPurchasedButton = findViewById(R.id.profile_item_purchased);
         itemPurchasedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -349,9 +349,9 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getDataForHighestBid(String buyerID)
+    private void getDataForBid(String buyerID)
     {
-        String url = "http://20.106.78.177:8081/item/getbycond/buyer/" + buyerID;
+        String url = "http://20.106.78.177:8081/item/getbycond/bidder/" + buyerID;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
