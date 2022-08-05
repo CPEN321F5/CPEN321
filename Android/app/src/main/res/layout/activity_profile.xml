@@ -109,42 +109,6 @@
             android:layout_marginTop="-30dp">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/profile_item_post"
-                android:layout_width="0dp"
-                android:layout_height="125dp"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/MediumPurple"
-                app:cardElevation="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="2dp">
-
-                    <ImageView
-                        android:id="@+id/imageview3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/items_purchased" />
-
-                    <TextView
-                        android:id="@+id/items_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/imageview3"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="Items Posted"
-                        android:textSize="18dp" />
-
-                </RelativeLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/profile_item_bid_highest"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
