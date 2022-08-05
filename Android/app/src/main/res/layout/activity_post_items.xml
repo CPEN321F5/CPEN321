@@ -12,43 +12,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_height="55dp"
+            android:background="@color/MediumPurple"
+            android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/post_cancel"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Cancel"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
 
-            <Button
-                android:id="@+id/post_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:paddingStart="15dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="5dp"
-                android:text="Post"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
+                <Button
+                    android:id="@+id/post_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:padding="5dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
 
 
-        </RelativeLayout>
+                <Button
+                    android:id="@+id/post_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/purple_700"
+                    android:paddingStart="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="Post"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:id="@+id/linearLayout"
