@@ -373,12 +373,12 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result){
-                    if(result.getResultCode() == RESULT_OK){
+                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
                         //Decode image size
                         BitmapFactory.Options o = new BitmapFactory.Options();
                         o.inJustDecodeBounds = true;
                         try{
-                            InputStream Is = getContentResolver().openInputStream(imageUri);
+                            InputStream Is = getContentResolver().openInputStream(result.getData().getData());
                             BitmapFactory.decodeStream(Is, null, o);
                             Is.close();
                         }catch (FileNotFoundException error){
@@ -400,12 +400,11 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
                         o2.inSampleSize = scale;
 
                         try {
-                            InputStream Is2 = getContentResolver().openInputStream(imageUri);
+                            InputStream Is2 = getContentResolver().openInputStream(result.getData().getData());
                             Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
                             Is2.close();
                             uploadedImages.add(getImage(image));
                             uploadedBitmaps.add(image);
-
                             refreshImg();
                         } catch (IOException e) {
                             e.printStackTrace();
