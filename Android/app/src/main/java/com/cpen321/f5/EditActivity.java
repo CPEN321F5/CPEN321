@@ -90,9 +90,6 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
 
     private EditText edit_title;
     private EditText edit_description;
-    private TextView edit_startPrice;
-
-
 
     private List<String> uploadedImages = new ArrayList<>();
     private List<Bitmap> uploadedBitmaps = new ArrayList<>();
@@ -584,7 +581,7 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
                     edit_title = findViewById(R.id.edit_title);
                     edit_title.setText(title);
 
-                    edit_startPrice = findViewById(R.id.edit_start_price);
+                    TextView edit_startPrice = findViewById(R.id.edit_start_price);
                     edit_startPrice.setText(startPrice);
 
                     edit_description = findViewById(R.id.edit_description);

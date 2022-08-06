@@ -43,8 +43,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -119,7 +117,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     private double lon;
     private double lat_item;
     private double lon_item;
-    private String item_status;
 
     int tmpPrice;
     int balanceAmount;
@@ -134,7 +131,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         View contact_seller_Button;
 
         tmpID = getIntent().getStringExtra("itemID");
-        item_status = getIntent().getStringExtra("status");
+        String item_status = getIntent().getStringExtra("status");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

@@ -49,7 +49,7 @@ public class MyItemListActivity extends AppCompatActivity
 
         Log.d(TAG, "search key = " + searchKey);
 
-        GETMYITEMS(searchKey);
+        GETMYITEMS();
 
         viewButtons();
 
@@ -104,7 +104,7 @@ public class MyItemListActivity extends AppCompatActivity
         });
     }
 
-    private void GETMYITEMS(String searchKey)
+    private void GETMYITEMS()
     {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, GETMYITEMSURL, null, new Response.Listener<JSONArray>()
         {
