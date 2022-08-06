@@ -29,6 +29,7 @@
                     android:textColor="@color/black"
                     android:drawableTop="@drawable/ic_baseline_home_24"
                     android:text="home" />
+
                 <EditText
                     android:id="@+id/search_itemList_bar"
                     android:layout_width="0dp"

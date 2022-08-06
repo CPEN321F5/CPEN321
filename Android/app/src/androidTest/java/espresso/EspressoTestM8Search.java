@@ -1,6 +1,5 @@
 package espresso;
 
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -10,11 +9,8 @@ import static androidx.test.espresso.Espresso.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.startsWith;
 
-import android.util.Log;
-import android.widget.EditText;
-
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 
 //import androidx.test.espresso.ViewAction;
@@ -25,15 +21,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 //import com.cpen321.f5.MainActivity;
+import com.cpen321.f5.CategoryActivity;
 import com.cpen321.f5.ItemActivity;
 import com.cpen321.f5.ItemListActivity;
 import com.cpen321.f5.MainUI;
-import com.cpen321.f5.PostActivity;
-import com.cpen321.f5.ProfileActivity;
 import com.cpen321.f5.R;
-import com.cpen321.f5.SearchActivity;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,75 +42,79 @@ public class EspressoTestM8Search
     public void m8TestSearch1()
     {
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        intended(hasComponent(SearchActivity.class.getName()));
-    }
-
-    @Test
-    public void m8TestSearch2()
-    {
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        intended(hasComponent(SearchActivity.class.getName()));
         onView(withText("Fail, please type in something")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }
 
     @Test
-    public void m8TestSearch3()
-    {
+    public void m8TestSearch2() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("TEST ITEM"));
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
         intended(hasComponent(ItemListActivity.class.getName()));
     }
 
     @Test
-    public void m8TestSearch4()
-    {
+    public void m8TestSearch3() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("ITEM THAT DOES NOT EXIST"));
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("SOMEITEMTHATDOESNOTEXIST"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
         intended(hasComponent(ItemListActivity.class.getName()));
-        onView(withText("No result found")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        onView(withId(R.id.search_hint)).check(matches(withText("No result found, maybe you will be interested in:")));
     }
 
     @Test
-    public void m8TestSearch5()
-    {
+    public void m8TestSearch4() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("desk"));
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
         intended(hasComponent(ItemListActivity.class.getName()));
-        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).check(matches(withText(startsWith("1659145691145"))));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
     }
 
     @Test
-    public void m8TestSearch6()
-    {
+    public void m8TestSearch5() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("desk"));
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
         intended(hasComponent(ItemListActivity.class.getName()));
-        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
         intended(hasComponent(ItemActivity.class.getName()));
     }
 
     @Test
-    public void m8TestSearchLoadingTimeLessThanThree(){
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
-        long now = System.currentTimeMillis();
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
-        long end = System.currentTimeMillis();
-
-        Log.d("searchingTime", Long.toString(end - now) + "ms");
-        Assert.assertTrue(lessThanThree(now, end));
+    public void m8TestSearch6() throws InterruptedException {
+        onView(withId(R.id.clothes_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        onView(withId(R.id.item_category_caption)).check(matches(withText("Category: Clothing")));
     }
 
-    boolean lessThanThree(long num1, long num2){
-        if (num2 - num1 < 3000){
-            return true;
-        }
-        return false;
+    @Test
+    public void m8TestSearch7() throws InterruptedException {
+        onView(withId(R.id.main_ui_more)).perform(ViewActions.click());
+        onData(anything()).inAdapterView(withId(R.id.category_list)).atPosition(2).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(CategoryActivity.class.getName()));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        onView(withId(R.id.item_category_caption)).check(matches(withText("Category: Clothing")));
+    }
+
+    @Test
+    public void m8TestSearch8() throws InterruptedException {
+        onView(withId(R.id.clothes_button)).perform(ViewActions.click());
+        onView(withId(R.id.search_itemList_bar)).perform(typeText("desk"));
+        onView(withId(R.id.search_itemList_button)).perform(ViewActions.click());
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
     }
 }

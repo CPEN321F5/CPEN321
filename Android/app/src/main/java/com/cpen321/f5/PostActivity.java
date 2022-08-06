@@ -332,9 +332,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         }else if (description.equals("")){
             Toast.makeText(PostActivity.this, "Description should not be empty", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (uploadedImages.size() == 0){
-            Toast.makeText(PostActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
-            return false;
         }else if (startPrice.equals("")){
             Toast.makeText(PostActivity.this, "Fail, Start Price is not set yet", Toast.LENGTH_SHORT).show();
             return false;
@@ -358,11 +355,13 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
         }else if (Integer.parseInt(timeLast) > 168){
             Toast.makeText(PostActivity.this, "Fail, the post should last less than 7 days", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (timeLast.equals("1")){
+        }else if (timeLast.equals("0")){
             Toast.makeText(PostActivity.this, "Fail, the post should last at least one hour", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        return true;
+        }else if (uploadedImages.size() == 0) {
+            Toast.makeText(PostActivity.this, "At least one image is needed", Toast.LENGTH_SHORT).show();
+            return false;
+        }return true;
     }
 
 
