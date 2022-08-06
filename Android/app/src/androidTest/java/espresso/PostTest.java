@@ -24,7 +24,7 @@ import com.cpen321.f5.PostActivity;
 import com.cpen321.f5.R;
 
 //import org.junit.Assert;
-import org.junit.Before;
+//import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 //import android.widget.TextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -47,8 +48,17 @@ public class MainUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
 
-        //TextView topBarText = findViewById(R.id.main_ui_top_bar);
-        //topBarText.setText(getTimeFromAndroid() + ", " + MainActivity.nameOfUser.split(" ")[0]);
+        try
+        {
+            TextView topBarText = findViewById(R.id.main_ui_top_bar);
+            topBarText.setText(getTimeFromAndroid() + ", " + MainActivity.nameOfUser.split(" ")[0]);
+        }
+
+        catch (NullPointerException e)
+        {
+            TextView topBarText = findViewById(R.id.main_ui_top_bar);
+            topBarText.setText(getTimeFromAndroid() + ", " + "User");
+        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
