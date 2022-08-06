@@ -82,6 +82,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                             intent.putExtra("itemID", itemID);
                             intent.putExtra("status", item_status);
                             my_intent.putExtra("myItemID", itemID);
+                            my_intent.putExtra("status", item_status);
                             Log.d("ItemListAdapter2", itemID);
                             if(getSellerID.equals(MainActivity.idOfUser)){
                                 v.getContext().startActivity(my_intent);
