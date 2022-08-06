@@ -54,7 +54,7 @@ test('Testing Item module - PostItem interface - Posting new Item', () => {
         currentPrice        : "4",
         location_lon        : "38.49550333333333",
         stepPrice           : "1",
-        currentPriceHolder  : "0002",
+        currentPriceHolder  : "0000",
         timeExpire          : "1657667094",
         postTime            : "12/07/2022 14:04:54",
         adminResponse       : "Waiting For Admin To Resolve Dispute!",
@@ -64,6 +64,8 @@ test('Testing Item module - PostItem interface - Posting new Item', () => {
         refundDescrition    : "",
         refund              : "true",
         location_lat        : "7.050373333333332",
+        catagory   : "Furniture",
+        expired    : "false"
     }
 
     return im.postItem(new_item).then(result => {
