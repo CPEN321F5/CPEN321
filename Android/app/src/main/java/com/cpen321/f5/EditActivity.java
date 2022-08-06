@@ -58,7 +58,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +76,6 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
     private String startPrice;
     private String deposit;
     private String category;
-    private String current_price;
     private String status;
     private ImageView img0;
     private ImageView img1;
@@ -88,9 +90,6 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
     private EditText edit_title;
     private EditText edit_description;
     private TextView edit_startPrice;
-    private TextView edit_deposit;
-    private TextView edit_currentPrice;
-    private TextView edit_remain_time;
 
 
 
@@ -525,11 +524,11 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
                 {
                     title = response.getString("name");
                     deposit = response.getString("deposit");
-                    current_price = response.getString("currentPrice");
+                    String current_price = response.getString("currentPrice");
                     startPrice = response.getString("startPrice");
                     description = response.getString("description");
                     status = response.getString("status");
-
+                    String expireTime = response.getString("timeExpire");
 
                     String img0_string = response.getString("image_0");
                     String img1_string = response.getString("image_1");
@@ -544,11 +543,18 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
                     edit_description = findViewById(R.id.edit_description);
                     edit_description.setText(description);
 
-                    edit_deposit = findViewById(R.id.edit_deposit);
+                    TextView edit_deposit = findViewById(R.id.edit_deposit);
                     edit_deposit.setText(deposit);
 
-                    edit_currentPrice = findViewById(R.id.edit_current_price);
+                    TextView edit_currentPrice = findViewById(R.id.edit_current_price);
                     edit_currentPrice.setText(current_price);
+
+                    Date date = new Date(Long.parseLong(expireTime) * 1000);
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    String formatted = format.format(date);
+
+                    TextView edit_time_expire = findViewById(R.id.edit_time_expire);
+                    edit_time_expire.setText(formatted);
 
                     bitmap0 = base64ToBitmap(img0_string);
                     drawable0 = new BitmapDrawable(getResources(), bitmap0);

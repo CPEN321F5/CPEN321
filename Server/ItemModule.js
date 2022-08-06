@@ -170,6 +170,27 @@ Item_module.prototype.updateExpireStatus = function(){
     })
 }
 
+Item_module.prototype.compleateSale = function(itemID){
+    return this.item_db.getItemById(itemID).then(item => {
+        if(item.status == "sold" && itemID != null){
+            console.log("[ItemModule] compleating sale for item " + itemID)
+            return this.item_db.chargeUser(item.sellerID, "-" + item.currentPrice).then(success => {
+                update = {
+                    ItemID : item.ItemID,
+                    status : "complete",
+                }
+                return this.item_db.updateItem(update)
+            })
+        }
+        else{
+            return new Promise((resolve, reject) => {
+                console.log("[ItemModule] failed to compleate sale, item is not sold")
+                resolve("false")
+            })
+        }
+    })
+}
+
 Item_module.prototype.bidItem = function(item_ID, bid_userID, bid_price){
     console.log("[ItemModule] user " + bid_userID + " is bidding " + item_ID + " with price " + bid_price)
     if(item_ID != null && bid_userID != null && bid_price != null){
@@ -197,6 +218,7 @@ module.exports = Item_module
 
 
 // var im = new Item_module()
+// im.compleateSale("119")
 
 // im.getItemByBidder("002").then(items => {
 //     console.log(items)

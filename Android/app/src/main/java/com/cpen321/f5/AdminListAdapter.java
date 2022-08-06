@@ -25,8 +25,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.SingleItemHolder> {
+public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.SingleItemHolder>{
 
     private LayoutInflater itemListInflate;
     private JSONArray itemLists= new JSONArray();
@@ -34,7 +35,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
     String item_get_url = "http://20.106.78.177:8081/item/getbyid/";
 
 
-    public ItemListAdapter(LayoutInflater itemListInflate){
+    public AdminListAdapter(LayoutInflater itemListInflate){
 
         this.itemListInflate = itemListInflate;
 
@@ -42,13 +43,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
 
     @NonNull
     @Override
-    public SingleItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = itemListInflate.inflate(R.layout.item_list_layout, parent,false);
-        return new ItemListAdapter.SingleItemHolder(view);
+    public AdminListAdapter.SingleItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = itemListInflate.inflate(R.layout.admin_item_list_layout, parent,false);
+        return new AdminListAdapter.SingleItemHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SingleItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminListAdapter.SingleItemHolder holder, int position) {
         String itemID = "1";
         try {
             itemID = itemLists.get(position).toString();
@@ -68,26 +69,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
                 try
                 {   String itemID = response.getString("ItemID");
                     Bitmap bitmap = getBitmapFromString(response.getString("image_0"));
-                    String getSellerID = response.getString("sellerID");
-                    String item_status = response.getString("status");
                     holder.item_name.setText(response.getString("name"));
                     holder.item_price.setText(response.getString("currentPrice"));
                     holder.item_username.setText(response.getString("seller_name")); //change later
                     holder.item_image.setImageBitmap(bitmap);
+                    holder.item_id.setText(itemID);
                     holder.itemView.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(v.getContext(), ItemActivity.class);
-                            Intent my_intent = new Intent(v.getContext(), MyItemActivity.class);
+                            Intent intent = new Intent(v.getContext(), AdminItemActivity.class);
                             intent.putExtra("itemID", itemID);
-                            intent.putExtra("status", item_status);
-                            my_intent.putExtra("myItemID", itemID);
-                            Log.d("ItemListAdapter2", itemID);
-                            if(getSellerID.equals(MainActivity.idOfUser)){
-                                v.getContext().startActivity(my_intent);
-                            }else{
-                                v.getContext().startActivity(intent);
-                            }
+                            v.getContext().startActivity(intent);
                         }
                     });
                 }
@@ -124,13 +116,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
         TextView item_name;
         TextView item_price;
         TextView item_username;
+        TextView item_id;
 
         public SingleItemHolder(@NonNull View itemView) {
             super(itemView);
-            item_image = itemView.findViewById(R.id.item_image);
-            item_name = itemView.findViewById(R.id.item_name);
-            item_price = itemView.findViewById(R.id.item_price);
-            item_username = itemView.findViewById(R.id.item_username);
+            item_image = itemView.findViewById(R.id.admin_item_image);
+            item_name = itemView.findViewById(R.id.admin_item_name);
+            item_price = itemView.findViewById(R.id.admin_item_price);
+            item_username = itemView.findViewById(R.id.admin_item_username);
+            item_id = itemView.findViewById(R.id.admin_item_id);
         }
     }
 
@@ -138,5 +132,4 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Single
         byte[] bytes = Base64.decode(image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
-
 }

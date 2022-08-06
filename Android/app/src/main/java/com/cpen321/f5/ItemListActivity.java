@@ -32,7 +32,6 @@ import java.util.Objects;
 public class ItemListActivity extends AppCompatActivity {
     public static String ItemID;
     String[] IDsArray;
-    String[] IDsArray_recommendation;
     List<String> cache;
 
     //parameters for searching button
@@ -40,14 +39,14 @@ public class ItemListActivity extends AppCompatActivity {
     String searchKey;
     String check_activity;
     RequestQueue requestQueueForSearch;
-
+    TextView search_hint;
     private final String TAG = "ItemListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        TextView search_hint = findViewById(R.id.search_hint);
+        search_hint = findViewById(R.id.search_hint);
         int size;
         check_activity = getIntent().getStringExtra("search_interface");
         try{
@@ -119,7 +118,6 @@ public class ItemListActivity extends AppCompatActivity {
                 EditText search_itemList_bar = findViewById(R.id.search_itemList_bar);
                 searchKey = search_itemList_bar.getText().toString().trim();
                 if( validCheck() ){
-                    Log.d("SearchActivity", "search key = " + searchKey);
                     getDataForItemList(searchKey);
                 }
             }
@@ -134,7 +132,6 @@ public class ItemListActivity extends AppCompatActivity {
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, chatList_url, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    Log.d("TEST1", response.toString());
                     intent.putExtra("conversationsList", response.toString());
                     intent.putExtra("myID", MainActivity.idOfUser);
                     startActivity(intent);
@@ -142,7 +139,7 @@ public class ItemListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("TEST1", chatList_url);
+                    Log.d(TAG, chatList_url);
                 }
             });
             queue.add(jsonArrayRequest);
@@ -174,7 +171,10 @@ public class ItemListActivity extends AppCompatActivity {
         for(int i = 0; i <= IDsArray.length - 1; i++){
             itemListAdapter.addList(IDsArray[i]);
         }
-        if(IDsArray.length == 0 && !Objects.equals(check_activity, "5") && !Objects.equals(check_activity, "6")){
+        if(IDsArray.length == 0 && (Objects.equals(check_activity, "5") || Objects.equals(check_activity, "6"))){
+            search_hint.setText("You do not have any item here");
+        }
+        else if(IDsArray.length == 0 && !Objects.equals(check_activity, "5") && !Objects.equals(check_activity, "6")){
             RequestQueue queue = Volley.newRequestQueue(ItemListActivity.this);
             String getRecommendation_url = "http://20.106.78.177:8081/recommand/getrecommendation/";
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getRecommendation_url + MainActivity.idOfUser, null, new Response.Listener<JSONArray>() {
@@ -197,7 +197,7 @@ public class ItemListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("RECOMMEND", getRecommendation_url + MainActivity.idOfUser);
+                    Log.d(TAG, getRecommendation_url + MainActivity.idOfUser);
                 }
             });
             queue.add(jsonArrayRequest);
@@ -228,12 +228,10 @@ public class ItemListActivity extends AppCompatActivity {
                         String itemID = jsonObject.getString("ItemID");
 
                         itemIDList.add(itemID);
-                        //Log.d("SearchActivity", "ATTRIBUTE = " + itemIDList.get(0));
                     }
                     Intent ListUI = new Intent(ItemListActivity.this, ItemListActivity.class);
                     ListUI.putExtra("search_interface","2");
                     startActivity(ListUI);
-                    //Toast.makeText(SearchActivity.this, "Successfully",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception w)
                 {

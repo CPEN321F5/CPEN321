@@ -40,7 +40,6 @@ import com.android.volley.toolbox.Volley;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -120,6 +119,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
     private double lon;
     private double lat_item;
     private double lon_item;
+    private String item_status;
 
     int tmpPrice;
     int balanceAmount;
@@ -134,6 +134,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
         View contact_seller_Button;
 
         tmpID = getIntent().getStringExtra("itemID");
+        item_status = getIntent().getStringExtra("status");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -179,28 +180,55 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
 
         String chat_init_url = "http://20.106.78.177:8081/chat/initconversation/";
         String myID = MainActivity.idOfUser;
+        ImageView addButton = findViewById(R.id.item_price_up_button);
+        ImageView subButton = findViewById(R.id.item_price_down_button);
 
         bidButton = findViewById(R.id.bid_button);
-        bidButton.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v)
+        if(item_status == null || item_status.equals("active")){
+            //item is currently active
+            bidButton.setOnClickListener(new View.OnClickListener()
             {
-                //new code
-                int balance = getBalance();
-                if (tmpPrice > Integer.parseInt(itemPrice)){
-                    if (tmpPrice <= balance){
-                        updPrice();
+                @Override
+                public void onClick(View v)
+                {
+                    //new code
+                    int balance = getBalance();
+                    if (tmpPrice > Integer.parseInt(itemPrice)){
+                        if (tmpPrice <= balance){
+                            updPrice();
+                        }else{
+                            Toast.makeText(ItemActivity.this, "load your balance first", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "66balance of wallet = " + balance);
+                        }
                     }else{
-                        Toast.makeText(ItemActivity.this, "load your balance first", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "66balance of wallet = " + balance);
+                        Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(ItemActivity.this, "bid price should be higher", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        }else if(item_status.equals("sold")){
+            addButton.setVisibility(View.INVISIBLE);
+            subButton.setVisibility(View.INVISIBLE);
+            findViewById(R.id.upcoming_price).setVisibility(View.INVISIBLE);
+            bidButton.setText("Item Received");
+            bidButton.setOnClickListener(new View.OnClickListener()
+            {
+
+                @Override
+                public void onClick(View v)
+                {
+                    //add Api later
+                    CONFIRMITEM(tmpID);
+                    bidButton.setVisibility(View.INVISIBLE);
+                }
+            });
+        }else{
+            //transaction is already complete
+            addButton.setVisibility(View.INVISIBLE);
+            subButton.setVisibility(View.INVISIBLE);
+            findViewById(R.id.upcoming_price).setVisibility(View.INVISIBLE);
+            bidButton.setVisibility(View.INVISIBLE);
+        }
+
 
         contact_seller_Button = findViewById(R.id.contact_seller_button);
         contact_seller_Button.setOnClickListener(new View.OnClickListener() {
@@ -217,8 +245,6 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
             }
         });
 
-        ImageView addButton = findViewById(R.id.item_price_up_button);
-        ImageView subButton = findViewById(R.id.item_price_down_button);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +267,32 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                 newPrice.setText(Integer.toString(tmpPrice));
             }
         });
+    }
+
+    private void CONFIRMITEM(String ItemID){
+        RequestQueue queue = Volley.newRequestQueue(ItemActivity.this);
+        String url = getString(R.string.url_item_confirm);
+
+        StringRequest completeRequest = new StringRequest(Request.Method.PUT, url + ItemID + '/',
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        _itemPrice.setText("$ " + tmpPrice);
+                        Toast.makeText(ItemActivity.this, "Enjoy your item!", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Toast.makeText(ItemActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        queue.add(completeRequest);
     }
 
     private void GETITEM ()
@@ -581,7 +633,7 @@ public class ItemActivity extends AppCompatActivity implements LocationListener
                     public void onResponse(String response)
                     {
                         _itemPrice.setText("$ " + tmpPrice);
-                        Toast.makeText(ItemActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ItemActivity.this, "We bid yay!", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()

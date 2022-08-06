@@ -59,11 +59,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/home_category_button"
+                android:id="@+id/wallet_category_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_baseline_home_24"
-                android:text="Home" />
+                android:drawableTop="@drawable/ic_baseline_account_balance_wallet_24"
+                android:text="Wallet" />
         </LinearLayout>
     </LinearLayout>
     <ListView

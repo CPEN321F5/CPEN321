@@ -85,11 +85,11 @@ public class CategoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        TextView Home_button = findViewById(R.id.home_category_button);
+        TextView Home_button = findViewById(R.id.wallet_category_button);
         Home_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this, WalletActivity.class);
+                Intent intent = new Intent(CategoryActivity.this, CheckoutActivity.class);
                 startActivity(intent);
             }
         });
