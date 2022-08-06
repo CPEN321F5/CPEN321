@@ -192,6 +192,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (validCheck())
                 {
                     UPDATEUSERPROFILE();
+                    Toast.makeText(ProfileActivity.this, "Profile changes successfully yay!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "line186" + profileImg);
                 }
             }
@@ -290,8 +291,6 @@ public class ProfileActivity extends AppCompatActivity {
                     _zip = findViewById(R.id.zip_caption);
                     _zip.setText(zip);
 
-                    Toast.makeText(ProfileActivity.this, "CREDENTIALS RETRIEVED", Toast.LENGTH_LONG).show();
-
                     name = findViewById(R.id.name);
                     name.setText(firstName + " " + lastName);
 
@@ -325,7 +324,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
-                        Toast.makeText(ProfileActivity.this, "Profile changes successfully yay!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ProfileActivity.this, "Profile changes successfully yay!", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener()
