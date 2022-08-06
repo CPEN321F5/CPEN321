@@ -13,7 +13,6 @@ const CLIENT_ID = "1073711084344-vvjarmtoahi6mqjur4dglgnocjfm8j4i.apps.googleuse
 const client = new OAuth2Client(CLIENT_ID);
 
 async function verify(token) {
-  try{
     const ticket = await client.verifyIdToken({
         idToken: token,
         audience: CLIENT_ID,
@@ -24,11 +23,6 @@ async function verify(token) {
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
     return true
-  }
-  catch(err){
-    console.log(err)
-    return false
-  }
 }
 
 /////////////////////////////////////////User Authentication Module/////////////////////////////
