@@ -447,7 +447,8 @@ app.get("/img", (req,res) =>{
 })
 
 
-
+////this function had to be commented for jest because running the server will ocupy the 8081 port, and running multiple jest test will cause port conflict
+////therefore this has to be commented and be un-commented for actuaal production
 // async function run(){
 //     try{
 //         var server = app.listen(8081, (req,res) => {
@@ -461,6 +462,7 @@ app.get("/img", (req,res) =>{
 //     }
 // }
 ///////////for jest testing un comment when deploying//////////////////////
+
 
 
 
