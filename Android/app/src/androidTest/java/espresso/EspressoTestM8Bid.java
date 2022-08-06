@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 
 //import androidx.test.espresso.ViewAction;
@@ -35,7 +36,6 @@ import com.cpen321.f5.MainUI;
 import com.cpen321.f5.PostActivity;
 import com.cpen321.f5.ProfileActivity;
 import com.cpen321.f5.R;
-import com.cpen321.f5.SearchActivity;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -50,60 +50,85 @@ public class EspressoTestM8Bid
     public IntentsTestRule<MainUI> intentsRuleProfile = new IntentsTestRule<>(MainUI.class);
 
     @Test
-    public void m8TestBid1()
-    {
-        goToBidActivity();
-
-        intended(hasComponent(BidActivity.class.getName()));
-    }
-
-    @Test
-    public void m8TestBid2_AND_3_AND_4()
-    {
-        goToBidActivity();
-
-        onView(withId(R.id.add_button)).perform(ViewActions.click());
-        onView(withId(R.id.to_add_price)).check(matches(withText("1")));
-
-        onView(withId(R.id.sub_button)).perform(ViewActions.click());
-        onView(withId(R.id.to_add_price)).check(matches(withText("0")));
-
-        onView(withId(R.id.sub_button)).perform(ViewActions.click());
-        onView(withId(R.id.sub_button)).perform(ViewActions.click());
-        onView(withId(R.id.to_add_price)).check(matches(withText("0")));
-    }
-
-
-    @Test
-    public void m8TestBid5()
-    {
-        goToBidActivity();
-
-        onView(withId(R.id.add_button)).perform(ViewActions.click());
-        onView(withId(R.id.to_add_price)).check(matches(withText("1")));
-
+    public void m8TestBid1() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("Boeing 787 airliner jet"));
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
         intended(hasComponent(ItemActivity.class.getName()));
+        Thread.sleep(5000);
+        onView(withId(R.id.bid_button)).perform(ViewActions.click());
+        onView(withText("bid price should be higher")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }
-
 
     @Test
-    public void m8TestBid6()
-    {
+    public void m8TestBid2() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("Boeing 787 airliner jet"));
         onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
-
-        onView(withId(R.id.item_description_caption)).check(matches(withText("name" + "price")));
-    }
-
-    private void goToBidActivity(){
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onView(withId(R.id.search_bar)).perform(typeText("M8TESTSEARCH"));
-        onView(withId(R.id.search_button)).perform(ViewActions.click());
-        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        Thread.sleep(5000);
+        onView(withId(R.id.item_price_down_button)).perform(ViewActions.click());
         onView(withId(R.id.bid_button)).perform(ViewActions.click());
+        onView(withText("bid price should be higher")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void m8TestBid3() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("Boeing 787 airliner jet"));
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        Thread.sleep(5000);
+        onView(withId(R.id.item_price_up_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        onView(withId(R.id.upcoming_price)).check(matches(withText("5210000")));
+    }
 
+    @Test
+    public void m8TestBid4() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("Boeing 787 airliner jet"));
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        Thread.sleep(5000);
+        onView(withId(R.id.item_price_up_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        onView(withId(R.id.item_price_up_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        onView(withId(R.id.item_price_down_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        onView(withId(R.id.upcoming_price)).check(matches(withText("5210000")));
+    }
+
+    @Test
+    public void m8TestBid5() throws InterruptedException {
+        onView(withId(R.id.search_bar)).perform(typeText("Boeing 787 airliner jet"));
+        onView(withId(R.id.search_button)).perform(ViewActions.click());
+        Thread.sleep(100);
+        intended(hasComponent(ItemListActivity.class.getName()));
+        onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
+        onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
+        Thread.sleep(100);
+        intended(hasComponent(ItemActivity.class.getName()));
+        Thread.sleep(5000);
+        onView(withId(R.id.item_price_up_button)).perform(ViewActions.click());
+        onView(withId(R.id.bid_button)).perform(ViewActions.click());
+        onView(withText("load your balance first")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+    }
 }

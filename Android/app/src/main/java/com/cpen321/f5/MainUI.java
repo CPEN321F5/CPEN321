@@ -47,8 +47,8 @@ public class MainUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
 
-        TextView topBarText = findViewById(R.id.main_ui_top_bar);
-        topBarText.setText(getTimeFromAndroid() + ", " + MainActivity.nameOfUser.split(" ")[0]);
+        //TextView topBarText = findViewById(R.id.main_ui_top_bar);
+        //topBarText.setText(getTimeFromAndroid() + ", " + MainActivity.nameOfUser.split(" ")[0]);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
