@@ -7,7 +7,7 @@ const im = new ItemModule()
 
 beforeAll(async () => {
     im.item_db.createIndex()
-    var response = await request.post("/item/postitem/").send({name: 'Rocket' , Seller : "1", Price : "100"}).set('Accept', 'application/json')
+    var response = await request.post("/item/postitem/").send({name: 'Rocket' , Seller : "1", Price : "100", expired : "false"}).set('Accept', 'application/json')
     item_id = response.body.ItemID
     //mongodb seem to have some delay before document being created in new collection and being able to updated, adding a slight delay to resolve that
     await new Promise((resolve, reject) => setTimeout(resolve, 500));

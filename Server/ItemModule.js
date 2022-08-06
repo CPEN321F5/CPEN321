@@ -23,17 +23,23 @@ Item_module.prototype.getItemByID = function(itemId){
                 return item
             })
         }
+        else{
+            return item
+        }
     })
 }
 
 Item_module.prototype.getItemByID_history = function(itemId, userID){
     return this.item_db.getItemById(itemId).then(item => {
-        if(item != null && Object.prototype.hasOwnProperty.call(item, "ItemID") && Object.prototype.hasOwnProperty.call(item, "catagory")){
+        if(item != null && userID != null&& Object.prototype.hasOwnProperty.call(item, "ItemID") && Object.prototype.hasOwnProperty.call(item, "catagory")){
             this.item_db.saveHistory(userID, item)
             return this.item_db.getUserName(item.sellerID).then(seller_name => {
                 item.seller_name = seller_name
                 return item
             })
+        }
+        else{
+            return item
         }
     })
 }
@@ -172,7 +178,7 @@ Item_module.prototype.updateExpireStatus = function(){
 
 Item_module.prototype.compleateSale = function(itemID){
     return this.item_db.getItemById(itemID).then(item => {
-        if(item.status == "sold" && itemID != null){
+        if(item != null && item.status == "sold"){
             console.log("[ItemModule] compleating sale for item " + itemID)
             return this.item_db.chargeUser(item.sellerID, "-" + item.currentPrice).then(success => {
                 update = {
@@ -185,7 +191,7 @@ Item_module.prototype.compleateSale = function(itemID){
         else{
             return new Promise((resolve, reject) => {
                 console.log("[ItemModule] failed to compleate sale, item is not sold")
-                resolve("false")
+                resolve(false)
             })
         }
     })

@@ -156,7 +156,12 @@ app.put("/item/bidItem/", (req, res) => {
     }
     else{
         item_module.bidItem(item_update.ItemID, item_update.currentPriceHolder, item_update.currentPrice).then(result => {
-            res.send(result)
+            if(result){
+                res.send("success")
+            }
+            else{
+                res.status(404).send("Update Failed")
+            }
         })
     }
 })
@@ -171,7 +176,12 @@ app.put("/item/completesale/:itemID", (req, res) => {
     }
     else{
         item_module.compleateSale(itemID).then(result => {
-            res.send(result)
+            if(result){
+                res.send("success")
+            }
+            else{
+                res.status(400).send("Update Failed")
+            }
         })
     }
 })
@@ -403,7 +413,12 @@ app.delete("/chat/removeconversation/:conversationID", (req,res) => {
     }
     else{
         chat_module.deleteConversation(conversation_id).then(result => {
-            res.sendStatus(200)
+            if(result){
+                res.sendStatus(200)
+            }
+            else{
+                res.sendStatus(404)
+            }
         })
     }
 })

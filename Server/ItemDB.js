@@ -170,23 +170,28 @@ Database.prototype.chargeUser = function(userID, charge_amount){
             console.log("[ItemDB] charging user " + userID + " with an amount of " + charge_amount)
             //getting the user's current balance
             db.collection("Profile").findOne({ UserID: userID.toString() }).then(profile =>{
-                var balance = parseInt(profile.balance, 10)
-                console.log("[ItemDB] user current balance : " + balance)
-                balance -= parseInt(charge_amount, 10)
-
-                var update = {
-                    UserID : userID,
-                    balance : balance.toString()
+                if(profile == null){
+                    resolve({matchedCount : 0, modifiedCount : 0})
                 }
-                
-                //configuring the parameter for update
-                const filter = { UserID: userID.toString() }
-                const profile_update = { $set: update }
-                const options = { upsert: false };
+                else{
+                    var balance = parseInt(profile.balance, 10)
+                    console.log("[ItemDB] user current balance : " + balance)
+                    balance -= parseInt(charge_amount, 10)
 
-                console.log(profile_update)
-                var result = db.collection("Profile").updateOne(filter, profile_update, options)
-                resolve(result);
+                    var update = {
+                        UserID : userID,
+                        balance : balance.toString()
+                    }
+                    
+                    //configuring the parameter for update
+                    const filter = { UserID: userID.toString() }
+                    const profile_update = { $set: update }
+                    const options = { upsert: false };
+
+                    console.log(profile_update)
+                    var result = db.collection("Profile").updateOne(filter, profile_update, options)
+                    resolve(result);
+                }
             })
         }).then(result =>{
             console.log("[ItemDB] found " + result.matchedCount + "document, updated " + result.modifiedCount + "documents")

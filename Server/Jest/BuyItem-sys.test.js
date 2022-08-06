@@ -7,6 +7,7 @@ var item_id
 beforeAll(async () => {
     var response = await request.post("/item/postitem/").send({name: 'Jet' , sellerID : "1", Price : "10"}).set('Accept', 'application/json')
     item_id = response.body.ItemID
+    im = new ItemModule()
     //mongodb seem to have some delay before document being created in new collection and being able to updated, adding a slight delay to resolve that
     await new Promise((resolve, reject) => setTimeout(resolve, 500));
 })
@@ -26,6 +27,5 @@ test("Buy Item - buying a non-exisitng item", async () => {
 })
 
 afterAll(async () => {
-    const im = new ItemModule()
     await im.removeItem(item_id)
 })

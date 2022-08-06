@@ -92,7 +92,7 @@ test('Testing Item module - UpdateItem - Successful profile update', () => {
     var update = {
         ItemID : init_item_id,
         startPrice  : "999999999",
-        buyerID    : "2",
+        currentPriceHolder    : "2",expired    : "true",
         catagory   : "Furniture"
     }
     return im.updateItem(update).then(result => expect(result).toBeTruthy())
@@ -174,8 +174,6 @@ test('Testing Item module - getItemBySeller interface - invalid user ID ', () =>
 
 
 
-
-
 //testing the getItemByCategory interface of Item module
 
 test('Testing Item module - getItemByCategory interface - Getting a list of item under a category', () => {
@@ -191,7 +189,6 @@ test('Testing Item module - getItemByCategory interface - empty input ', () => {
 })
 
 
-
 //testing get item by admin
 test('Testing Item module - getItemByCategory interface - Getting a list of item under a category', () => {
     return im.getItemByAdmin().then(result => expect(result.length).toBeGreaterThan(0))
@@ -201,6 +198,45 @@ test('Testing Item module - getItemByCategory interface - Getting a list of item
 //testing get item by admin
 test('Testing Item module - getItemByCategory interface - Getting a list of item under a category', () => {
     return im.getItemByRefund().then(result => expect(result.length).toBeGreaterThan(0))
+})
+
+
+test('Testing Item module - UpdateItem - prepare item for search', () => {
+    var update = {ItemID : init_item_id, expired : "false"}
+    return im.updateItem(update).then(result => expect(result).toBeTruthy())})
+
+
+
+//testing the bidItem interface of Item module
+test('Testing Item module - bidItem interface - bidding an existing item', () => {
+    return im.bidItem(init_item_id, "0001", "500").then(result => expect(result).toBeTruthy)
+})
+
+test('Testing Item module - bidItem interface - bidding an non-existing item', () => {
+    return im.bidItem("00000000", "0001", "500").then(result => expect(result).toBeFalsy)
+})
+
+test('Testing Item module - bidItem interface - null input', () => {
+    return im.bidItem(null, "0001", "500").then(result => expect(result).toBeFalsy)
+})
+
+
+//testing the getItemByBidder interface of Item module
+
+test('Testing Item module - getItemByBidder interface - Getting a list of item bid by a user', () => {
+    return im.getItemByBidder("0001").then(result => expect(result.length).toBeGreaterThan(0))
+})
+
+test('Testing Item module - getItemByBidder interface - Getting a list of item bid by new user', () => {
+    return im.getItemByBidder("0002").then(result => expect(result.length).toBe(0))
+})
+
+test('Testing Item module - getItemBySeller interface - non-existent userID ', () => {
+    return im.getItemByBidder("2131231231").then(result => expect(result.length).toBe(0))
+})
+
+test('Testing Item module - getItemByBidder interface - empty input ', () => {
+    return im.getItemByBidder().then(result => expect(result.length).toBe(0))
 })
 
 
@@ -221,7 +257,29 @@ test('Testing Item module - SearchForItem interface - invalid search string ', (
     return im.searchForItem().then(result => expect(result.length).toBe(0))
 })
 
+test('Testing Item module - UpdateItem - prepare item for complete', () => {
+    var update = {ItemID : init_item_id, status : "sold"}
+    return im.updateItem(update).then(result => expect(result).toBeTruthy())
+})
 
+//testing the complete order interface of Item module
+test('Testing Item module - complete order interface - existing item', () => {
+    return im.compleateSale(init_item_id).then(result => expect(result).toBeTruthy)
+})
+
+test('Testing Item module - complete order interface - non-existing item', () => {
+    return im.compleateSale("not an item id").then(result => expect(result).toBeFalsy)
+})
+
+test('Testing Item module - complete order interface - null input', () => {
+    return im.compleateSale(null).then(result => expect(result).toBeFalsy)
+})
+
+//testing updating existing item
+test('Testing Item module - update expireditem routine - running routine ', () => {
+    im.item_db.matchItems(1, "Books")
+    return im.updateExpireStatus().then(result => expect(1).toBe(1))
+})
 
 
 //testing the getItemByID interface of Item module
@@ -230,7 +288,7 @@ var inti_item_updated = {
     needAdmin           : "true",
     description         : "A test product",
     timeLast            : "2",
-    currentPrice        : "4",
+    currentPrice        : "500",
     location_lon        : "38.49550333333333",
     stepPrice           : "1",
     currentPriceHolder  : "2",
@@ -242,7 +300,7 @@ var inti_item_updated = {
     deposit             : "1",
     refundDescrition    : "",
     location_lat        : "7.050373333333332",
-    buyerID             : '2',
+    currentPriceHolder  : '0001',
     newField            : 'this is a new field'
 }
 
@@ -258,6 +316,17 @@ test('Testing Item module -  getItemByID interface - Getting an item using null 
     return im.getItemByID().then(result => expect(result).toBeNull())
 })
 
+test('Testing Item module -  getItemByID with History interface - Getting an item that exist ', () => {
+    return im.getItemByID_history(init_item_id, "001").then(result => expect(result).toEqual(expect.objectContaining(inti_item_updated)))
+})
+
+test('Testing Item module -  getItemByID with History interface - Getting an item that does not exist ', () => {
+    return im.getItemByID_history("this is definetly not a item id", "001").then(result => expect(result).toBeNull())
+})
+
+test('Testing Item module -  getItemByID with History interface - Getting an item using null input ', () => {
+    return im.getItemByID_history().then(result => expect(result).toBeNull())
+})
 
 
 
