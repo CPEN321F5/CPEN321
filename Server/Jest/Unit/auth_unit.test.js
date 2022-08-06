@@ -1,27 +1,38 @@
 const Authentication = require("../../Authentication")
+const ChatModule = require("../../ChatModule")
 
-// jest.mock('../Authentication')
+
+//mocking chat module
+jest.mock("../../ChatModule")
+const cm = new ChatModule()
+
+const chatresp = {
+    "user1": "113107925736554870304",
+    "user2": "116669231040576528201",
+    "user1name": "Cpen321",
+    "user2name": "Sammmmm",
+    "messages": [
+    ],
+    "conversationID": "1659780166857"
+}
+cm.initConversation.mockResolvedValue(chatresp)
+cm.getConversation.mockResolvedValue(chatresp)
+cm.addMessage.mockResolvedValue(true)
+cm.deleteConversation.mockResolvedValue(true)
+
+const chatlistresp = [{
+    "user1": "113107925736554870304",
+    "user2": "116669231040576528201",
+    "user1name": "Cpen321",
+    "user2name": "Sammmmm",
+    "messages": [
+    ],
+    "conversationID": "1659780166857"
+}]
+cm.getConversationList.mockResolvedValue(chatlistresp)
 
 //setting up the test object
 const am = new Authentication()
-
-//mocking getUser response
-// const Userresp = {  "UserID"            : "1",
-//                     "Email"             : "N/A",
-//                     "DisplayName"       : "N/A",
-//                     "FirstName"         : "N/A",
-//                     "LastName"          : "N/A"}
-
-// am.getUser.mockResolvedValue(Userresp)
-
-// //mocking signIn response
-// am.signin.mockResolvedValue(Userresp)
-
-// //mocking update profile
-// am.updateProfile.mockResolvedValue(true)
-
-// //mocking removeUser
-// am.removeUser.mockResolvedValue(true)
 
 
 //testing the SignIn interface of authentication module
