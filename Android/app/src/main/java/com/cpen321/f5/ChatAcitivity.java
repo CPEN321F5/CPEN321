@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -441,6 +442,16 @@ public class ChatAcitivity extends AppCompatActivity implements TextWatcher {
             Log.d(TAG, "Creating Chat Activity");
             Log.d(TAG, JsonConversation.toString());
         }
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 }

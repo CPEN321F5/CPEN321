@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -375,21 +376,42 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result){
-                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                    if(result.getResultCode() == RESULT_OK){
+                        //Decode image size
+                        BitmapFactory.Options o = new BitmapFactory.Options();
+                        o.inJustDecodeBounds = true;
                         try{
-                            InputStream Is = getContentResolver().openInputStream(result.getData().getData());
-                            Bitmap image = BitmapFactory.decodeStream(Is);
+                            InputStream Is = getContentResolver().openInputStream(imageUri);
+                            BitmapFactory.decodeStream(Is, null, o);
+                            Is.close();
+                        }catch (FileNotFoundException error){
+                            Toast.makeText(EditActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
+                        int IMAGE_MAX_SIZE = 700;
+                        int scale = 1;
+                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+                        }
 
+                        //Decode with inSampleSize
+                        BitmapFactory.Options o2 = new BitmapFactory.Options();
+                        o2.inSampleSize = scale;
 
-                            Toast.makeText(EditActivity.this, "work", Toast.LENGTH_SHORT).show();
+                        try {
+                            InputStream Is2 = getContentResolver().openInputStream(imageUri);
+                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
+                            Is2.close();
                             uploadedImages.add(getImage(image));
                             uploadedBitmaps.add(image);
 
                             refreshImg();
-                        }catch (FileNotFoundException error){
-                            Toast.makeText(EditActivity.this, "error", Toast.LENGTH_SHORT).show();
-                            error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -399,17 +421,42 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                    if(result.getResultCode() == RESULT_OK){
+                        //Decode image size
+                        BitmapFactory.Options o = new BitmapFactory.Options();
+                        o.inJustDecodeBounds = true;
                         try{
                             InputStream Is = getContentResolver().openInputStream(imageUri);
-                            Bitmap image = BitmapFactory.decodeStream(Is);
+                            BitmapFactory.decodeStream(Is, null, o);
+                            Is.close();
+                        }catch (FileNotFoundException error){
+                            Toast.makeText(EditActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
+                        int IMAGE_MAX_SIZE = 700;
+                        int scale = 1;
+                        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+                            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+                        }
+
+                        //Decode with inSampleSize
+                        BitmapFactory.Options o2 = new BitmapFactory.Options();
+                        o2.inSampleSize = scale;
+
+                        try {
+                            InputStream Is2 = getContentResolver().openInputStream(imageUri);
+                            Bitmap image = BitmapFactory.decodeStream(Is2, null, o2);
+                            Is2.close();
                             uploadedImages.add(getImage(image));
                             uploadedBitmaps.add(image);
 
                             refreshImg();
-                        }catch (FileNotFoundException error){
-                            error.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -639,5 +686,15 @@ public class EditActivity extends AppCompatActivity implements LocationListener,
     {
         byte[] bytes = Base64.decode(img, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+//        }
     }
 }
