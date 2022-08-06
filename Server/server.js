@@ -13,6 +13,7 @@ const CLIENT_ID = "1073711084344-vvjarmtoahi6mqjur4dglgnocjfm8j4i.apps.googleuse
 const client = new OAuth2Client(CLIENT_ID);
 
 async function verify(token) {
+  try{
     const ticket = await client.verifyIdToken({
         idToken: token,
         audience: CLIENT_ID,
@@ -23,6 +24,11 @@ async function verify(token) {
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
     return true
+  }
+  catch(err){
+    console.log(err)
+    return false
+  }
 }
 
 /////////////////////////////////////////User Authentication Module/////////////////////////////
@@ -448,7 +454,7 @@ app.get("/img", (req,res) =>{
 
 
 ////this function had to be commented for jest because running the server will ocupy the 8081 port, and running multiple jest test will cause port conflict
-////therefore this has to be commented and be un-commented for actuaal production
+////therefore this has to be commented and be un-commented for actual production
 // async function run(){
 //     try{
 //         var server = app.listen(8081, (req,res) => {
@@ -462,7 +468,6 @@ app.get("/img", (req,res) =>{
 //     }
 // }
 ///////////for jest testing un comment when deploying//////////////////////
-
 
 
 
