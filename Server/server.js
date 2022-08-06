@@ -1,7 +1,7 @@
 var express = require("express")
 var app = express()
 app.use(express.json())
-app.use(express.urlencoded({ extended: true })) // to parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true })) // to parse application/x-www-form-urlencoded 
 
 var http = require('http');
 var ipaddr = "8.8.8.8"
