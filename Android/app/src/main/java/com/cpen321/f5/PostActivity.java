@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -86,7 +87,6 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     private TextView showLocation;
     private View imageButton;
     private View cameraButton;
-
 
     private List<String> uploadedImages = new ArrayList<>();
     private List<Bitmap> uploadedBitmaps = new ArrayList<>();
@@ -450,6 +450,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
+
                     if(result.getResultCode() == RESULT_OK){
                         //Decode image size
                         BitmapFactory.Options o = new BitmapFactory.Options();
@@ -581,5 +582,15 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         category = getResources().getStringArray(R.array.categories)[0];
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+//        }
     }
 }

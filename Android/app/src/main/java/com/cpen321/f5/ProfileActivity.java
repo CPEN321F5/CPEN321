@@ -32,7 +32,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -63,8 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText _province;
     private EditText _country;
     private EditText _zip;
-
-    private ImageView profileImgVw;
 
     private String firstName;
     private String lastName;
@@ -99,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         Log.d(TAG, GETPROFILEURL);
-        profileImgVw = findViewById(R.id.profile_image);
+        ImageView profileImgVw = findViewById(R.id.profile_image);
         GETUSERPROFILE();
 
 
@@ -365,7 +363,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private boolean validCheck()
     {
-        if (!isValidEmailAddress(email) && email != ""){
+        if (!isValidEmailAddress(email) && !Objects.equals(email, "")){
             Toast.makeText(ProfileActivity.this, "Email Is Not Valid", Toast.LENGTH_SHORT).show();
             return false;
         }else if (email.equals("") && phone.equals("")){
@@ -524,9 +522,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void refreshImg(){
         ImageView img = findViewById(R.id.profile_image);
-        if (profileImg.equals("")){
-
-        }else{
+        if (!profileImg.equals("")) {
             UPDATEUSERPROFILE();
             img.setImageBitmap(base64ToBitmap(profileImg));
         }
