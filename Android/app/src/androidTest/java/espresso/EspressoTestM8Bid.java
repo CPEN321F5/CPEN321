@@ -1,6 +1,6 @@
 package espresso;
 
-import static androidx.test.espresso.action.ViewActions.replaceText;
+//import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -9,15 +9,15 @@ import static androidx.test.espresso.Espresso.*;
 //import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.startsWith;
+//import static org.hamcrest.Matchers.anything;
+//import static org.hamcrest.Matchers.startsWith;
 
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+//import android.view.View;
+//import android.widget.EditText;
+//import android.widget.TextView;
 
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
+//import androidx.test.espresso.UiController;
+//import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 
@@ -29,15 +29,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 //import com.cpen321.f5.MainActivity;
-import com.cpen321.f5.BidActivity;
+//import com.cpen321.f5.BidActivity;
 import com.cpen321.f5.ItemActivity;
 import com.cpen321.f5.ItemListActivity;
 import com.cpen321.f5.MainUI;
-import com.cpen321.f5.PostActivity;
-import com.cpen321.f5.ProfileActivity;
+//import com.cpen321.f5.PostActivity;
+//import com.cpen321.f5.ProfileActivity;
 import com.cpen321.f5.R;
 
-import org.hamcrest.Matcher;
+//import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

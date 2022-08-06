@@ -9,7 +9,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+//import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -23,19 +23,19 @@ import com.cpen321.f5.MainUI;
 import com.cpen321.f5.PostActivity;
 import com.cpen321.f5.R;
 
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+//import static org.hamcrest.Matchers.is;
+//import static org.hamcrest.Matchers.not;
 
-import android.util.Log;
+//import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
+//import android.view.View;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest

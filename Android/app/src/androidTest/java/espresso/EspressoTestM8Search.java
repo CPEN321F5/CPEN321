@@ -79,7 +79,7 @@ public class EspressoTestM8Search
         intended(hasComponent(ItemListActivity.class.getName()));
         onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
         onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
-        Thread.sleep(100);
+        Thread.sleep(1000);
         intended(hasComponent(ItemActivity.class.getName()));
     }
 
@@ -90,7 +90,7 @@ public class EspressoTestM8Search
         intended(hasComponent(ItemListActivity.class.getName()));
         onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
         onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
-        Thread.sleep(100);
+        Thread.sleep(1000);
         intended(hasComponent(ItemActivity.class.getName()));
         onView(withId(R.id.item_category_caption)).check(matches(withText("Category: Clothing")));
     }
@@ -102,7 +102,7 @@ public class EspressoTestM8Search
         Thread.sleep(100);
         intended(hasComponent(CategoryActivity.class.getName()));
         onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
-        Thread.sleep(100);
+        Thread.sleep(1000);
         intended(hasComponent(ItemActivity.class.getName()));
         onView(withId(R.id.item_category_caption)).check(matches(withText("Category: Clothing")));
     }
@@ -114,7 +114,7 @@ public class EspressoTestM8Search
         onView(withId(R.id.search_itemList_button)).perform(ViewActions.click());
         onView(withId(R.id.search_hint)).check(matches(withHint("Here are your results:")));
         onView(withId(R.id.item_recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, ViewActions.click()));
-        Thread.sleep(100);
+        Thread.sleep(1000);
         intended(hasComponent(ItemActivity.class.getName()));
     }
 }
