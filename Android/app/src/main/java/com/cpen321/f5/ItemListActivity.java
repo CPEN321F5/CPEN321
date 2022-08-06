@@ -171,7 +171,7 @@ public class ItemListActivity extends AppCompatActivity {
         for(int i = 0; i <= IDsArray.length - 1; i++){
             itemListAdapter.addList(IDsArray[i]);
         }
-        if(IDsArray.length == 0 && Objects.equals(check_activity, "5") && Objects.equals(check_activity, "6")){
+        if(IDsArray.length == 0 && (Objects.equals(check_activity, "5") || Objects.equals(check_activity, "6"))){
             search_hint.setText("You do not have any item here");
         }
         else if(IDsArray.length == 0 && !Objects.equals(check_activity, "5") && !Objects.equals(check_activity, "6")){
