@@ -156,7 +156,7 @@ public class ItemListActivity extends AppCompatActivity {
         wallet_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemListActivity.this, WalletActivity.class);
+                Intent intent = new Intent(ItemListActivity.this, CheckoutActivity.class);
                 startActivity(intent);
             }
         });
