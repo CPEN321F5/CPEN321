@@ -12,7 +12,7 @@ beforeAll(async () => {
 test("Updating User Wallet - update balance for exsting user", async () => {
     var response = await request.put("/user/updateprofile/").send({UserID: '4' , Balance : "500"}).set('Accept', 'application/json')
     expect(response.status).toBe(200)
-    var response = await request.get("/user/getprofile/4/")
+    response = await request.get("/user/getprofile/4/")
     expect(response.body.Balance).toBe("500")
 })
 
