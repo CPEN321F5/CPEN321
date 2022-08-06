@@ -120,8 +120,6 @@ public class MyItemActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                REMOVEITEM();
-
                 Intent homeIntent = new Intent(MyItemActivity.this, MainUI.class);
                 startActivity(homeIntent);
             }
