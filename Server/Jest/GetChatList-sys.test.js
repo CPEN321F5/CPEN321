@@ -1,7 +1,6 @@
 const app = require('../server')
 const supertest = require('supertest')
 const request = supertest(app)
-const ChatModule = require("../ChatModule")
 
 beforeAll(async () => {
     //mongodb seem to have some delay before document being created in new collection and being able to updated, adding a slight delay to resolve that

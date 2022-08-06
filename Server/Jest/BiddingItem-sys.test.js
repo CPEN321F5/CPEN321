@@ -14,7 +14,7 @@ beforeAll(async () => {
 test("Updating Item - update exsting item", async () => {
     var response = await request.put("/item/bidItem/").send({ItemID: item_id , currentPriceHolder : "2" , currentPrice : "500"}).set('Accept', 'application/json')
     expect(response.status).toBe(200)
-    var response = await request.get("/item/getbyid/" + item_id)
+    response = await request.get("/item/getbyid/" + item_id)
     expect(response.body.currentPrice).toBe("500")
 })
 

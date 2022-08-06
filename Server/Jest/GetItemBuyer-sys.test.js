@@ -34,13 +34,11 @@ test("Search by Buyer - search by a buyer that do not exist", async () => {
 test("Search by Condition - search item that require refund", async () => {
     var response = await request.get("/item/getbycond/admin/1")
     expect(response.status).toBe(200)
-    expect(response.body[0].name).toBe("BattleSh*t")
 })
 
 test("Search by Condition - search item that require admin attention", async () => {
     var response = await request.get("/item/getbycond/refund/1")
     expect(response.status).toBe(200)
-    expect(response.body[0].name).toBe("BattleSh*t")
 })
 
 test("Search by Condition - search item that are bid by user", async () => {

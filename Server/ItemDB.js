@@ -232,12 +232,12 @@ Database.prototype.saveHistory = function(userID, item){
 }
 
 //Bid Item
-Database.prototype.bidItem = function(ItemID, update){
+Database.prototype.bidItem = function(Itemid, update){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
 
-            console.log("[ItemDB] bidding item " + ItemID)
-            const filter = { ItemID: ItemID }
+            console.log("[ItemDB] bidding item " + Itemid)
+            const filter = { ItemID: Itemid }
             const options = { upsert: false };
 
             console.log(update)
@@ -260,15 +260,15 @@ Database.prototype.bidItem = function(ItemID, update){
 
 
 //sample a number of items within a match condition
-Database.prototype.matchItems = async function(size, catagory){
+Database.prototype.matchItems = async function(Size, Catagory){
     return this.connected.then(
         db => new Promise((resolve, reject) => {
-            console.log("[ItemDB] finding " + size + " items with catagory" + catagory)
+            console.log("[ItemDB] finding " + Size + " items with catagory" + Catagory)
 
             var items = []
             db.collection("Items").aggregate([
-                {$match: {$and:[{catagory: catagory}, {expired : "false"}]}}, // filter the results
-                {$sample: {size: size}} // You want to get 5 docs
+                {$match: {$and:[{catagory: Catagory}, {expired : "false"}]}}, // filter the results
+                {$sample: {size: Size}} // You want to get 5 docs
             ]).forEach(item => {
                 items.push(item)
             }).then(a => {

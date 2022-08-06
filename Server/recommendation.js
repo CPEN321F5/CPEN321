@@ -19,7 +19,7 @@ recommendationModule.prototype.getRecommendItems = async function(userID){
     var history_length = history_arr.length
 
     //no history == brand spanking new user, just show him furniture
-    if(history_arr.length == 0){
+    if(history_arr.length === 0){
         console.log("[Recommendation] no browsing history avaliable you must like furniture")
         var query = {$and : [
             {catagory : "Furniture"},

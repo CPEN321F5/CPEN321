@@ -293,7 +293,6 @@ var inti_item_updated = {
     currentPrice        : "500",
     location_lon        : "38.49550333333333",
     stepPrice           : "1",
-    currentPriceHolder  : "2",
     timeExpire          : "1657667094",
     postTime            : "12/07/2022 14:04:54",
     adminResponse       : "Waiting For Admin To Resolve Dispute!",

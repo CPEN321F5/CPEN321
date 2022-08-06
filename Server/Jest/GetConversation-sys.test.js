@@ -1,8 +1,6 @@
 const app = require('../server')
 const supertest = require('supertest')
 const request = supertest(app)
-const ChatModule = require("../ChatModule")
-const cm = new ChatModule()
 
 var conversationID
 beforeAll(async () => {

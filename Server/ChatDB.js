@@ -41,11 +41,11 @@ ChatDB.prototype.initConversation = function(conversation){
 }
 
 //remove existing conversation
-ChatDB.prototype.removeConversation = function(conversationID){
+ChatDB.prototype.removeConversation = function(conversationid){
 	return this.connected.then(
 		db => new Promise((resolve, reject) => {
-			console.log("[ChatDB] deleting conversation with id " + conversationID)
-            var query = {conversationID : conversationID}
+			console.log("[ChatDB] deleting conversation with id " + conversationid)
+            var query = {conversationID : conversationid}
             var result = db.collection(db_coll).deleteOne(query)
             resolve(result)
 		}).then(result =>{

@@ -8,14 +8,14 @@ beforeAll(async () => {
     //mongodb seem to have some delay before document being created in new collection and being able to updated, adding a slight delay to resolve that
     await new Promise((resolve, reject) => setTimeout(resolve, 500));
 })
-var conversationID
+var conversationid
 
 test("Init Chat between users - first time conversation between users", async () => {
     var response = await request.post("/chat/initconversation/5/6")
     expect(response.status).toBe(200)
-    conversationID = response.body.conversationID
+    conversationid = response.body.conversationID
     await cm.addMessage({
-        conversationID: conversationID,
+        conversationID: conversationid,
         message: "好咯吼吼吼",
         userID: "5",
         time: "1659054975590"

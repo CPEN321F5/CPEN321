@@ -425,8 +425,8 @@ app.delete("/chat/removeconversation/:conversationID", (req,res) => {
 
 
 ////////////////////////////////////////////////////Recommendation/////////////////////////////////
-const recommendationModule = require("./recommendation")
-const rm = new recommendationModule()
+const RecommendationModule = require("./recommendation")
+const rm = new RecommendationModule()
 
 //requesting for a list of conversation involved with a userID
 app.get("/recommand/getrecommendation/:userID", (req, res) =>{
@@ -454,18 +454,19 @@ app.get("/img", (req,res) =>{
 
 
 
-async function run(){
-    try{
-        var server = app.listen(8081, (req,res) => {
-            var host = server.address().address
-            var port = server.address().port
-            console.log("Example server at $s : $s", host, port);
-        })
-    }
-    catch(err){
-        console.log(err)
-    }
-}
+// async function run(){
+//     try{
+//         var server = app.listen(8081, (req,res) => {
+//             var host = server.address().address
+//             var port = server.address().port
+//             console.log("Example server at $s : $s", host, port);
+//         })
+//     }
+//     catch(err){
+//         console.log(err)
+//     }
+// }
+///////////for jest testing un comment when deploying//////////////////////
 
 
 
@@ -480,4 +481,4 @@ http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
 module.exports = app
 
 // run() 
-///////////for jest testing un comment when deploying
+///////////for jest testing un comment when deploying//////////////////////

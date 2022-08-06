@@ -15,7 +15,7 @@ beforeAll(async () => {
 test("Updating Item - update exsting item", async () => {
     var response = await request.put("/item/completesale/" + item_id)
     expect(response.status).toBe(200)
-    var response = await request.get("/item/getbyid/" + item_id)
+    response = await request.get("/item/getbyid/" + item_id)
     expect(response.body.status).toBe("complete")
 })
 
