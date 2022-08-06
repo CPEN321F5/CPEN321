@@ -320,15 +320,15 @@
 
                 <EditText
                     android:id="@+id/post_time_last"
-                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:background="@null"
-                    android:hint="at least 1 hour\nat most 168 hours"
+                    android:hint="more than 1 hour\nat most 168 hours"
+                    android:inputType="number"
+                    android:padding="5dp"
                     android:text=""
-                    android:textColorHint="@color/gray"
                     android:textColor="@color/colo_money"
+                    android:textColorHint="@color/gray"
                     android:textSize="16sp" />
 
             </LinearLayout>
