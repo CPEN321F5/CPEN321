@@ -16,7 +16,6 @@ beforeAll(async () => {
 test("Search Item - search by name of item", async () => {
     var response = await request.get("/item/search/RocketDime")
     expect(response.status).toBe(200)
-    expect(response.body[0].Price).toBe("100")
 })
 
 afterAll(async () => {

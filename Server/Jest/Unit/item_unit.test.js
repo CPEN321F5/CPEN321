@@ -1,4 +1,73 @@
 const ItemModule = require("../../ItemModule")
+const Authentication = require("../../Authentication")
+const ChatModule = require("../../ChatModule")
+
+//mocking authentication module
+jest.mock('../../Authentication')
+const am = new Authentication()
+
+// mocking getUser response
+const Userresp = {
+    "UserID": "101529393866328484061",
+    "Email": "a@gmail.com",
+    "DisplayName": "N/A",
+    "FirstName": "user",
+    "LastName": "name",
+    "Unit": "N/A",
+    "Address_line_1": "N/A",
+    "Address_line_2": "N/A",
+    "City": "N/A",
+    "Province": "N/A",
+    "Country": "N/A",
+    "ZIP_code": "N/A",
+    "Phone": "123456789",
+    "balance": "520674999",
+    "Status": "new_user",
+    "category_history": [
+        "Books",
+        "Other",
+        "Other"
+    ],
+    "itemid_history": [
+        "1659521944153",
+        "1659443361875",
+        "1659505360035"
+    ]
+}
+
+am.getUser.mockResolvedValue(Userresp)
+am.signin.mockResolvedValue(Userresp)
+am.updateProfile.mockResolvedValue(true)
+am.removeUser.mockResolvedValue(true)
+
+//mocking chat module
+jest.mock("../../ChatModule")
+const cm = new ChatModule()
+
+const chatresp = {
+    "user1": "113107925736554870304",
+    "user2": "116669231040576528201",
+    "user1name": "Cpen321",
+    "user2name": "Sammmmm",
+    "messages": [
+    ],
+    "conversationID": "1659780166857"
+}
+cm.initConversation.mockResolvedValue(chatresp)
+cm.getConversation.mockResolvedValue(chatresp)
+cm.addMessage.mockResolvedValue(true)
+cm.deleteConversation.mockResolvedValue(true)
+
+const chatlistresp = [{
+    "user1": "113107925736554870304",
+    "user2": "116669231040576528201",
+    "user1name": "Cpen321",
+    "user2name": "Sammmmm",
+    "messages": [
+    ],
+    "conversationID": "1659780166857"
+}]
+cm.getConversationList.mockResolvedValue(chatlistresp)
 
 //setting up module under test
 const im = new ItemModule()
