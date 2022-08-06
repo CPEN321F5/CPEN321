@@ -450,7 +450,7 @@ public class PostActivity extends AppCompatActivity implements LocationListener,
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if(result.getData() != null && result.getResultCode() == RESULT_OK){
+                    if(result.getResultCode() == RESULT_OK){
                         //Decode image size
                         BitmapFactory.Options o = new BitmapFactory.Options();
                         o.inJustDecodeBounds = true;
